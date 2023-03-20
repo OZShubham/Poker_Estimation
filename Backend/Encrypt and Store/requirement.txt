@@ -1,0 +1,2 @@
+pycryptodome
+google-cloud-datastore

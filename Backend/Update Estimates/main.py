@@ -23,17 +23,30 @@ def add_estimate(request):
     user_id = request_json.get('user_id')
     story_point = request_json.get('story_point')
     updated_estimate = False
+    updated_user = False
     
     for estimate in estimates:
         if estimate.get('jira_id') == jira_id:
             users = estimate.get('users', [])
-            users.append({'user_id': user_id, 'story_point': story_point})
-            estimate.update({'users': users})
-            updated_estimate = True
-            break
+            for user in users:
+                if user.get('user_id') == user_id:
+                    user['story_point'] = story_point
+                    user['created_timestamp'] = datetime.datetime.utcnow().isoformat()
+                    updated_user = True
+                    updated_estimate = True
+                    break
+            if not updated_user:
+                users.append({'user_id': user_id, 'story_point': story_point, 'created_timestamp': datetime.datetime.utcnow().isoformat()})
+                estimate['users'] = users
+                updated_estimate = True
+
+            #users.append({'user_id': user_id, 'story_point': story_point})
+            #estimate.update({'users': users})
+            #updated_estimate = True
+            #break
     
     if not updated_estimate:
-        estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point}]})
+        estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point, 'created_timestamp': datetime.datetime.utcnow().isoformat()}]})
     
     entity.update({'estimates': estimates, 'last_modified_timestamp': datetime.datetime.utcnow().isoformat()})
     client.put(entity)

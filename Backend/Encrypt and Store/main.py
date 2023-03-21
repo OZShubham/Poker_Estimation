@@ -8,7 +8,7 @@ from Crypto.Random import get_random_bytes
 def encrypt_plaintext(request):
     request_json = request.get_json(silent=True)
     if not request_json or 'plaintext' not in request_json:
-        return 'Error: No plaintext field provided in request.'
+        return ' Status:Failure \n Error: 400 Bad Request \n Required fields : {"plaintext","poker_board_id","team_id", "created_user_id"}'
 
     original_message = request_json['plaintext'].encode('utf-8')
 
@@ -37,4 +37,5 @@ def encrypt_plaintext(request):
     entity.update(response_dict)
     client.put(entity)
 
-    return json.dumps(response_dict)
+    #return json.dumps(response_dict)
+    return "Status : Success \nSuccess Code : 201 'Created'"

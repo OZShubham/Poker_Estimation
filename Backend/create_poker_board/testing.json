@@ -1,5 +1,6 @@
 {
     "user_id" : "shubham12",
     "team_id" : "team12",
-    "user_role": "scrum master"
+    "user_role": "scrum master",
+    "poker_board_type": "Fibonacci"
   }

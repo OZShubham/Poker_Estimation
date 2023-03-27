@@ -11,19 +11,22 @@ body{
          margin: 0 auto;
       }
 .card {
-         width: 10%;
+         width: 12%;
          border: 1px solid #ccc;
          border-radius: 4px;
          overflow: hidden;
          transition: all 0.3s ease-out;
-         margin-left: 10px;
+         margin-left: 70px ;
          float: left; 
+        
+        
+        
 }
 
 
 .card.expanded {
          transform: scale(1.1);
-         color: red;
+         color: rgb(169, 230, 72);
          
 }
 .card:hover {
@@ -33,9 +36,12 @@ body{
       
       
 .card-body {
-        height: 200px;
+        
          padding: 15px;
-         background-color: aqua;
+         background-image: url(Untitled.jpg) ;
+         background-repeat: no-repeat;
+         background-size: cover; 
+         
 }
 .card-body p {
          margin: 0;
@@ -85,11 +91,13 @@ h2{
 }
 
 .btn{
-    /*display: bottom;*/
+    display: flex;
     justify-content: center;
     text-align: center;
     align-items: center;
 }
+
+
 #button{
     background-color: #4caf50;
     border: none;
@@ -117,8 +125,13 @@ h2{
     width: 100%;
     margin-bottom: 10%;
 }
-    .btn{
-        
-        align-items: center;
-    }
+.dark-header-grid{
+    width: 100%;
+}
+ .btn{
+    display: bottom;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+ }
 }

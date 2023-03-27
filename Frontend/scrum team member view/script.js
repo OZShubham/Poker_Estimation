@@ -8,8 +8,13 @@ var removeActiveClasses = () => {
 };
 panelsElement.forEach(card => {
     card.addEventListener('click',() => {
-        removeActiveClasses();
-        card.classList.toggle('expanded')
+        if(card.classList.contains('expanded')){
+            card.classList.remove('expanded');
+        }
+        else{
+            removeActiveClasses();
+            card.classList.toggle('expanded')
+        }
     });
 });
    

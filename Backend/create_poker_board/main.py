@@ -21,12 +21,12 @@ def create_poker_board(request):
         'poker_board_id': poker_board_id,
         'poker_board_type': request_json.get('poker_board_type'),
         'org_id': 'cognizant',
-        'created_timestamp': datetime.datetime.utcnow(),
-        'last_modified_timestamp': datetime.datetime.utcnow(),
+        'created_timestamp': datetime.datetime.utcnow().isoformat(),
+        'last_modified_timestamp': datetime.datetime.utcnow().isoformat(),
         'team_id': request_json.get('team_id'),
         'user_role' : request_json.get('user_role'),
         'status' : 'Created',
-        'estimates': None
+        
     }
 
     # Save response_dict to Datastore

@@ -3,7 +3,7 @@ import json
 import datetime
 from google.cloud import datastore
 
-def add_estimate(request):
+def update_poker_board(request):
     request_json = request.get_json(silent=True)
     if not request_json or 'poker_board_id' not in request_json:
         return 'Error: No poker_board_id field provided in request.'
@@ -31,24 +31,19 @@ def add_estimate(request):
             for user in users:
                 if user.get('user_id') == user_id:
                     user['story_point'] = story_point
-                    user['created_timestamp'] = datetime.datetime.utcnow().isoformat()
+                    user['created_timestamp'] = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
                     updated_user = True
                     updated_estimate = True
                     break
             if not updated_user:
-                users.append({'user_id': user_id, 'story_point': story_point, 'created_timestamp': datetime.datetime.utcnow().isoformat()})
+                users.append({'user_id': user_id, 'story_point': story_point, 'created_timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')})
                 estimate['users'] = users
                 updated_estimate = True
-
-            #users.append({'user_id': user_id, 'story_point': story_point})
-            #estimate.update({'users': users})
-            #updated_estimate = True
-            #break
     
     if not updated_estimate:
-        estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point, 'created_timestamp': datetime.datetime.utcnow().isoformat()}]})
+        estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point, 'created_timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')}]})
     
-    entity.update({'estimates': estimates, 'last_modified_timestamp': datetime.datetime.utcnow().isoformat()})
+    entity.update({'estimates': estimates, 'last_modified_timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')})
     client.put(entity)
     
-    return json.dumps(entity)
+    return json.dumps(entity, default=str)

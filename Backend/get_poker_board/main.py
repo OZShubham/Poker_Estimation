@@ -3,7 +3,7 @@ import json
 
 def get_data(request):
   request_json = request.get_json(silent=True)
-  if not request_json or 'plaintext' not in request_json:
+  if not request_json or 'poker_board_id' not in request_json:
     return ' Status:Failure \n Error: 400 Bad Request \n Required fields : {"poker_board_id"}'
   poker_board_id = request_json.get('poker_board_id')  
 

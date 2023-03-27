@@ -16,4 +16,3 @@ function handleClick() {
       button.textContent = initialText;
     }
   };
-  

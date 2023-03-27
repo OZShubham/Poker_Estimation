@@ -1,0 +1,109 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    padding-bottom: 40px;
+}
+.box{
+    width: 300px;
+    padding: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: rgba(35, 169, 179, 0.4);
+    text-align: center;
+
+}
+.box h1{
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.box input[type="text"],.box input[type="text"]{
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 3px solid #0367fd;
+    padding: 14px 10px;
+    width: 220px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25px;
+}
+.box input[type="text"]:focus,.box input[type="text"]:focus{
+    width: 270px;
+    border-color: #ffc400ec;
+}
+.box input[type="submit"]{
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 3px solid #ffc400ec;
+    padding: 14px 10px;
+    width: 220px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25px;
+    cursor: pointer;  
+
+}
+.box input[type="submit"]:hover{
+    background: #ffc400ec;
+}
+.dark-header-grid{
+    background-color: #005681;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+h2{
+    display: flex;
+    justify-content: center;
+}
+.title-row{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.logo{
+    width: 50px;
+    margin-right: 1.5rem;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+label{
+    border: 0;
+    font-size: 20px;
+    
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 3px solid #be950eec;
+    padding: 14px 10px;
+    width: 220px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25px;
+    cursor: pointer;  
+
+}
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .box {
+      width: 100%;
+    }
+    .dark-header-grid{
+        width: 100%;
+    }
+  }

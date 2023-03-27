@@ -1,0 +1,4 @@
+{
+    "poker_board_id" : "poker123",
+    "jira_id" : "PEWA_1"
+}

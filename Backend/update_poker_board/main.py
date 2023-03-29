@@ -22,6 +22,7 @@ def update_poker_board(request):
     jira_id = request_json.get('jira_id')
     user_id = request_json.get('user_id')
     story_point = request_json.get('story_point')
+    status = request_json.get('status')
     updated_estimate = False
     updated_user = False
     
@@ -36,12 +37,12 @@ def update_poker_board(request):
                     updated_estimate = True
                     break
             if not updated_user:
-                users.append({'user_id': user_id, 'story_point': story_point, 'created_timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')})
+                users.append({'user_id': user_id, 'story_point': story_point, 'status': status,'created_timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')})
                 estimate['users'] = users
                 updated_estimate = True
     
     if not updated_estimate:
-        estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point, 'created_timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')}]})
+        estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point, 'status': status,'created_timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')}]})
     
     entity.update({'estimates': estimates, 'last_modified_timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')})
     client.put(entity)

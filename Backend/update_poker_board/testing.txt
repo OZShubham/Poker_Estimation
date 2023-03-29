@@ -2,18 +2,21 @@
     "poker_board_id": "12345",
     "jira_id": "PEWA_1",
     "user_id": "rahul",
-    "story_point": 2
+    "story_point": 2,
+    "status": "Voted"
 },
 {
     "poker_board_id": "12345",
     "jira_id": "PEWA_1",
     "user_id": "shubham",
-    "story_point": 5
+    "story_point": 5,
+    "status": "Voted"
 },
 
 {
     "poker_board_id": "12345",
     "jira_id": "PEWA_1",
     "user_id": "ankur",
-    "story_point": 13
+    "story_point": 13,
+    "status": "Voted"
 }

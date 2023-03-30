@@ -90,7 +90,7 @@
   }
   .card-body p {
     margin: 0;
-    font-size: 100px;
+    font-size: 50px;
     line-height: 1.5;
     position: relative;
     justify-content: center;
@@ -105,7 +105,7 @@
   }
   
   button {
-    padding: 10px 20px;
+    padding: 8px 20px;
     font-size: 18px;
     background-color: #333;
     color: #fff;
@@ -125,11 +125,11 @@
     /* Large screens */
     
     header {
-      padding: 40px;
+      padding: 5px;
     }
     
     .logo {
-      height: 75px;
+      height: 50px;
     }
     
     .name {
@@ -137,11 +137,11 @@
     }
     
     .title {
-      font-size: 48px;
+      font-size: 25px;
     }
     
     .sub-title {
-      font-size: 36px;
+      font-size: 25px;
     }
     
     #expanding-cards {
@@ -149,8 +149,8 @@
     }
     
     .card {
-      width: 250px;
-      height: 250px;
+      width: 100px;
+      height: 110px;
     }
     
     .card-body {
@@ -171,12 +171,12 @@
     }
     
     .card {
-      width: 300px;
-      height: 300px;
+      width: 150px;
+      height: 200px;
     }
     
     button {
-      padding: 20px 40px;
+      padding: 10px 40px;
       font-size: 28px;
     }
   }

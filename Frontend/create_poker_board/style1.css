@@ -3,6 +3,7 @@ body{
     padding: 0;
     font-family: sans-serif;
     padding-bottom: 40px;
+    background-image: url(dark.jpg);
 }
 .box{
     width: 300px;

@@ -3,6 +3,7 @@ body {
 	background-image: url(background.png);
 	margin: 0;
 	padding: 0;
+	
 }
 
 .login-container {
@@ -19,6 +20,7 @@ img {
 	margin: 0 auto;
 	max-width: 100%;
 	height: auto;
+	
 }
 
 

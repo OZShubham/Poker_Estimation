@@ -61,6 +61,11 @@ button[type="submit"] {
 	cursor: pointer;
 }
 
+#login-btn:disabled {
+	background-color: gray;
+	cursor: not-allowed;
+  }  
+
 button[type="submit"]:hover {
 	background-color: #3e8e41;
 }

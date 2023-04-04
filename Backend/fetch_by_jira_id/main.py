@@ -17,4 +17,4 @@ def get_data_by_jira_id(request):
     estimates = entity.get('estimates', [])
     for estimate in estimates:
         if estimate.get('jira_id') == jira_id:
-            return json.dumps(estimate)
+            return json.dumps(estimate, default=str)

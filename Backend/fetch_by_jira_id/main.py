@@ -1,14 +1,5 @@
 from google.cloud import datastore
-import json
-
-def change_status(entity, jira_id):
-    estimates = entity.get('estimates',[])
-    for estimate in estimates:
-        if estimate.get('jira_id') == jira_id:
-            users = estimate.get('users',[])
-            for user in users:
-                user['status'] = 'Estimated'
-            return
+import json    
 
 def get_data_by_jira_id(request):
     request_json = request.get_json(silent=True)
@@ -23,9 +14,7 @@ def get_data_by_jira_id(request):
     if not entity:
         return 'Error: No entity found with given jira_id'    
 
-    change_status(entity, jira_id)
-
     estimates = entity.get('estimates', [])
     for estimate in estimates:
         if estimate.get('jira_id') == jira_id:
-            return json.dumps(estimate)
+            return json.dumps(estimate, default=str)

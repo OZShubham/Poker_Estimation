@@ -1,0 +1,183 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  header {
+    background-color: #f5f5f5;
+    color: #333;
+    padding: 20px;
+  }
+  
+  .dark-header-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 50px;
+    margin-right: 20px;
+  }
+  
+  .name {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .dark-header-divider {
+    height: 1px;
+    background-color: #333;
+  }
+  
+  .light-header-divider {
+    background-color:  #00AAFF;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+  
+  .sub-title {
+    font-size: 24px;
+  }
+  
+  #expanding-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .card {
+    width: 200px;
+    height: 200px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  .card.expanded {
+    transform: scale(1.1);
+    color: rgb(169, 230, 72);
+  }
+  
+  .card:hover {
+    /*transform: scale(1.1);*/
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+         cursor: pointer;
+  }
+  
+  .card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(Untitled.jpg) ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+  }
+  .card-body p {
+    margin: 0;
+    font-size: 50px;
+    line-height: 1.5;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    
+}
+  
+  .btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 8px 20px;
+    font-size: 18px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #666;
+  }
+  
+  /* Media queries */
+  
+  @media (min-width: 768px) {
+    /* Large screens */
+    
+    header {
+      padding: 5px;
+    }
+    
+    .logo {
+      height: 50px;
+    }
+    
+    .name {
+      font-size: 36px;
+    }
+    
+    .title {
+      font-size: 25px;
+    }
+    
+    .sub-title {
+      font-size: 25px;
+    }
+    
+    #expanding-cards {
+      margin: 40px 0;
+    }
+    
+    .card {
+      width: 100px;
+      height: 110px;
+    }
+    
+    .card-body {
+      height: 100%;
+    }
+    
+    button {
+      padding: 15px 30px;
+      font-size: 24px;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    /* Extra large screens */
+    
+    #expanding-cards {
+      margin: 60px 0;
+    }
+    
+    .card {
+      width: 150px;
+      height: 200px;
+    }
+    
+    button {
+      padding: 10px 40px;
+      font-size: 28px;
+    }
+  }

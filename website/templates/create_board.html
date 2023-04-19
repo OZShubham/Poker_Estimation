@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Poker Board</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='create_poker_board/style1.css') }}">
+</head>
+<body>
+    <header>
+     <nav>
+        <ul>
+             <li><a href="{{ url_for('views.home') }}">Home</a></li>
+             <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
+             <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+             <li><a href="{{ url_for('auth.login') }}">logout</a></li>
+        </ul>
+     </nav>
+    </header>
+    
+        <div class="dark-header-grid">
+            <div class="content">
+                <div class="title-row">
+                    <img class="logo" alt="logo" src="../static/create_poker_board/cognizantlogo.jpg">
+                    <h1 class="name">Poker Estimation</h1>
+                </div>
+            </div>
+        </div>
+    
+    
+    <form class="box"  method="post">
+        <h3>
+            Create Poker Board
+        </h3>
+        <input type="text" name="team_id" placeholder="Enter Team ID" id="team_id">
+        <input type="text" name="user_role" placeholder="Enter User Role" id="user_role">
+        
+        <input type="text" name="user_id" placeholder="Enter User ID" id="user_id">
+        <div class="dropdown">
+            <label for="poker_board_activity">Poker Board Activity:</label>
+            <select name="poker_board_type">
+                
+                <option value="Fibonacci Number">Fibonacci Number</option>
+                <option value="T-shirt Sizing">T-shirt Sizing</option>
+            </select>    
+        </div>
+        <input type="submit" name="" value="Create" onclick="validate()">
+    </form>
+    <script type="text/javascript" src="{{ url_for('static', filename='create_poker_board/script1.js') }}"></script>
+</body>
+</html>

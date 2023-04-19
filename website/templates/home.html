@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Poker Board Estimation</title>
+    <script type="text/javascript" src="{{ url_for('static', filename='home/script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('views.home') }}">Home</a></li>
+                <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ url_for('auth.login') }}">logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Welcome to Poker Board Estimation</h1>
+        <p>Efficiently estimate your Agile project tasks using the popular Poker Estimation technique.</p>
+        <p>Features:</p>
+        <ul>
+            <li>Easy and intuitive task estimation</li>
+            <li>Real-time collaboration with team members</li>
+            <li>Track and manage project progress</li>
+            <li>Generate reports and analytics</li>
+        </ul>
+        <p>Sign up or log in to get started!</p>
+    </main>
+
+    <div class="footer">
+        <p>&copy; Poker Board Estimation</p>
+    </div>    
+</body>
+</html>

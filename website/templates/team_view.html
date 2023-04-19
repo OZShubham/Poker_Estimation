@@ -1,0 +1,116 @@
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scrum Team Member View</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='scrum team member view/style.css') }}">
+    
+</head>
+<body>
+   
+    <form class="box" action="https://us-central1-pokerestimation-380716.cloudfunctions.net/update_poker_board" method="post">
+    <h1>Scrum Team Member View</h1>
+    
+    <p>Enter Poker Board ID:</p>
+    <input type="text" id="pokerBoardId" />
+    <p>Enter Jira ID:</p>
+    <input type="text" id="jiraId" />
+    <p>Enter User ID:</p>
+    <input type="text" id="userId" />
+    <div id="expanding-cards">
+    <div class="card">
+    <div class="card-body">
+     <p style="text-align: center;">0</p>
+    </div>
+    </div>
+    <div class="card">
+    
+    <div class="card-body">
+    <p style="text-align: center;">1</p>
+    </div>
+    </div>
+    <div class="card">
+    
+    <div class="card-body">
+    <p style="text-align: center;">2</p>
+    </div>
+    </div>
+    <div class="card">
+     
+     <div class="card-body">
+     <p style="text-align: center;">3</p>
+     </div>
+     </div>
+     <div class="card">
+         
+         <div class="card-body" >
+         <p style="text-align: center;">5</p>
+         </div>
+     </div>
+     <div class="card">
+         
+         <div class="card-body">
+         <p style="text-align: center;">8</p>
+         </div>
+     </div>
+     <div class="card">
+         
+         <div class="card-body">
+         <p style="text-align: center;">13</p>
+         </div>
+     </div>
+     <div class="card">
+         
+         <div class="card-body">
+         <p style="text-align: center;">?</p>
+         </div>
+     </div>
+     <div class="card">
+         
+         <div class="card-body">
+         <p style="text-align: center;"><img class="pic" alt="pic" src="../static/scrum team member view/cup.jpg"></p>
+         </div>
+     </div>
+    
+    
+   </div>
+   <div class="btn">
+    
+    <input type="submit" name="" value="VOTE" onclick="validate()">
+   </div>
+</form>
+    <script type="text/javascript" src="{{ url_for('static', filename='scrum team member view/script.js') }}"></script>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Update Poker Board</title>
+  <script type="text/javascript" src="{{ url_for('static', filename='scrum team member view/script.js') }}"></script>
+</head>
+<body>
+  <h1>Update Poker Board</h1>
+  <form id="update-form" action="https://us-central1-pokerestimation-380716.cloudfunctions.net/update_poker_board" method="post">
+    <label for="poker_board_id">Poker Board ID:</label>
+    <input type="text" name="poker_board_id" id="poker_board_id" required>
+    <br>
+    <label for="jira_id">Jira ID:</label>
+    <input type="text" name="jira_id" id="jira_id" required>
+    <br>
+    <label for="user_id">User ID:</label>
+    <input type="text" name="user_id" id="user_id" required>
+    <br>
+    <div class="card-container">
+        <div class="card" id="story_point_0" onclick="selectStoryPoint(0)">0</div>
+        <div class="card" id="story_point_1" onclick="selectStoryPoint(1)">1</div>
+        <div class="card" id="story_point_2" onclick="selectStoryPoint(2)">2</div>
+        <!-- Add more card elements for other story point values -->
+      </div>
+    <label for="story_point">Story Point:</label>
+    <input type="number" name="story_point" id="story_point" required>
+    <br>
+    <input type="submit" value="Submit">
+  </form>
+  
+</body>
+</html>

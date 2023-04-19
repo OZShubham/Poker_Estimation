@@ -1,0 +1,54 @@
+<!--<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Poker Estimation Login Page</title>
+	<link rel="stylesheet"  type="text/css" href="{{ url_for('static', filename='login_page/style.css') }}">
+</head>
+<body>
+	<div class="login-container">
+	<img class="logo" alt="Cognizant-logo" src="..\static\login_page\ctslogo.svg"  width="200" height="200">
+
+		<h1 id="heading_1">Poker Estimation</h1>
+		<h1 id="heading_2">Login</h1>
+
+		<form class="box" action="https://us-central1-pokerestimation-380716.cloudfunctions.net/signin" method="post">
+			<label for="email">Email</label>
+			<input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+			<button type="submit" id="login-btn">Login</button>
+		</form>
+	</div>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='login_page/a.js') }}"></script>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Estimation Login Page</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_page/style.css') }}" >
+</head>
+<body>
+    <div class="login-container">
+        <img class="logo" alt="Cognizant-logo" src="..\static\login_page\ctslogo.svg"  width="200" height="200">
+        <h2 id="heading_1">Poker Estimation </h2>
+        <h2 id="heading_2">Login</h2>
+        <form class="box"  method="post">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <button type="submit" id="login-btn">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('auth.signup') }}">Sign up</a></p>
+        <p>Forgot your password? <a href="{{ url_for('auth.reset_password') }}">Click here to reset your password</a></p>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='login_page/script.js') }}"></script>
+</body>
+</html>
+

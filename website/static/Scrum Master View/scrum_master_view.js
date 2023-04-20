@@ -1,43 +1,40 @@
-function flipCards() {
-  var cards = document.getElementsByClassName('flip-card-inner');
-  for (var i = 0; i < cards.length; i++) {
-    cards[i].classList.toggle('flipped');
-  }
+// Sample data for flip cards
+const cardData = [
+  { id: 1, front: 'Card 1 Front', back: 'Card 1 Back' },
+  { id: 2, front: 'Card 2 Front', back: 'Card 2 Back' },
+  { id: 3, front: 'Card 3 Front', back: 'Card 3 Back' }
+];
+
+// Function to create flip cards
+function createFlipCard(data) {
+  const card = document.createElement('div');
+  card.classList.add('card');
+  card.innerHTML = `
+    <div class="card-inner">
+      <div class="card-front">${data.front}</div>
+      <div class="card-back">${data.back}</div>
+    </div>
+  `;
+  return card;
 }
 
-// Toggle button text on click
-
-function handleClick() {
-  const initialText = 'Reveal';
-
-  if (button.textContent.toLowerCase().includes(initialText.toLowerCase())) {
-    button.textContent = 'Hide';
-  } else {
-    button.textContent = initialText;
-  }
-};
-
-function storePokerEstimation() {
-    // Get the poker estimation data from the form
-  var name = document.getElementById('name').value;
-  var estimate = document.getElementById('estimate').value;
-
-    // Create the request body as JSON
-  var data = {
-    "name": name,
-    "estimate": estimate
-  };
-
-  // Send an HTTP POST request to the Cloud Function endpoint with the request body
-  fetch('https://us-central1-pokerestimation-380716.cloudfunctions.net/store_poker_estimation', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
-  .then(response => response.text())
-  .then(data => {
-    console.log(data); // Log the response from the Cloud Function
-  })
-  .catch(error => {
-    console.error('Error:', error);
+// Function to add flip cards to the card container
+function renderCards(cardData) {
+  const cardContainer = document.getElementById('card-container');
+  cardContainer.innerHTML = '';
+  cardData.forEach(function(card) {
+    cardContainer.appendChild(createFlipCard(card));
   });
-};
+}
+
+// Render initial flip cards
+renderCards(cardData);
+
+// Add event listener to reveal button
+const revealBtn = document.getElementById('reveal-btn');
+revealBtn.addEventListener('click', function() {
+  const cards = document.getElementsByClassName('card-inner');
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].style.transform = 'rotateY(180deg)';
+  }
+});

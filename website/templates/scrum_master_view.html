@@ -1,207 +1,30 @@
-<!--<!DOCTYPE html>
-<html>
-
-<head>
-  <title>{{ jira_title }}</title>
-  <script type="text/javascript" src="{{ url_for('static', filename='Scrum Master View/scrum_master_view.js') }}"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='Scrum Master View/scrum_master_view.css') }}">
-</head>
-
-<body>
-
-  <header>
-    <div class="dark-header-grid">
-      <div class="content">
-        <div class="title-row">
-          <img class="logo" alt="logo" src="../static/Scrum Master View/cts_logo.jpg">
-          <h2 class="name">Poker Estimation</h2>
-        </div>
-      </div>
-    </div>
-    <div class="dark-header-divider"></div>
-    <div class="light-header-divider">
-      <div class="content">
-        <h3 class="title">{{ jira_title }}</h3>
-        <h3 class="sub-title">{{ jira_sub_title }}</h3>
-      </div>
-    </div>
-  </header>
-
-  <div class="card-container" id="card-container">
-    {% for user in users %}
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="../static/Scrum Master View/cts_logo.jpg" alt="{{ user.name }}">
-        </div>
-        <div class="flip-card-back">
-          <h1>{{ user.name }}</h1>
-          <h2>{{ user.vote }}</h2>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  <div class="btn">
-    <button id="button" onclick="flipCards(),handleClick()">Reveal</button>
-    <button id="store-button">Store</button>
-    <button id="vote-again-button">Vote again</button>
-  </div>
- 
-</body>
-
-</html>-->
-
-<!--<!DOCTYPE html>
-<html>
-
-<head>
-  <title>Scrum Master View</title>
-  <script type="text/javascript" src="{{ url_for('static', filename='Scrum Master View/scrum_master_view.js') }}"></script>
-
-  <link rel="stylesheet" href="{{ url_for('static', filename='Scrum Master View/scrum_master_view.css') }}">
-</head>
-
-<body>
-
-  <header>
-    <div class="dark-header-grid">
-      <div class="content">
-        <div class="title-row">
-          <img class="logo" alt="logo" src="../static/Scrum Master View/cts_logo.jpg">
-          <h2 class="name">Poker Estimation</h2>
-        </div>
-      </div>
-    </div>
-    <div class="dark-header-divider"></div>
-    <div class="light-header-divider">
-      <div class="content">
-        <h3 class="title">PEWA-2: Setting Up a New Poker Board for Estimation for a Sprint</h3> 
-        <h3 class="sub-title">Creating a Cloud Function to Generate AES Key and Store in Datastore</h3>
-      </div>
-    </div>
-    </div>
-  </header>
-
-  <div class="card-container">
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="../static/Scrum Master View/cts_logo.jpg" alt="Image 1">
-        </div>
-        <div class="flip-card-back">
-          <h1>Shubham</h1>
-          <h2>3</h2>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="../static/Scrum Master View/cts_logo.jpg" alt="Image 1">
-        </div>
-        <div class="flip-card-back">
-          <h1>Rahul</h1>
-          <h2>2</h2>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="../static/Scrum Master View/cts_logo.jpg" alt="Image 1">
-        </div>
-        <div class="flip-card-back">
-          <h1>Ankur</h1>
-          <h2>5</h2>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="../static/Scrum Master View/cts_logo.jpg" alt="Image 1">
-        </div>
-        <div class="flip-card-back">
-          <h1>Ritabrata</h1>
-          <h2>8</h2>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="../static/Scrum Master View/cts_logo.jpg" alt="Image 1">
-        </div>
-        <div class="flip-card-back">
-          <h1>Amandeep</h1>
-          <h2>1</h2>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="../static/Scrum Master View/cts_logo.jpg" alt="Image 1">
-        </div>
-        <div class="flip-card-back">
-          <h1>Shreejita</h1>
-          <h2>3</h2>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="btn">
-    <button id="button" onclick="flipCards(),handleClick()">Reveal</button>
-    <button id="button">Store</button>
-    <button id="button">Vote again</button>
-  </div>
-</body>
-
-</html>-->
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Scrum Master View</title>
+    <title>Scrum Master View</title>
 </head>
 <body>
-  <h1>Scrum Master View</h1>
-  <form class="box" action="https://us-central1-pokerestimation-380716.cloudfunctions.net/store_poker_estimation" method="post">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name">
-    <br>
-    <label for="estimate">Estimate:</label>
-    <input type="number" id="estimate" name="estimate">
-    <br>
-    <button type="button" onclick="storePokerEstimation()">Store</button>
-  </form>
-
-  <script>
-  function storePokerEstimation() {
-    // Get the poker estimation data from the form
-    var name = document.getElementById('name').value;
-    var estimate = document.getElementById('estimate').value;
-
-    // Create the request body as JSON
-    var data = {
-      "name": name,
-      "estimate": estimate
-    };
-
-    // Send an HTTP POST request to the Cloud Function endpoint with the request body
-    fetch('https://us-central1-pokerestimation-380716.cloudfunctions.net/store_poker_estimation', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    })
-    .then(response => response.text())
-    .then(data => {
-      console.log(data); // Log the response from the Cloud Function
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
-  </script>
+    <div id="card-container">
+        <!-- Flip cards will be appended here -->
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">Card 1 Front</div>
+                <div class="card-back">Card 1 Back</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">Card 2 Front</div>
+                <div class="card-back">Card 2 Back</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">Card 3 Front</div>
+                <div class="card-back">Card 3 Back</div>
+            </div>
+        </div>
+    </div>
+    <button id="reveal-btn">Reveal</button>
 </body>
 </html>
-

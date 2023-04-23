@@ -1,28 +1,54 @@
-/*document.getElementById("update-form").addEventListener("submit", function (event) {
-  event.preventDefault();
-  updatePokerBoard();
+document.addEventListener('DOMContentLoaded', function() {
+  // Get all the story point cards
+  var storyPointCards = document.querySelectorAll('.story-point-card');
+  
+  // Add click event listener to each story point card
+  storyPointCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      // Check if the clicked card is already active
+      var isActive = this.classList.contains('active');
+      
+      // Remove the active class from all story point cards
+      storyPointCards.forEach(function(card) {
+        card.classList.remove('active');
+        card.style.height = ''; // Reset the height property
+      });
+      
+      // If the clicked card is not already active
+      if (!isActive) {
+        // Add the active class to the clicked story point card
+        this.classList.add('active');
+        
+        // Set the height of the clicked card to its scroll height to expand it
+        this.style.height = this.scrollHeight + 'px';
+      } else {
+        // If the clicked card is already active, remove the active class
+        // and reset the height property to collapse it
+        this.classList.remove('active');
+        this.style.height = '';
+      }
+    });
+  });
 });
 
-
-function updatePokerBoard() {
-  var form = document.getElementById("update-form");
-  var formData = new FormData(form);
-  fetch("https://us-central1-pokerestimation-380716.cloudfunctions.net/update_poker_board", {
-    method: "POST",
-    body: formData
-  })
-    .then(function (response) {
-      if (response.ok) {
-        return response.text();
-      } else {
-        throw new Error("Error: " + response.status);
-      }
-    })
-    .then(function (responseText) {
-      console.log("Success:", responseText);
-    })
-    .catch(function (error) {
-      console.error(error);
+$(document).ready(function() {
+        // Add click event listener to story-point-cards
+        $(".story-point-card").on("click", function() {
+            // Get the data-value attribute of the clicked element
+            var value = $(this).data("value");
+            // Send the data to Flask route via an HTTP request (e.g., AJAX)
+            $.ajax({
+                type: "POST",
+                url: "/your-flask-route",
+                data: { value: value },
+                success: function(response) {
+                    // Handle success response
+                    console.log(response);
+                },
+                error: function(error) {
+                    // Handle error response
+                    console.log(error);
+                }
+            });
+        });
     });
-}
-*/

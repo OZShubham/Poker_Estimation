@@ -1,30 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Scrum Master View</title>
+  <title>Scrum Master View</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div id="card-container">
-        <!-- Flip cards will be appended here -->
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-front">Card 1 Front</div>
-                <div class="card-back">Card 1 Back</div>
+  <div class="container mt-5">
+    <h1>Scrum Master View</h1>
+    <form method="post" action="/scrum_master_view">
+        <label for="poker_board_id">Poker Board ID:</label>
+        <input type="text" name="poker_board_id" id="poker_board_id" required><br>
+        <label for="jira_id">Jira ID:</label>
+        <input type="text" name="jira_id" id="jira_id" required><br>
+        
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="userCards" class="mt-4"></div>
+  </div>
+  
+  <!--<script>
+    // Function to handle form submission
+    $('#jiraForm').submit(function(event) {
+      event.preventDefault();
+      var jiraId = $('#jiraId').val();
+      fetch('/scrum_master_view', {
+        method: 'POST',
+        body: JSON.stringify({jira_id: jiraId}),
+        headers: {'Content-Type': 'application/json'}
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          alert(data.error);
+        } else {
+          displayUsers(data.users);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+
+    // Function to display users as cards
+    function displayUsers(users) {
+      var userCardsHtml = '';
+      for (var i = 0; i < users.length; i++) {
+        var user = users[i];
+        userCardsHtml += `
+          <div class="card mt-4">
+            <div class="card-body">
+              <h5 class="card-title">User ID: ${user.user_id}</h5>
+              <p class="card-text">Story Point: ${user.story_point}</p>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-front">Card 2 Front</div>
-                <div class="card-back">Card 2 Back</div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-front">Card 3 Front</div>
-                <div class="card-back">Card 3 Back</div>
-            </div>
-        </div>
-    </div>
-    <button id="reveal-btn">Reveal</button>
+          </div>
+        `;
+      }
+      $('#userCards').html(userCardsHtml);
+    }
+  </script>-->
 </body>
 </html>

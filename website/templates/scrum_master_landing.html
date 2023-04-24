@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='scrum_master_landing/style.css') }}"
+    />
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='scrum_master_landing/script.js') }}"
+    ></script>
+  </head>
+  <body>
+    <h1>click here to create poker board</h1>
+
+    <div class="left">
+        <label for="poker_board_id">Select Poker Board Id:</label>
+        <br>
+        <select name="poker_board_id_no">
+          {% for board in boards %}
+          <option value="{{ board['poker_board_id']}}">
+            {{ board['poker_board_id'] }}
+          </option>
+          {% endfor %}
+        </select>
+        <br>
+    
+    
+        <a href="{{ url_for('views.scrum_master_view') }}">
+          <button class="GFG">submit</button>
+        </a>
+    </div>
+    
+    <div class="right">
+        <a href="{{ url_for('views.create_poker_board') }}">
+            <button class="GFG">Click Here to create poker board</button>
+        </a>
+    </div>
+    
+  </body>
+</html>

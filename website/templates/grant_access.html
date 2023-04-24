@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grant Access</title>
+</head>
+<body>
+    <h1>Grant Access</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form method="post" action="/grant_access">
+        <label for="poker_board_id">Poker Board ID:</label>
+        <input type="text" name="poker_board_id" id="poker_board_id" placeholder="Enter Poker Board ID" required>
+        <br>
+        <label for="user_id">User:</label>
+        <select name="user_id" id="user_id">
+            {% for user in users %}
+                <option value="{{ user.key.id }}">{{ user.name }} ({{ user.email }})</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Grant Access">
+    </form>
+</body>
+</html>

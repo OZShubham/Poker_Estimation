@@ -6,12 +6,12 @@ import bcrypt
 import os
 
 
-
 # Create a Flask app
 auth = Blueprint('auth', __name__)
 
 # Initialize Datastore client
 datastore_client = datastore.Client()
+
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -23,7 +23,8 @@ def signup():
         password = request.form['password']
         confirm_password = request.form['confirm-password']
 
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        hashed_password = bcrypt.hashpw(
+            password.encode('utf-8'), bcrypt.gensalt())
         # Check if password and confirm password match
         if password != confirm_password:
             return 'Password and Confirm Password do not match', 400
@@ -37,7 +38,6 @@ def signup():
             return 'User with this email already exists', 400
 
         # Hash the password
-    
 
         # Save new user to Datastore
         user_key = datastore_client.key('User')
@@ -51,31 +51,44 @@ def signup():
         return redirect('/login')
 
     else:
-        if "email" in  session:
+        if "email" in session:
             flash("Already Logged In!", "info")
             return redirect('/scrum_team_member_view')
-        
+
         # Render the signup page for GET request
-        return render_template('signup.html')    
+        return render_template('signup.html')
+
 
 @auth.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
 
-    if request.method == 'POST':
-      email = request.form['email']
-      new_password = request.form['new_password']
-      result,status_code = reset_password(email,new_password)
+    
+        if request.method == 'POST':
+            email = request.form['email']
+            new_password = request.form['new_password']
 
-      if status_code == 200:
-            # Handle form submission success
-            return redirect(url_for('auth.login'))  # Update with the appropriate route or URL for create_poker_board()
-      else:
-            # Handle form submission error
-            return render_template('auth.login', error=result)
+            # Check if email and new password are provided
+            if not email or not new_password:
+                return 'Email and new password are required', 400
 
-    return render_template('reset_password.html')
+            # Query Datastore to check if email exists
+            query = datastore_client.query(kind='User')
+            query.add_filter('email', '=', email)
+            result = list(query.fetch())  # Convert query result to list
 
+            # If a user with the given email is found
+            if len(result) > 0:
+                user = result[0]
 
+                # Update user's password in Datastore
+                user['password'] = new_password
+                datastore_client.put(user)
+
+                return redirect('/login')
+            else:
+                return 'Email not found', 404
+
+   
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -98,7 +111,8 @@ def login():
                 # Verify input password with hashed password
                 if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
                     # Passwords match, return success
-                    response = {'success': True, 'message': 'Sign-in successful'}
+                    response = {'success': True,
+                                'message': 'Sign-in successful'}
                     flash("Logged In Successfully!", "info")
                     session["email"] = email  # creating session key
                     return redirect('/create_poker_board')
@@ -123,8 +137,6 @@ def login():
             return redirect('/scrum_team_member_view')
 
         return render_template('login.html')
-    
-
 
 
 @auth.route('/logout')
@@ -133,8 +145,3 @@ def logout():
     session.clear()
     flash("You have been logged out!", "info")
     return redirect('/login')
-
-
-
-
-

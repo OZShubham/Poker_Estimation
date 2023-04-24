@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,url_for,request,session,redirect,Flask,jsonify
+from flask import Blueprint, render_template,url_for,request,session,redirect,Flask,jsonify,flash
 from google.cloud import datastore
 import json
 import datetime
@@ -91,75 +91,78 @@ def scrum_team_member_view():
 
 @views.route('/scrum_team_member_view', methods=['GET', 'POST'])
 def scrum_team_member_view():
+    if 'email' not in session:
+        return redirect('/login')
+
     if request.method == 'POST':
-        if 'email' not in session:
-            return redirect('/login')
-        else:
-            poker_board_id = request.form.get('poker_board_id')
-            jira_id = request.form.get('jira_id')
-            user_id = request.form.get('user_id')
-            story_point = request.form.get('story_point')
+        poker_board_id = request.form.get('poker_board_id')
+        jira_id = request.form.get('jira_id')
+        user_id = request.form.get('user_id')
+        story_point = request.form.get('story_point')
 
-            # Retrieve email from session
-            email = session.get('email')
+        # Retrieve email from session
+        email = session.get('email')
 
-            # Validate input data
-            if not poker_board_id or not jira_id or not user_id:
-                return 'Error: Missing required data in the request', 400
+        # Validate input data
+        if not poker_board_id or not jira_id or not user_id:
+            return 'Error: Missing required data in the request', 400
 
-            # Query Datastore for user with matching email
-            client = datastore.Client()
-            query = client.query(kind='User')
-            query.add_filter('email', '=', email)
-            result = list(query.fetch(limit=1))
-            if not result:
-                return 'Error: User not found', 404
+        # Query Datastore for user with matching email
+        client = datastore.Client()
+        query = client.query(kind='User')
+        query.add_filter('email', '=', email)
+        result = list(query.fetch(limit=1))
+        if not result:
+            return 'Error: User not found', 404
 
-            # Update PokerBoard entity
-            entity_key = client.key('PokerBoard', poker_board_id)
-            entity = client.get(entity_key)
-            if not entity:
-                return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
+        # Update PokerBoard entity
+        entity_key = client.key('PokerBoard', poker_board_id)
+        entity = client.get(entity_key)
+        if not entity:
+            return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
 
-            jira_id = request.form.get('jira_id')
-            user_id = request.form.get('user_id')
-            story_point = request.form.get('story_point')
-            updated_estimate = False
-            updated_user = False
-            estimates = entity.get('estimates', [])
+        jira_id = request.form.get('jira_id')
+        user_id = request.form.get('user_id')
+        story_point = request.form.get('story_point')
+        updated_estimate = False
+        updated_user = False
+        estimates = entity.get('estimates', [])
 
-            for estimate in estimates:
-                if estimate.get('jira_id') == jira_id:
-                    users = estimate.get('users', [])
-                    for user in users:
-                        if user.get('user_id') == user_id:
-                            user['story_point'] = story_point
-                            user['created_timestamp'] = datetime.datetime.utcnow()
-                            updated_user = True
-                            updated_estimate = True
-                            break
-
-                    if not updated_user:
-                        users.append({'user_id': user_id, 'story_point': story_point,
-                                      'created_timestamp': datetime.datetime.utcnow()})
-                        estimate['users'] = users
+        for estimate in estimates:
+            if estimate.get('jira_id') == jira_id:
+                users = estimate.get('users', [])
+                for user in users:
+                    if user.get('user_id') == user_id:
+                        user['story_point'] = story_point
+                        user['created_timestamp'] = datetime.datetime.utcnow()
+                        updated_user = True
                         updated_estimate = True
-                    break
+                        break
 
-            if not updated_estimate:
-                estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point,
-                                                                  'created_timestamp': datetime.datetime.utcnow()}]})
+                if not updated_user:
+                    users.append({'user_id': user_id, 'story_point': story_point,
+                                  'created_timestamp': datetime.datetime.utcnow()})
+                    estimate['users'] = users
+                    updated_estimate = True
+                break
 
-            entity.update({'estimates': estimates, 'last_modified_timestamp': datetime.datetime.utcnow()})
-            client.put(entity)
+        if not updated_estimate:
+            estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point,
+                                                              'created_timestamp': datetime.datetime.utcnow()}]})
+
+        entity.update({'estimates': estimates, 'last_modified_timestamp': datetime.datetime.utcnow()})
+        client.put(entity)
 
         return json.dumps(entity, default=str)
 
     return render_template('team_view.html')
 
 
+
 @views.route('/scrum_master_view', methods=['GET', 'POST'])
 def scrum_master_view():
+    if 'email' not in session:
+        return redirect('/login')
     if request.method == 'POST':
         poker_board_id = request.form.get('poker_board_id')
         jira_id = request.form.get('jira_id')
@@ -177,21 +180,19 @@ def scrum_master_view():
         estimates = entity.get('estimates', [])
         story_points = []
         for estimate in estimates:
-            jira_id = estimate.get('jira_id')
-            users = estimate.get('users', [])
-        for user in users:
-            user_id = user.get('user_id')
-            story_point = user.get('story_point')
-            story_points.append({'user_id': user_id,'Jira-id': jira_id, 'Story point': story_point})
+            if estimate.get('jira_id') == jira_id:
+                users = estimate.get('users', [])
+                for user in users:
+                    user_id = user.get('user_id')
+                    story_point = user.get('story_point')
+                    story_points.append({'user_id': user_id,  'Story point': story_point})
 
-            
-        
-        if not estimate:
+        if not story_points:
             return 'Error: No estimate found with given jira_id'
         
         # Render the retrieved data in scrum_master_view.html template
-        #return render_template('scrum_master_view.html', estimate=estimate)
-        return json.dumps(story_points)
+        # return render_template('scrum_master_view.html', estimate=estimate)
+        return render_template('estimates.html', story_points=story_points)
 
     else:
         # Render the input form in form.html template
@@ -207,8 +208,79 @@ def tshirt():
 def home():
     return render_template('home.html')
 
-    
 
+
+datastore_client = datastore.Client()
+@views.route('/all_boards')
+def all_boards():
+    query = datastore_client.query(kind='PokerBoard')
+    boards = query.fetch()
+
+    return render_template('scrum_master_landing.html', boards=boards)   
+
+
+from flask import jsonify, request
+from flask.views import MethodView
+from google.cloud import datastore
+
+# Create a Datastore client
+datastore_client = datastore.Client()
+
+@views.route('/grant_access', methods=['GET', 'POST'])
+def grant_access():
+    if 'email' not in session:
+        return redirect('/login')
+    datastore_client = datastore.Client()
+    if request.method == 'POST':
+        # Get data from form
+        poker_board_id = request.form.get('poker_board_id')
+        query = datastore_client.query(kind='PokerBoard')
+        boards = query.fetch()
+        # Retrieve email from session
+        email = session.get('email')
+
+        # Query Datastore for user with matching email
+        
+        query = datastore_client.query(kind='User')
+        query.add_filter('email', '=', email)
+        result = list(query.fetch(limit=1))
+        if not result:
+            return 'Error: User not found', 404
+        user = result[0]
+        
+        # Check if user has Scrum Master role
+        if user['email'] != email:
+            return 'Error: chal gya', 401
+
+        # Get PokerBoard entity from Datastore
+        poker_board_key = datastore_client.key('PokerBoard', poker_board_id)
+        poker_board = datastore_client.get(poker_board_key)
+
+        # Check if PokerBoard entity exists
+        if not poker_board:
+            return jsonify({'error': 'Poker Board does not exist'}), 404
+
+        # Get User entity from Datastore
+        user_id = request.form.get('user_id')
+        user_key = datastore_client.key('User', int(user_id))
+        user = datastore_client.get(user_key)
+
+        # Check if User entity exists
+        if not user:
+            return jsonify({'error': 'User does not exist'}), 404
+
+        # Grant access to user by adding poker_board_id to User's list of granted_poker_boards
+        user['granted_poker_boards'] = []
+        user['granted_poker_boards'].append(poker_board_id)
+        datastore_client.put(user)
+
+        flash(f'Access granted to user {user["name"]} for Poker Board {poker_board_id}', 'success')
+        return redirect('/grant_access')
+
+    # Render the HTML page for GET requests
+    users_query = datastore_client.query(kind='User')
+    users = list(users_query.fetch())
+    return render_template('grant_access.html', users=users)
 
 
 

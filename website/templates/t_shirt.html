@@ -1,0 +1,233 @@
+<!--<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Scrum team member view</title>
+    <link rel="stylesheet"  type="text/css" href="{{ url_for('static', filename='create T-shirt sizing/style2.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <header>
+        <div class="dark-header-grid">
+            <div class="content">
+                <div class="title-row">
+                    <img class="logo" alt="logo" src="../static/create T-shirt sizing/cognizantlogo.jpg">
+                    <h2 class="name">Poker Estimation</h2>
+                </div>
+            </div>
+        </div>
+        <div class="dark-header-divider"></div>
+        <div class="light-header-divider">
+            <div class="content">
+                <h1 class="title">JIRA-ID</h1>
+                <h3 class="sub-title" style="text-align: center;">USER STORY DESCRIPTION</h3>
+            </div>
+        </div>
+    </header>
+
+    <form method="post" action="/t-shirt">
+        <label for="poker_board_id">Poker Board ID:</label>
+        <input
+          type="text"
+          name="poker_board_id"
+          id="poker_board_id"
+          required
+        /><br />
+        <label for="jira_id">Jira ID:</label>
+        <input type="text" name="jira_id" id="jira_id" required /><br />
+        <label for="user_id">User ID:</label>
+        <input type="text" name="user_id" id="user_id" required /><br />
+
+    <div id="story_point">
+        <div class="card">
+            <div class="card-body">
+                <p style="text-align:center;height: 150px;">XS</p>
+            </div>
+        </div>
+        <div class="card">
+
+            <div class="card-body">
+                <p style="text-align: center;height: 150px;">S</p>
+            </div>
+        </div>
+        <div class="card">
+
+            <div class="card-body">
+                <p style="text-align: center;height: 150px;">M</p>
+            </div>
+        </div>
+        <div class="card">
+
+            <div class="card-body">
+                <p style="text-align: center;height: 150px;">L</p>
+            </div>
+        </div>
+        <div class="card">
+
+            <div class="card-body">
+                <p style="text-align: center;height: 150px;">XL</p>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <div class="btn">
+        <button id="button" onclick="">VOTE</button>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='create T-shirt sizing/script2.js') }}"></script>
+    </form>
+</body>
+
+</html>-->
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <title>Scrum Team Member View</title>
+    
+    <script type="text/javascript" src="{{ url_for('static', filename='scrum team member view/script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='scrum team member view/style.css') }}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    
+</head>
+<body>
+<header>
+    <div class="title-row">
+        <img class="logo" alt="logo" src="../static/scrum team member view/cognizantlogo.jpg">
+        <h2 class="name">Poker Estimation</h2>
+    </div>
+    <h3 class="sub-title">USER STORY DESCRIPTION</h3>
+</header>
+
+<form method="post" >
+    <label for="poker_board_id">Poker Board ID:</label>
+    <input type="text" name="poker_board_id" id="poker_board_id" required><br>
+    <label for="jira_id">Jira ID:</label>
+    <input type="text" name="jira_id" id="jira_id" required><br>
+    <label for="user_id">User ID:</label>
+    <input type="text" name="user_id" id="user_id" required><br>
+    <label for="story_point">Story Point:</label><br>
+    <div id="story-point-cards">
+        <div class="story-point-card" data-value="1">1</div>
+        <div class="story-point-card" data-value="2">2</div>
+        <div class="story-point-card" data-value="3">3</div>
+        <div class="story-point-card" data-value="5">5</div>
+        <div class="story-point-card" data-value="8">8</div>
+        <div class="story-point-card" data-value="13">13</div>
+        <div class="story-point-card" data-value="20">20</div>
+        <div class="story-point-card" data-value="40">40</div>
+        <div class="story-point-card" data-value="100">100</div>
+    </div>
+    <input type="hidden" id="story_point" name="story_point" value="">
+    
+    <button type="submit">VOTE</button>
+
+</form>
+
+</body>
+</html>-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Scrum Team Member View</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='scrum team member view/style.css') }}"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('views.home') }}">POKER</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ms-auto">
+            <a class="nav-link active" href="{{ url_for('auth.logout') }}"
+              >Log Out</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <header>
+      <div>
+        <img
+          alt="logo"
+          src="../static/scrum team member view/cognizantlogo.jpg"
+        />
+        <h2>Poker Estimation</h2>
+      </div>
+      <h3>USER STORY DESCRIPTION</h3>
+    </header>
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible show" role="alert">
+      {{message}}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %}
+
+    <form method="post">
+      <label for="poker_board_id">Poker Board ID:</label>
+      <input
+        type="text"
+        name="poker_board_id"
+        id="poker_board_id"
+        required
+      /><br />
+      <label for="jira_id">Jira ID:</label>
+      <input type="text" name="jira_id" id="jira_id" required /><br />
+      <label for="user_id">User ID:</label>
+      <input type="text" name="user_id" id="user_id" required /><br />
+      <label for="story_point">Story Point:</label><br />
+      <div id="story-point-cards">
+        <div onclick="selectStoryPoint('XS')">XS</div>
+        <div onclick="selectStoryPoint('S')">S</div>
+        <div onclick="selectStoryPoint('M')">M</div>
+        <div onclick="selectStoryPoint('L')">L</div>
+        <div onclick="selectStoryPoint('XL')">XL</div>
+        
+      </div>
+      <input type="hidden" name="story_point" id="story_point" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      function selectStoryPoint(point) {
+        document.getElementById("story_point").value = point;
+      }
+    </script>
+  </body>
+</html>

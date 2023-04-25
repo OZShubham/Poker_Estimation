@@ -199,9 +199,9 @@ def scrum_master_view():
 
 
 
-@views.route('/t-shirt')
+'''@views.route('/t-shirt')
 def tshirt():
-    return render_template('t-shirt.html')
+    return render_template('t-shirt.html')'''
 
 @views.route('/')
 def home():
@@ -268,9 +268,9 @@ def grant_user_access():
         if not user:
             return jsonify({'error': 'User does not exist'}), 404
 
-        # Grant access to user by adding poker_board_id to User's list of granted_poker_boards
-        user['granted_poker_boards'] = []
-        user['granted_poker_boards'].append(poker_board_id)
+        # Grant access to user by adding poker_board_id to User's list of entitlement
+        user['entitlement'] = []
+        user['entitlement'].append(poker_board_id)
         datastore_client.put(user)
 
         flash(f'Access granted to user {user["name"]} for Poker Board {poker_board_id}', 'success')
@@ -315,4 +315,77 @@ def choose_jiraa_id():
         return redirect('/scrum_team_member_view')
     
     else:
-        return render_template('choose_jiraa_id.html')    
+        return render_template('choose_jiraa_id.html')  
+
+
+ 
+
+
+@views.route('/t_shirt', methods=['GET', 'POST'])
+def  t_shirt():
+    if 'email' not in session:
+        return redirect('/login')
+
+    if request.method == 'POST':
+        poker_board_id = request.form.get('poker_board_id')
+        jira_id = request.form.get('jira_id')
+        user_id = request.form.get('user_id')
+        story_point = request.form.get('story_point')
+       
+        # Retrieve email from session
+        email = session.get('email')
+
+        # Validate input data
+        if not poker_board_id or not jira_id or not user_id:
+            return 'Error: Missing required data in the request', 400
+
+        # Query Datastore for user with matching email
+        client = datastore.Client()
+        query = client.query(kind='User')
+        query.add_filter('email', '=', email)
+        result = list(query.fetch(limit=1))
+        if not result:
+            return 'Error: User not found', 404
+
+        # Update PokerBoard entity
+        entity_key = client.key('PokerBoard', poker_board_id)
+        entity = client.get(entity_key)
+        if not entity:
+            return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
+
+        jira_id = request.form.get('jira_id')
+        user_id = request.form.get('user_id')
+        story_point = request.form.get('story_point')
+        updated_estimate = False
+        updated_user = False
+        estimates = entity.get('estimates', [])
+
+        for estimate in estimates:
+            if estimate.get('jira_id') == jira_id:
+                users = estimate.get('users', [])
+                for user in users:
+                    if user.get('user_id') == user_id:
+                        user['story_point'] = story_point
+                        user['created_timestamp'] = datetime.datetime.utcnow()
+                        updated_user = True
+                        updated_estimate = True
+                        break
+
+                if not updated_user:
+                    users.append({'user_id': user_id, 'story_point': story_point,
+                                  'created_timestamp': datetime.datetime.utcnow()})
+                    estimate['users'] = users
+                    updated_estimate = True
+                break
+
+        if not updated_estimate:
+            estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point,
+                                                              'created_timestamp': datetime.datetime.utcnow()}]})
+
+        entity.update({'estimates': estimates, 'last_modified_timestamp': datetime.datetime.utcnow()})
+        client.put(entity)
+
+        return json.dumps(entity, default=str)
+
+    return render_template('t_shirt.html')
+    

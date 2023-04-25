@@ -48,6 +48,7 @@ def signup():
         user['password'] = hashed_password.decode('utf-8')
         datastore_client.put(user)
 
+        flash("Account Created Successfully!", "info")
         return redirect('/login')
 
     else:
@@ -115,7 +116,12 @@ def login():
                                 'message': 'Sign-in successful'}
                     flash("Logged In Successfully!", "info")
                     session["email"] = email  # creating session key
-                    return redirect('/create_poker_board')
+                    
+                    if user['user_role'] == 'scrum_master':
+                        return redirect('/scrum_master_landing')
+                    else:
+                        return redirect('/scrum_member_landing')
+
                 else:
                     # Passwords don't match, return error
                     flash("Incorrect Password!", "info")

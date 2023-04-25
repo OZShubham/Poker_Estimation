@@ -13,7 +13,7 @@ form.addEventListener('submit', (e) => {
 	} else {
 		alert('Invalid username or password. Please try again.');
 	}
-});*/
+});
 
 const form = document.querySelector('form');
 const emailInput = document.querySelector('#email');
@@ -54,5 +54,5 @@ form.addEventListener('submit', (e) => {
         console.error(error);
         // Update UI or perform error handling for failed login
     });
-});
+});*/
 

@@ -35,7 +35,7 @@ def create_poker_board():
             user_role = request.form.get('user_role')
             poker_board_type = request.form.get('poker_board_type')
         
-        if not team_id or not user_role or not poker_board_type:
+        if not team_id or not poker_board_type:
             return jsonify({'error': 'Bad Request. Required fields are missing in the request body.'}), 400
         
         '''def create_board_id(user_id):
@@ -60,7 +60,6 @@ def create_poker_board():
             'created_timestamp': datetime.datetime.utcnow(),
             'last_modified_timestamp': datetime.datetime.utcnow(),
             'team_id': team_id,
-            'user_role' : user_role,
             'status' : 'Created'
         }
 
@@ -155,7 +154,7 @@ def scrum_team_member_view():
 
         return json.dumps(entity, default=str)
 
-    return render_template('team_view.html')
+    return render_template('scrum_team_member_view.html')
 
 
 
@@ -211,7 +210,7 @@ def home():
 
 
 datastore_client = datastore.Client()
-@views.route('/all_boards')
+@views.route('/scrum_master_landing')
 def all_boards():
     query = datastore_client.query(kind='PokerBoard')
     boards = query.fetch()
@@ -226,8 +225,8 @@ from google.cloud import datastore
 # Create a Datastore client
 datastore_client = datastore.Client()
 
-@views.route('/grant_access', methods=['GET', 'POST'])
-def grant_access():
+@views.route('/grant_user_access', methods=['GET', 'POST'])
+def grant_user_access():
     if 'email' not in session:
         return redirect('/login')
     datastore_client = datastore.Client()
@@ -275,12 +274,45 @@ def grant_access():
         datastore_client.put(user)
 
         flash(f'Access granted to user {user["name"]} for Poker Board {poker_board_id}', 'success')
-        return redirect('/grant_access')
+        return redirect('/grant_user_access')
 
     # Render the HTML page for GET requests
     users_query = datastore_client.query(kind='User')
     users = list(users_query.fetch())
-    return render_template('grant_access.html', users=users)
+    return render_template('grant_user_access.html', users=users)
 
 
+@views.route('/poker_master_landing')
+def poker_master_landing():
+    return render_template('poker_master_landing.html')
 
+
+@views.route('/create_jira_id')
+def create_jira_id():
+    return render_template('create_jira_id.html')
+
+@views.route('/choose_jira_id', methods = ['GET','POST'])
+def choose_jira_id():
+    if request.method == "POST":
+        return redirect('/scrum_master_view')
+    
+    else:
+        return render_template('choose_jira_id.html')
+    
+
+@views.route('/scrum_member_landing', methods = ['GET','POST'])
+def scrum_member_landing():
+    if request.method == "POST":
+        return redirect('/choose_jiraa_id')
+    
+    else:
+        return render_template('scrum_member_landing.html')    
+    
+
+@views.route('/choose_jiraa_id', methods = ['GET','POST'])
+def choose_jiraa_id():
+    if request.method == "POST":
+        return redirect('/scrum_team_member_view')
+    
+    else:
+        return render_template('choose_jiraa_id.html')    

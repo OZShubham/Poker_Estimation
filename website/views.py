@@ -77,14 +77,7 @@ def create_poker_board():
     return jsonify({'error': 'Method not allowed'}), 405
 
 
-'''@views.route('/scrum_master_view')
-def go_to_scrum_master_view():
-    return render_template('scrum_master_view.html')'''
 
-
-'''@views.route('/scrum_team_member_view')
-def scrum_team_member_view():
-    return render_template('team_view.html')'''
 
 
 @views.route('/scrum_team_member_view', methods=['GET', 'POST'])
@@ -157,13 +150,13 @@ def scrum_team_member_view():
     return render_template('scrum_team_member_view.html')
 
 
-@views.route('/scrum_master_view', methods=['GET', 'POST'])
-def scrum_master_view():
+@views.route('/poker_estimates', methods=['GET', 'POST'])
+def poker_estimates():
     if 'email' not in session:
         return redirect('/login')
-    if request.method == 'POST':
-        poker_board_id = request.form.get('poker_board_id')
-        jira_id = request.form.get('jira_id')
+    else:
+        poker_board_id = session.get('poker_board_id')
+        jira_id = session.get('jira_id')
 
         if not poker_board_id or not jira_id:
             return 'Error: poker_board_id or jira_id field not provided in request.'
@@ -193,14 +186,10 @@ def scrum_master_view():
         # return render_template('scrum_master_view.html', estimate=estimate)
         return render_template('estimates.html', story_points=story_points)
 
-    else:
-        # Render the input form in form.html template
-        return render_template('scrum_master_view.html')
+    
 
 
-'''@views.route('/t-shirt')
-def tshirt():
-    return render_template('t-shirt.html')'''
+
 
 
 @views.route('/')
@@ -211,12 +200,16 @@ def home():
 datastore_client = datastore.Client()
 
 
-@views.route('/scrum_master_landing')
+@views.route('/scrum_master_landing', methods=['GET', 'POST'])
 def all_boards():
     query = datastore_client.query(kind='PokerBoard')
     boards = query.fetch()
-
-    return render_template('scrum_master_landing.html', boards=boards)
+    if request.method=='POST':
+        poker_board_id = request.form.get('poker_board_id')
+        session['poker_board_id'] = poker_board_id
+        return redirect('/choose_jira_id')
+    else:
+        return render_template('scrum_master_landing.html', boards=boards)
 
 
 # Create a Datastore client
@@ -295,11 +288,38 @@ def create_jira_id():
 
 @views.route('/choose_jira_id', methods=['GET', 'POST'])
 def choose_jira_id():
+    poker_board_id = session.get('poker_board_id')
+    # If poker_board_id is missing, return an error response
+    if not poker_board_id:
+        return 'Error: poker_board_id is required.', 400
+
+    # Initialize the Datastore client
+    client = datastore.Client()
+
+    # Create a query to fetch PokerBoard entities with the specified poker_board_id
+    query = client.query(kind='PokerBoard')
+    query.add_filter('poker_board_id', '=', poker_board_id)
+    results = list(query.fetch())
+
+    # Extract the jira_ids from the fetched entities
+    jira_ids = []
+    for result in results:
+        estimates = result.get('estimates', [])
+        for estimate in estimates:
+            jira_id = estimate.get('jira_id')
+            if jira_id:
+                
+               jira_ids.append(jira_id)
+
     if request.method == "POST":
-        return redirect('/scrum_master_view')
+        jira_id = request.form.get('jira_id')
+        session['jira_id'] = jira_id
+        print('jira_id:', jira_id)
+        return redirect('/poker_estimates')
 
     else:
-        return render_template('choose_jira_id.html')
+        return render_template('choose_jira_id.html', jira_ids=jira_ids)
+
 
 
 @views.route('/scrum_member_landing', methods=['GET', 'POST'])

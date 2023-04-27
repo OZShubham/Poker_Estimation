@@ -40,10 +40,10 @@
 
     <h1>Create Poker Board</h1>
 
-    <div class="left">
+    <form method="POST">
       <label for="poker_board_id">Select Poker Board Id:</label>
       <br />
-      <select name="poker_board_id_no">
+      <select name="poker_board_id">
         {% for board in boards %}
         <option value="{{ board['poker_board_id'] }}">
           {{ board['poker_board_id'] }}
@@ -52,15 +52,16 @@
       </select>
       <br />
 
-      <a href="{{ url_for('views.poker_master_landing') }}">
-        <button class="GFG">submit</button>
-      </a>
-    </div>
+     
+        <button  type="submit" class="GFG">submit</button>
+      
+    </form>
 
     <div class="right">
       <a href="{{ url_for('views.create_poker_board') }}">
         <button class="GFG">Click Here to create poker board</button>
       </a>
     </div>
+    
   </body>
 </html>

@@ -23,13 +23,16 @@
         </div>
     </nav>
 
-    <form method="post">
-        <label for="jira_title">Enter Jira Title: </label>
-        <input type="text" name="jira_title"></input>
-        <br>
-
-        <button type="submit">Choose</button>
+    <h1>Choose JIRA ID</h1>
+    <form method="POST">
+      <label for="jira_id">Select a JIRA ID:</label>
+      <select name="jira_id" id="jira_id">
+        {% for jira_id in jira_ids %}
+        <option value="{{ jira_id }}">{{ jira_id }}</option>
+        {% endfor %}
+      </select>
+      <br><br>
+      <button type="submit" >Submit</button>
     </form>
-
 </body>
 </html>

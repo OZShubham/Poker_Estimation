@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template,url_for,request,session,redirect,Flask,jsonify,flash
+from flask.views import MethodView
+from flask import jsonify, request
+from flask import Blueprint, render_template, url_for, request, session, redirect, Flask, jsonify, flash
 from google.cloud import datastore
 import json
 import datetime
@@ -12,32 +14,28 @@ from google.cloud import datastore
 views = Blueprint('views', __name__)
 
 
-
-
-
-
-
 @views.route('/create_poker_board')
 def go_to_board():
-    
+
     if 'email' not in session:
         return redirect('/login')
     return render_template('create_board.html')
 
-@views.route('/create_poker_board', methods=['GET','POST'])
+
+@views.route('/create_poker_board', methods=['GET', 'POST'])
 def create_poker_board():
     if request.method == 'POST':
         if 'email' not in session:
             return redirect('/login')
         else:
             email = session['email']
+            poker_board_name = request.form.get('poker_board_name')
             team_id = request.form.get('team_id')
-            user_role = request.form.get('user_role')
             poker_board_type = request.form.get('poker_board_type')
-        
+
         if not team_id or not poker_board_type:
             return jsonify({'error': 'Bad Request. Required fields are missing in the request body.'}), 400
-        
+
         '''def create_board_id(user_id):
             current_time = datetime.datetime.now().strftime("%d%m%y")
             board_id_str = "poker_board" + user_id + current_time
@@ -45,22 +43,25 @@ def create_poker_board():
             return hash_value'''
         def create_board_id(user_id):
             current_time = datetime.datetime.now().strftime("%d%m%y")
-            random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=8))  # Generate a random string of length 8
-            board_id_str =  user_id + current_time + random_string
+            # Generate a random string of length 8
+            random_string = ''.join(random.choices(
+                string.ascii_letters + string.digits, k=8))
+            board_id_str = user_id + current_time + random_string
             hash_value = hashlib.md5(board_id_str.encode('utf-8')).hexdigest()
             return hash_value
-        
+
         poker_board_id = create_board_id(email)
-        
+
         response_dict = {
-            'user_id' : email,
+            'user_id': email,
+            'poker_board_name': poker_board_name,
             'poker_board_id': poker_board_id,
             'poker_board_type': poker_board_type,
             'org_id': 'cognizant',
             'created_timestamp': datetime.datetime.utcnow(),
             'last_modified_timestamp': datetime.datetime.utcnow(),
             'team_id': team_id,
-            'status' : 'Created'
+            'status': 'Created'
         }
 
         # Save response_dict to Datastore
@@ -70,11 +71,10 @@ def create_poker_board():
         entity.update(response_dict)
         client.put(entity)
 
-        return redirect(url_for('views.scrum_team_member_view')) 
-    
+        return redirect(url_for('views.scrum_team_member_view'))
+
     # Return a default response for other request methods
     return jsonify({'error': 'Method not allowed'}), 405
-
 
 
 '''@views.route('/scrum_master_view')
@@ -85,7 +85,6 @@ def go_to_scrum_master_view():
 '''@views.route('/scrum_team_member_view')
 def scrum_team_member_view():
     return render_template('team_view.html')'''
-
 
 
 @views.route('/scrum_team_member_view', methods=['GET', 'POST'])
@@ -147,15 +146,15 @@ def scrum_team_member_view():
 
         if not updated_estimate:
             estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point,
-                                                              'created_timestamp': datetime.datetime.utcnow()}]})
+                                                             'created_timestamp': datetime.datetime.utcnow()}]})
 
-        entity.update({'estimates': estimates, 'last_modified_timestamp': datetime.datetime.utcnow()})
+        entity.update({'estimates': estimates,
+                      'last_modified_timestamp': datetime.datetime.utcnow()})
         client.put(entity)
 
         return json.dumps(entity, default=str)
 
     return render_template('scrum_team_member_view.html')
-
 
 
 @views.route('/scrum_master_view', methods=['GET', 'POST'])
@@ -165,17 +164,17 @@ def scrum_master_view():
     if request.method == 'POST':
         poker_board_id = request.form.get('poker_board_id')
         jira_id = request.form.get('jira_id')
-        
+
         if not poker_board_id or not jira_id:
             return 'Error: poker_board_id or jira_id field not provided in request.'
-        
+
         client = datastore.Client()
         entity_key = client.key('PokerBoard', poker_board_id)
         entity = client.get(entity_key)
-        
+
         if not entity:
             return 'Error: No entity found with given poker_board_id'
-        
+
         estimates = entity.get('estimates', [])
         story_points = []
         for estimate in estimates:
@@ -184,11 +183,12 @@ def scrum_master_view():
                 for user in users:
                     user_id = user.get('user_id')
                     story_point = user.get('story_point')
-                    story_points.append({'user_id': user_id,  'Story point': story_point})
+                    story_points.append(
+                        {'user_id': user_id,  'Story point': story_point})
 
         if not story_points:
             return 'Error: No estimate found with given jira_id'
-        
+
         # Render the retrieved data in scrum_master_view.html template
         # return render_template('scrum_master_view.html', estimate=estimate)
         return render_template('estimates.html', story_points=story_points)
@@ -198,55 +198,54 @@ def scrum_master_view():
         return render_template('scrum_master_view.html')
 
 
-
 '''@views.route('/t-shirt')
 def tshirt():
     return render_template('t-shirt.html')'''
+
 
 @views.route('/')
 def home():
     return render_template('home.html')
 
 
-
 datastore_client = datastore.Client()
+
+
 @views.route('/scrum_master_landing')
 def all_boards():
     query = datastore_client.query(kind='PokerBoard')
     boards = query.fetch()
 
-    return render_template('scrum_master_landing.html', boards=boards)   
+    return render_template('scrum_master_landing.html', boards=boards)
 
-
-from flask import jsonify, request
-from flask.views import MethodView
-from google.cloud import datastore
 
 # Create a Datastore client
 datastore_client = datastore.Client()
+
 
 @views.route('/grant_user_access', methods=['GET', 'POST'])
 def grant_user_access():
     if 'email' not in session:
         return redirect('/login')
     datastore_client = datastore.Client()
+    query = datastore_client.query(kind='PokerBoard')
+    boards = query.fetch()
     if request.method == 'POST':
         # Get data from form
         poker_board_id = request.form.get('poker_board_id')
-        query = datastore_client.query(kind='PokerBoard')
-        boards = query.fetch()
+
         # Retrieve email from session
         email = session.get('email')
 
         # Query Datastore for user with matching email
-        
+
         query = datastore_client.query(kind='User')
         query.add_filter('email', '=', email)
         result = list(query.fetch(limit=1))
         if not result:
             return 'Error: User not found', 404
         user = result[0]
-        
+
         # Check if user has Scrum Master role
         if user['email'] != email:
             return 'Error: chal gya', 401
@@ -269,17 +268,19 @@ def grant_user_access():
             return jsonify({'error': 'User does not exist'}), 404
 
         # Grant access to user by adding poker_board_id to User's list of entitlement
-        user['entitlement'] = []
+        if 'entitlement' not in user:
+            user['entitlement'] = []
         user['entitlement'].append(poker_board_id)
         datastore_client.put(user)
 
-        flash(f'Access granted to user {user["name"]} for Poker Board {poker_board_id}', 'success')
+        flash(
+            f'Access granted to user {user["name"]} for Poker Board {poker_board_id}', 'success')
         return redirect('/grant_user_access')
 
     # Render the HTML page for GET requests
     users_query = datastore_client.query(kind='User')
     users = list(users_query.fetch())
-    return render_template('grant_user_access.html', users=users)
+    return render_template('grant_user_access.html', users=users, boards=boards)
 
 
 @views.route('/poker_master_landing')
@@ -291,38 +292,50 @@ def poker_master_landing():
 def create_jira_id():
     return render_template('create_jira_id.html')
 
-@views.route('/choose_jira_id', methods = ['GET','POST'])
+
+@views.route('/choose_jira_id', methods=['GET', 'POST'])
 def choose_jira_id():
     if request.method == "POST":
         return redirect('/scrum_master_view')
-    
+
     else:
         return render_template('choose_jira_id.html')
-    
 
-@views.route('/scrum_member_landing', methods = ['GET','POST'])
+
+@views.route('/scrum_member_landing', methods=['GET', 'POST'])
 def scrum_member_landing():
+
+    datastore_client = datastore.Client()
+    email = session.get('email')
+
+
+    # Retrieve all entities of the User kind from Datastore
+    query = datastore_client.query(kind='User')
+    users = list(query.fetch())
+
+    # Filter the list of users based on the email from the session
+    users_with_matching_email = [user for user in users if user.get('email') == email]
+    for user in users_with_matching_email:
+        poker_board_ids = user.get('entitlement',[])
+
     if request.method == "POST":
         return redirect('/choose_jiraa_id')
-    
-    else:
-        return render_template('scrum_member_landing.html')    
-    
 
-@views.route('/choose_jiraa_id', methods = ['GET','POST'])
+    else:
+        return render_template('scrum_member_landing.html',poker_board_ids=poker_board_ids)
+
+
+@views.route('/choose_jiraa_id', methods = ['GET', 'POST'])
 def choose_jiraa_id():
     if request.method == "POST":
         return redirect('/scrum_team_member_view')
-    
+
     else:
-        return render_template('choose_jiraa_id.html')  
-
-
- 
+        return render_template('choose_jiraa_id.html')
 
 
 @views.route('/t_shirt', methods=['GET', 'POST'])
-def  t_shirt():
+def t_shirt():
     if 'email' not in session:
         return redirect('/login')
 
@@ -331,7 +344,7 @@ def  t_shirt():
         jira_id = request.form.get('jira_id')
         user_id = request.form.get('user_id')
         story_point = request.form.get('story_point')
-       
+
         # Retrieve email from session
         email = session.get('email')
 
@@ -380,7 +393,7 @@ def  t_shirt():
 
         if not updated_estimate:
             estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point,
-                                                              'created_timestamp': datetime.datetime.utcnow()}]})
+                                                             'created_timestamp': datetime.datetime.utcnow()}]})
 
         entity.update({'estimates': estimates, 'last_modified_timestamp': datetime.datetime.utcnow()})
         client.put(entity)
@@ -388,4 +401,3 @@ def  t_shirt():
         return json.dumps(entity, default=str)
 
     return render_template('t_shirt.html')
-    

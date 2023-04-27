@@ -30,7 +30,13 @@
     <h1>Grant Access</h1>
     <form method="post">
         <label for="poker_board_id">Poker Board ID:</label>
-        <input type="text" name="poker_board_id" id="poker_board_id" placeholder="Enter Poker Board ID" required>
+        <select name="poker_board_id" id="poker_board_id">
+          {% for board in boards %}
+          <option value="{{ board['poker_board_id'] }}">
+            {{ board['poker_board_name'] }}
+          </option>
+          {% endfor %}
+        </select>
         <br>
         <label for="user_id">User:</label>
         <select name="user_id" id="user_id">

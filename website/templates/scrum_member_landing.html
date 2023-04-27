@@ -26,9 +26,9 @@
     <form method="post">
         <label for="poker_board">Choose Poker Board: </label>
         <select name="poker_board_id_no">
-            {% for board in boards %}
-            <option value="{{ board['poker_board_id']}}">
-              {{ board['poker_board_id'] }}
+            {% for poker_board_id in poker_board_ids %}
+            <option value="{{ 'poker_board_id' }}">
+              {{ poker_board_id }}
             </option>
             {% endfor %}
         </select>

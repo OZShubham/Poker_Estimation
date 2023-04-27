@@ -325,70 +325,15 @@ def scrum_member_landing():
         return render_template('scrum_member_landing.html',poker_board_ids=poker_board_ids)
 
 
-'''@views.route('/choose_jiraa_id', methods = ['GET', 'POST'])
+@views.route('/choose_jiraa_id', methods = ['GET', 'POST'])
 def choose_jiraa_id():
     
     if request.method == "POST":
         return redirect('/scrum_team_member_view')
 
     else:
-        return render_template('choose_jiraa_id.html')'''
+        return render_template('choose_jiraa_id.html')
 
-'''@views.route('/choose_jiraa_id/<int:poker_board_id>', methods=['GET', 'POST'])
-def choose_jiraa_id():
-    datastore_client = datastore.Client()
-    email = session.get('email')
-
-    # Retrieve the user entity from Datastore based on the email from the session
-    query = datastore_client.query(kind='User')
-    query.add_filter('email', '=', email)
-    user = list(query.fetch())[0]
-
-    # Retrieve the JIRA IDs associated with the selected poker board ID from Datastore
-    poker_board_id = request.args.get('poker_board_id')
-    poker_board_query = datastore_client.query(kind='PokerBoard')
-    poker_board_query.add_filter('poker_board_id', '=', poker_board_id)
-    
-
-    if request.method == 'POST':
-        selected_jira_id = request.form['jira_id']
-        session['selected_jira_id'] = selected_jira_id
-        return redirect('/')
-
-    # Retrieve the estimates associated with the selected poker board and JIRA ID
-    estimates_query = datastore_client.query(kind='Estimate')
-    estimates_query.add_filter('poker_board_id', '=', poker_board_id)
-    estimates_query.add_filter('jira_id', '=', session.get('selected_jira_id', ''))
-    estimates = list(estimates_query.fetch())
-
-    return render_template('choose_jiraa_id.html', jira_ids=jira_ids, estimates=estimates)'''
-
-datastore_client = datastore.Client()
-@views.route('/choose_jiraa_id', methods=['GET', 'POST'])
-def choose_jiraa_id():
-    query = datastore_client.query(kind='PokerBoard')
-    boards = query.fetch()
-    poker_board_id = request.form.get('poker_board_id_no')
-    jira_ids = []
-
-    if request.method == 'POST' and poker_board_id:
-        client = datastore.Client()
-        entity_key = client.key('PokerBoard', poker_board_id)
-        entity = client.get(entity_key)
-        if not entity:
-            return 'Error: No entity found with given poker_board_id'
-
-        estimates = entity.get('estimates', [])
-        for estimate in estimates:
-            jira_id = estimate.get('jira_id')
-            if jira_id:
-                jira_ids.append(jira_id)
-
-        # Pass jira_ids and estimates to the template context
-        return render_template('choose_jiraa_id.html', jira_ids=jira_ids, estimates=estimates)
-    
-    # Render the template with an empty jira_ids list if it's a GET request
-    return render_template('choose_jiraa_id.html', jira_ids=jira_ids, estimates=[])
 
 
 

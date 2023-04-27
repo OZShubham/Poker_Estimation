@@ -18,6 +18,7 @@ def signup():
     if request.method == 'POST':
         # Get form data from request
         name = request.form['name']
+        user_id = request.form['email']
         email = request.form['email']
         user_role = request.form['user_role']
         password = request.form['password']
@@ -40,21 +41,23 @@ def signup():
         # Hash the password
 
         # Save new user to Datastore
-        user_key = datastore_client.key('User', email)
+        user_key = datastore_client.key('User', user_id)
         user = datastore.Entity(key=user_key)
         user['name'] = name
         user['email'] = email
+        user['user_id'] = user_id
         user['user_role'] = user_role
+        
         user['password'] = hashed_password.decode('utf-8')
         datastore_client.put(user)
-
+        
         flash("Account Created Successfully!", "info")
         return redirect('/login')
 
     else:
         if "email" in session:
             flash("Already Logged In!", "info")
-            return redirect('/scrum_team_member_view')
+            return redirect('/poker_master_landing')
 
         # Render the signup page for GET request
         return render_template('signup.html')

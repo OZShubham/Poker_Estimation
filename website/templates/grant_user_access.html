@@ -41,7 +41,7 @@
         <label for="user_id">User:</label>
         <select name="user_id" id="user_id">
             {% for user in users %}
-                <option value="{{ user.key.id }}">{{ user.name }} ({{ user.email }})</option>
+                <option value="{{ user.user_id }}">{{ user.name }} ({{ user.email }})</option>
             {% endfor %}
         </select>
         <br>

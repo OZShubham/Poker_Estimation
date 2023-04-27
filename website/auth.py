@@ -40,7 +40,7 @@ def signup():
         # Hash the password
 
         # Save new user to Datastore
-        user_key = datastore_client.key('User')
+        user_key = datastore_client.key('User', email)
         user = datastore.Entity(key=user_key)
         user['name'] = name
         user['email'] = email

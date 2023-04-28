@@ -115,17 +115,7 @@
     {% endfor %}
 
     <form method="post" action="/scrum_team_member_view">
-      <label for="poker_board_id">Poker Board ID:</label>
-      <input
-        type="text"
-        name="poker_board_id"
-        id="poker_board_id"
-        required
-      /><br />
-      <label for="jira_id">Jira ID:</label>
-      <input type="text" name="jira_id" id="jira_id" required /><br />
-      <label for="user_id">User ID:</label>
-      <input type="text" name="user_id" id="user_id" required /><br />
+      
       <label for="story_point">Story Point:</label><br />
       <div id="story-point-cards">
         <div onclick="selectStoryPoint(1)">1</div>

@@ -46,7 +46,7 @@
       <select name="poker_board_id">
         {% for board in boards %}
         <option value="{{ board['poker_board_id'] }}">
-          {{ board['poker_board_id'] }}
+          {{ board['poker_board_name'] }}
         </option>
         {% endfor %}
       </select>

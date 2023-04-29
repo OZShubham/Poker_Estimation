@@ -69,6 +69,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
+        <img id="logo" src="..//static/scrum team member view/cognizantlogo.jpg">
         <a class="navbar-brand" href="{{ url_for('views.home') }}">POKER</a>
         <button
           class="navbar-toggler"
@@ -93,13 +94,13 @@
 
     <header>
       <div>
-        <img
-          alt="logo"
-          src="../static/scrum team member view/cognizantlogo.jpg"
-        />
-        <h2>Poker Estimation</h2>
+        <label>JIRA ID :</label> 
+        <p>{{jira_id}}</p>
       </div>
-      <h3>USER STORY DESCRIPTION</h3>
+      <div>
+        <label>DESCRIPTION :</label> 
+        <p>{{jira_description}}</p>
+      </div>
     </header>
 
     {% for message in get_flashed_messages() %}

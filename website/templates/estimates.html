@@ -12,7 +12,26 @@
 
         h1 {
             text-align: center;
+
         }
+
+
+        header {
+  background-color: #007bff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+
+#logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+
+}
+
 
         #reveal-button {
             display: block;
@@ -102,18 +121,39 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
+          <img id="logo" src="..//static/scrum team member view/cognizantlogo.jpg">
           <a class="navbar-brand" href="{{ url_for('views.home') }}">POKER</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto">
-              <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
+              <a class="nav-link active" href="{{ url_for('auth.logout') }}"
+                >Log Out</a
+              >
             </div>
           </div>
         </div>
-    </nav>
-    
+      </nav>
+  
+      <header>
+        <div>
+          <label>JIRA ID :</label> 
+          <p>{{jira_id}}</p>
+        </div>
+        <div>
+          <label>DESCRIPTION :</label> 
+          <p>{{jira_description}}</p>
+        </div>
+      </header>
     
     <div class="card-container">
         {% for story_point in story_points %}

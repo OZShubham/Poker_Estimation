@@ -109,6 +109,7 @@ def login():
 
             if result:
                 user = result[0]
+                name= user.get('name')
                 # Retrieve hashed password from Datastore
                 hashed_password = user['password'].encode('utf-8')
 
@@ -119,7 +120,7 @@ def login():
                                 'message': 'Sign-in successful'}
                     flash("Logged In Successfully!", "info")
                     session["email"] = email  # creating session key
-                    
+                    session["name"] = name
                     if user['user_role'] == 'scrum_master':
                         return redirect('/scrum_master_landing')
                     else:

@@ -121,29 +121,19 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <img id="logo" src="..//static/scrum team member view/cognizantlogo.jpg">
-          <a class="navbar-brand" href="{{ url_for('views.home') }}">POKER</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ms-auto">
-              <a class="nav-link active" href="{{ url_for('auth.logout') }}"
-                >Log Out</a
-              >
+            <img class="logo img-fluid" src="../static/signup_page/ctslogo.svg" alt="Cognizant Technology Solutions" width="100" height="140">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="{{ url_for('views.home') }}">Home</a>
+                    <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
+                </div>
             </div>
-          </div>
         </div>
-      </nav>
-  
+    </nav>
+    
       <header>
         <div>
           <label>JIRA ID :</label> 
@@ -163,7 +153,7 @@
                         <img src ="..//static/Scrum Master View/cts_logo.jpg">
                     </div>
                     <div class="card-back">
-                        <h2>User ID: {{ story_point.user_id }}</h2>
+                        <h2> {{ story_point.user_name }}</h2>
                         <p>Story Point: {{ story_point['Story point'] }}</p>
                     </div>
                 </div>

@@ -106,6 +106,8 @@ def create_jira_id():
 def scrum_team_member_view():
     poker_board_id = session.get('poker_board_id')
     jira_id = session.get('jira_id')
+    name = session.get('name')
+    
     if 'email' not in session:
         return redirect('/login')
     
@@ -162,20 +164,21 @@ def scrum_team_member_view():
                 for user in users:
                     if user.get('user_id') == user_id:
                         user['story_point'] = story_point
+                        user['user_name'] = name
                         user['created_timestamp'] = datetime.datetime.utcnow()
                         updated_user = True
                         updated_estimate = True
                         break
 
                 if not updated_user:
-                    users.append({'user_id': user_id, 'story_point': story_point,
+                    users.append({'user_id': user_id, 'user_name':name, 'story_point': story_point,
                                   'created_timestamp': datetime.datetime.utcnow()})
                     estimate['users'] = users
                     updated_estimate = True
                 break
 
         if not updated_estimate:
-            estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point,
+            estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id,'user_name':name, 'story_point': story_point,
                                                              'created_timestamp': datetime.datetime.utcnow()}]})
 
         entity.update({'estimates': estimates,
@@ -184,7 +187,7 @@ def scrum_team_member_view():
 
         return redirect('/choose_jiraa_id')
 
-    return render_template('scrum_team_member_view.html',jira_description=jira_description,jira_id=jira_id)
+    return render_template('scrum_team_member_view.html',jira_description=jira_description,jira_id=jira_id,name=name)
 
 
 @views.route('/poker_estimates', methods=['GET', 'POST'])
@@ -194,6 +197,8 @@ def poker_estimates():
     else:
         poker_board_id = session.get('poker_board_id')
         jira_id = session.get('jira_id')
+        
+        
 
         if not poker_board_id or not jira_id:
             return 'Error: poker_board_id or jira_id field not provided in request.'
@@ -215,10 +220,11 @@ def poker_estimates():
                 
                 for user in users:
                     user_id = user.get('user_id')
+                    user_name = user.get('user_name')
                     story_point = user.get('story_point')
                     story_points.append(
-                        {'user_id': user_id,  'Story point': story_point})
-
+                        {'user_id': user_id, 'user_name':user_name,  'Story point': story_point})
+                print(story_points)
         if not story_points:
             return 'Error: No estimate found with given jira_id'
 
@@ -242,15 +248,33 @@ datastore_client = datastore.Client()
 
 @views.route('/scrum_master_landing', methods=['GET', 'POST'])
 def scrum_master_landing():
+
+    if 'email' not in session:
+        return redirect('/login')
+    
+    # Retrieve the user entity from Datastore based on the email in the session
+    query = datastore_client.query(kind='User')
+    query.add_filter('email', '=', session['email'])
+    result = list(query.fetch(limit=1))
+
+    if result:
+        user = result[0]
+        # Get the name of the logged in user
+        name = user.get('name')
+    else:
+        # User not found, return error
+        flash("Incorrect Email!", "info")
+        return redirect('/login')
+
     query = datastore_client.query(kind='PokerBoard')
     boards = query.fetch()
-    if request.method=='POST':
+    
+    if request.method == 'POST':
         poker_board_id = request.form.get('poker_board_id')
         session['poker_board_id'] = poker_board_id
         return redirect('/poker_master_landing')
     else:
-        return render_template('scrum_master_landing.html', boards=boards)
-
+        return render_template('scrum_master_landing.html', name=name, boards=boards)
 
 # Create a Datastore client
 datastore_client = datastore.Client()
@@ -287,6 +311,7 @@ def grant_user_access():
         poker_board_key = datastore_client.key('PokerBoard', poker_board_id)
         poker_board = datastore_client.get(poker_board_key)
         poker_board_name = poker_board.get('poker_board_name')
+        poker_board_type = poker_board.get('poker_board_type')
 
         # Check if PokerBoard entity exists
         if not poker_board:
@@ -304,7 +329,7 @@ def grant_user_access():
         # Grant access to user by adding poker_board_id to User's list of entitlement
         if 'entitlement' not in user:
             user['entitlement'] = []
-        user['entitlement'].append( {'poker_board_id': poker_board_id,  'poker_board_name': poker_board_name})
+        user['entitlement'].append( {'poker_board_id': poker_board_id, 'poker_board_type':poker_board_type,  'poker_board_name': poker_board_name})
         datastore_client.put(user)
 
         flash(
@@ -371,7 +396,13 @@ def scrum_member_landing():
 
     datastore_client = datastore.Client()
     email = session.get('email')
-    
+
+    # Retrieve the user's name from Datastore
+    query = datastore_client.query(kind='User')
+    query.add_filter('email', '=', email)
+    result = list(query.fetch())
+    name = result[0]['name'] if result else None #list comprehension
+    session['name'] = name
     # Retrieve all entities of the User kind from Datastore
     query = datastore_client.query(kind='User')
     users = list(query.fetch())
@@ -384,12 +415,19 @@ def scrum_member_landing():
     
     if request.method == "POST":
         poker_board_id = request.form['poker_board_id']
+        entity_key = datastore_client.key('PokerBoard', poker_board_id)
+        entity = datastore_client.get(entity_key)
+        poker_board_type = entity.get('poker_board_type')
         session['poker_board_id'] = poker_board_id
+        session['poker_board_type'] = poker_board_type
+        print(poker_board_type)
+
        
-        return redirect(url_for('views.choose_jiraa_id'))
+       
+        return redirect(url_for('views.choose_jiraa_id',name=name))
 
     else:
-        return render_template('scrum_member_landing.html', poker_boards=poker_boards, poker_board_id=session.get('poker_board_id'))
+        return render_template('scrum_member_landing.html', name=name, poker_boards=poker_boards, poker_board_id=session.get('poker_board_id'))
 
 
 
@@ -433,8 +471,12 @@ def choose_jiraa_id():
     if request.method == "POST":
         jira_id = request.form.get('jira_id')
         session['jira_id'] = jira_id
-        print('jira_id:', jira_id)
-        return redirect('/scrum_team_member_view')
+        poker_board_type =session.get('poker_board_type')
+        if poker_board_type == 'Fibonacci Number':
+            return redirect('/scrum_team_member_view')
+        else:
+            return redirect('/t_shirt')
+
 
     else:
         return render_template('choose_jiraa_id.html', jira_ids=jira_ids)

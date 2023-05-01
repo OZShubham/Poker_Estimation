@@ -11,20 +11,7 @@
             background-color: #f7f7f7;
         }
 
-        .navbar {
-            background-color: #333;
-        }
-
-        .navbar-brand {
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .navbar-nav .nav-link {
-            color: #fff;
-            margin-right: 15px;
-        }
-
+        
         .container-fluid {
             max-width: 1200px;
             margin: 0 auto;
@@ -38,6 +25,7 @@
 
         .button-container a {
             margin: 10px;
+            margin-top: 20px;
         }
 
         .button-container button {
@@ -54,22 +42,54 @@
             background-color: #0056b3;
             cursor: pointer;
         }
+        .navbar-custom {
+	background-color:  #e2a363; /* change background color */
+  }
+  
+  .navbar-custom .navbar-brand {
+	color: #fff; /* change brand text color */
+	font-weight: bold;
+	font-size: 24px;
+	display: flex;
+	align-items: center;
+  }
+  
+  .navbar-brand img {
+	width: 120px; /* increase width */
+	height: auto; /* maintain aspect ratio */
+	margin-right: 10px;
+  }
+  
+  .navbar-custom .navbar-nav .nav-link {
+	color: #fff; /* change nav link text color */
+	font-weight: bold;
+	font-size: 18px;
+	margin-left: 20px; /* add some spacing between nav links */
+  }
+  
+  .navbar-custom .navbar-nav .nav-link.active {
+	text-decoration: underline; /* add underline to active nav link */
+  }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark navbar-custom">
         <div class="container-fluid">
-          <a class="navbar-brand" href="{{ url_for('views.home') }}">POKER</a>
+          <a class="navbar-brand" href="{{ url_for('views.home') }}">
+            <img class="logo img-fluid" src="../static/signup_page/ctslogo.svg" alt="Cognizant Technology Solutions" width="100" height="140">
+            
+          </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto">
-              <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
+              <a class="nav-link active" href="{{ url_for('views.home') }}">Home</a>
+              <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
             </div>
           </div>
         </div>
-    </nav>
+      </nav>
 
     <div class="button-container">
         <a href="{{ url_for('views.create_jira_id') }}"><button>Create Jira Id</button></a>

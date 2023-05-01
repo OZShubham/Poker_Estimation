@@ -63,10 +63,40 @@ button[type="submit"] {
 button[type="submit"]:hover {
 	background-color: #3e8e41;
 }
-
+.navbar-custom {
+	background-color:  #e2a363; /* change background color */
+  }
+  
+  .navbar-custom .navbar-brand {
+	color: #fff; /* change brand text color */
+	font-weight: bold;
+	font-size: 24px;
+	display: flex;
+	align-items: center;
+  }
+  
+  .navbar-brand img {
+	width: 120px; /* increase width */
+	height: auto; /* maintain aspect ratio */
+	margin-right: 10px;
+  }
+  
+  .navbar-custom .navbar-nav .nav-link {
+	color: #fff; /* change nav link text color */
+	font-weight: bold;
+	font-size: 18px;
+	margin-left: 20px; /* add some spacing between nav links */
+  }
+  
+  .navbar-custom .navbar-nav .nav-link.active {
+	text-decoration: underline; /* add underline to active nav link */
+  }
+  
 /* Media Queries */
 @media screen and (max-width: 768px) {
 	.login-container {
 		max-width: 90%;
 	}
 }
+
+

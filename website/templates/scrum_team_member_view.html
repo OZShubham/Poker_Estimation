@@ -1,51 +1,3 @@
-<!--<!DOCTYPE html>
-<html>
-<head>
-    <title>Scrum Team Member View</title>
-    
-    <script type="text/javascript" src="{{ url_for('static', filename='scrum team member view/script.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='scrum team member view/style.css') }}">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    
-</head>
-<body>
-<header>
-    <div class="title-row">
-        <img class="logo" alt="logo" src="../static/scrum team member view/cognizantlogo.jpg">
-        <h2 class="name">Poker Estimation</h2>
-    </div>
-    <h3 class="sub-title">USER STORY DESCRIPTION</h3>
-</header>
-
-<form method="post" >
-    <label for="poker_board_id">Poker Board ID:</label>
-    <input type="text" name="poker_board_id" id="poker_board_id" required><br>
-    <label for="jira_id">Jira ID:</label>
-    <input type="text" name="jira_id" id="jira_id" required><br>
-    <label for="user_id">User ID:</label>
-    <input type="text" name="user_id" id="user_id" required><br>
-    <label for="story_point">Story Point:</label><br>
-    <div id="story-point-cards">
-        <div class="story-point-card" data-value="1">1</div>
-        <div class="story-point-card" data-value="2">2</div>
-        <div class="story-point-card" data-value="3">3</div>
-        <div class="story-point-card" data-value="5">5</div>
-        <div class="story-point-card" data-value="8">8</div>
-        <div class="story-point-card" data-value="13">13</div>
-        <div class="story-point-card" data-value="20">20</div>
-        <div class="story-point-card" data-value="40">40</div>
-        <div class="story-point-card" data-value="100">100</div>
-    </div>
-    <input type="hidden" id="story_point" name="story_point" value="">
-    
-    <button type="submit">VOTE</button>
-
-</form>
-
-</body>
-</html>-->
 <!DOCTYPE html>
 <html>
   <head>
@@ -71,6 +23,7 @@
       <div class="container-fluid">
         <img id="logo" src="..//static/scrum team member view/cognizantlogo.jpg">
         <a class="navbar-brand" href="{{ url_for('views.home') }}">POKER</a>
+        
         <button
           class="navbar-toggler"
           type="button"
@@ -84,24 +37,27 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav ms-auto">
-            <a class="nav-link active" href="{{ url_for('auth.logout') }}"
-              >Log Out</a
-            >
+            <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
+            <p class= "navbar-brand">{{ name }} </p>
           </div>
         </div>
       </div>
     </nav>
 
-    <header>
-      <div>
-        <label>JIRA ID :</label> 
-        <p>{{jira_id}}</p>
+    <header class="header">
+      <div class="header__jira">
+        <span class="header__label">JIRA ID:</span>
+        <span class="header__value">{{jira_id}}</span>
       </div>
-      <div>
-        <label>DESCRIPTION :</label> 
-        <p>{{jira_description}}</p>
+     
+      <div class="header__description">
+        <span class="header__label">DESCRIPTION:</span>
+        <span class="header__description-value">
+          {{jira_description}}</span>
+        </div>
       </div>
     </header>
+    
 
     {% for message in get_flashed_messages() %}
     <div class="alert alert-success alert-dismissible show" role="alert">
@@ -134,8 +90,14 @@
 
     <script>
       function selectStoryPoint(point) {
-        document.getElementById("story_point").value = point;
-      }
+  var cards = document.querySelectorAll("#story-point-cards > div");
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove("selected");
+  }
+  document.getElementById("story_point").value = point;
+  event.target.classList.add("selected");
+}
+
     </script>
   </body>
 </html>

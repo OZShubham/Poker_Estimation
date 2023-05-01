@@ -23,81 +23,181 @@
     ></script>
 
     <style>
-    /* Add custom styles here */
-    body {
-      padding: 20px;
-    }
-    
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    
-    form {
-      max-width: 400px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-    
-    select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    
-    .GFG {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 5px;
-      background-color: #4CAF50;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    
-    .GFG:hover {
-      background-color: #45a049;
-    }
-    
-    .right {
-      text-align: right;
-      margin-top: 30px;
-    }
-    
-    /* Add more styles as needed */
-  </style>
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: #f5f5f5;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  background-color: #333;
+  padding: 0 20px;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+}
+
+nav a {
+  font-size: 1.2rem;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  color: #a5a3a1;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f5f5f5;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+select:hover, select:focus {
+  outline: none;
+  background-color: #eee;
+}
+
+button.GFG {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color:#7f7e84;
+  color: white;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button.GFG:hover {
+  background-color:  #e2a363; ;
+}
+
+.right {
+  text-align: right;
+  margin-top: 30px;
+}
+.navbar-custom {
+	background-color:  #e2a363; /* change background color */
+  }
+  
+  .navbar-custom .navbar-brand {
+	color: #fff; /* change brand text color */
+	font-weight: bold;
+	font-size: 24px;
+	display: flex;
+	align-items: center;
+  }
+  
+  .navbar-brand img {
+	width: 120px; /* increase width */
+	height: auto; /* maintain aspect ratio */
+	margin-right: 10px;
+  }
+  
+  .navbar-custom .navbar-nav .nav-link {
+	color: #fff; /* change nav link text color */
+	font-weight: bold;
+	font-size: 18px;
+	margin-left: 20px; /* add some spacing between nav links */
+  }
+  
+  .navbar-custom .navbar-nav .nav-link.active {
+	text-decoration: underline; /* add underline to active nav link */
+  }
+  
+/* Media Queries */
+@media screen and (max-width: 768px) {
+	.login-container {
+		max-width: 90%;
+	}
+}
+
+
+/* Add more styles as needed */
+
+      
+      /* Add more styles as needed */
+    </style>
   </head>
   <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark navbar-custom">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('views.home') }}">POKER</a>
+        <a class="navbar-brand" href="{{ url_for('views.home') }}">
+          <img class="logo img-fluid" src="../static/signup_page/ctslogo.svg" alt="Cognizant Technology Solutions" width="100" height="140">
+          
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav ms-auto">
-            <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
+            <a class="nav-link active" href="{{ url_for('views.home') }}">Home</a>
+            <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
           </div>
         </div>
       </div>
     </nav>
+    
 
-    <h1>Create Poker Board</h1>
+    <h1>Welcome {{ name }}</h1>
 
     <form method="POST">
-      <label for="poker_board_id">Select Poker Board Id:</label>
+      <label for="poker_board_id">Select Poker Board </label>
       <br />
       <select name="poker_board_id">
         {% for board in boards %}
@@ -115,9 +215,9 @@
 
     <div class="right">
       <a href="{{ url_for('views.create_poker_board') }}">
-        <button class="GFG">Click Here to create poker board</button>
-      </a>
-    </div>
+        <button class="GFG">
+          <span>Create Poker Board</span>
+        </button>
     
   </body>
 </html>

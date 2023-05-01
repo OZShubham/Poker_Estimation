@@ -10,92 +10,126 @@
 </head>
 <style>
   body {
-      background-color: #f5f5f5;
-      font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-top: 50px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+form {
+  width: 50%;
+  margin: auto;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0069d9;
+}
+
+.navbar-custom {
+  background-color:  #e2a363;
+}
+
+.navbar-custom .navbar-brand {
+  color: #080808;
+  font-weight: bold;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand img {
+  width: 140px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 20px;
+}
+
+.navbar-custom .navbar-nav .nav-link.active {
+  text-decoration: underline;
+}
+
+.jira-container {
+  background-color: white;
+  margin: 10% auto;
+  max-width: 400px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+  .login-container {
+    max-width: 90%;
   }
-  
-  .navbar {
-      background-color: #343a40;
-  }
-  
-  .navbar-brand {
-      font-weight: bold;
-      font-size: 2rem;
-  }
-  
-  .navbar-nav .nav-link {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-left: 10px;
-  }
-  
-  h1 {
-      margin-top: 50px;
-      margin-bottom: 30px;
-      text-align: center;
-      font-size: 3rem;
-      font-weight: bold;
-  }
-  
-  form {
-      width: 50%;
-      margin: auto;
-      border: 1px solid #ddd;
-      padding: 20px;
-      border-radius: 10px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  }
-  
-  label {
-      font-size: 1.2rem;
-      font-weight: bold;
-      display: block;
-      margin-bottom: 10px;
-  }
-  
-  select {
-      width: 100%;
-      padding: 10px;
-      font-size: 1.2rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-bottom: 20px;
-  }
-  
-  button[type="submit"] {
-      background-color: #007bff;
-      color: #fff;
-      font-size: 1.2rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-  }
-  
-  button[type="submit"]:hover {
-      background-color: #0069d9;
-  }
+}
+
+
 </style>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="{{ url_for('views.home') }}">POKER</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ms-auto">
-              <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
-            </div>
-          </div>
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('views.home') }}">
+        <img class="logo img-fluid" src="../static/signup_page/ctslogo.svg" alt="Cognizant Technology Solutions" width="100" height="140">
+        
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link active" href="{{ url_for('views.home') }}">Home</a>
+          <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
         </div>
-    </nav>
-
-    <h1>Choose JIRA ID</h1>
-    <form method="POST">
+      </div>
+    </div>
+  </nav>
+	
+    
+    <form class="jira-container" method="POST">
       <label for="jira_id">Select a JIRA ID:</label>
       <select name="jira_id" id="jira_id">
         {% for jira_id in jira_ids %}
@@ -105,5 +139,6 @@
       <br><br>
       <button type="submit" >Submit</button>
     </form>
+    
 </body>
 </html>

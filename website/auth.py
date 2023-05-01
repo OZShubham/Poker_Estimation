@@ -144,7 +144,7 @@ def login():
     else:
         if "email" in session:
             flash("Already Logged In!", "info")
-            return redirect('/scrum_team_member_view')
+            return redirect('/logout')
 
         return render_template('login.html')
 

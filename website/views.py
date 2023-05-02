@@ -5,7 +5,6 @@ from google.cloud import datastore
 import json
 import datetime
 import hashlib
-from website import user_event
 import random
 import string
 from google.cloud import datastore
@@ -13,6 +12,23 @@ from google.cloud import datastore
 
 views = Blueprint('views', __name__)
 
+def user_event(event):
+
+    user_id = session.get('email')
+
+    response = {
+        'user_id' : user_id,
+        'event_type' : event,
+        'created_timestamp' : datetime.datetime.utcnow()
+    }
+    
+    client = datastore.Client()
+    entity_key = client.key('UserEvent')
+    entity = datastore.Entity(key=entity_key)
+    entity.update(response)
+    client.put(entity)
+
+    return
 
 @views.route('/create_poker_board')
 def go_to_board():
@@ -71,6 +87,10 @@ def create_poker_board():
         entity.update(response_dict)
         client.put(entity)
 
+        # Calling the function to log the event.
+        event = 'created poker board'
+        user_event(event)
+
         return redirect('/scrum_master_landing')
 
     # Return a default response for other request methods
@@ -94,6 +114,10 @@ def create_jira_id():
         entity.update({'estimates': estimates,
                       'last_modified_timestamp': datetime.datetime.utcnow()})
         client.put(entity)
+
+        event = 'created jira id'
+        user_event(event)
+
         return redirect('/scrum_master_landing')
     
     else:
@@ -104,6 +128,10 @@ def create_jira_id():
 
 @views.route('/scrum_team_member_view', methods=['GET', 'POST'])
 def scrum_team_member_view():
+
+    event = 'on scrum team member view'
+    user_event(event)
+
     poker_board_id = session.get('poker_board_id')
     jira_id = session.get('jira_id')
     name = session.get('name')
@@ -195,6 +223,10 @@ def poker_estimates():
     if 'email' not in session:
         return redirect('/login')
     else:
+
+        event = 'on poker estimates'
+        user_event(event)
+
         poker_board_id = session.get('poker_board_id')
         jira_id = session.get('jira_id')
         
@@ -240,6 +272,10 @@ def poker_estimates():
 
 @views.route('/')
 def home():
+
+    #event = 'on home page'
+    #user_event(event)
+
     return render_template('home.html')
 
 
@@ -251,6 +287,9 @@ def scrum_master_landing():
 
     if 'email' not in session:
         return redirect('/login')
+    
+    event = 'on scrum master landing'
+    user_event(event)
     
     # Retrieve the user entity from Datastore based on the email in the session
     query = datastore_client.query(kind='User')
@@ -284,6 +323,10 @@ datastore_client = datastore.Client()
 def grant_user_access():
     if 'email' not in session:
         return redirect('/login')
+    
+    event = 'on grant user access'
+    user_event(event)
+
     datastore_client = datastore.Client()
     query = datastore_client.query(kind='PokerBoard')
     boards = query.fetch()
@@ -334,6 +377,10 @@ def grant_user_access():
 
         flash(
             f'Access granted to user {user["name"]} for Poker Board {poker_board_id}', 'success')
+        
+        event = 'user access granted'
+        user_event(event)
+
         return redirect('/grant_user_access')
 
     # Render the HTML page for GET requests
@@ -344,14 +391,19 @@ def grant_user_access():
 
 @views.route('/poker_master_landing')
 def poker_master_landing():
+
+    event = 'on poker master landing'
+    user_event(event)
+
     return render_template('poker_master_landing.html')
-
-
-
 
 
 @views.route('/choose_jira_id', methods=['GET', 'POST'])
 def choose_jira_id():
+
+    event = 'on choose jira id'
+    user_event(event)
+
     datastore_client = datastore.Client()
     query = datastore_client.query(kind='PokerBoard')
     boards = query.fetch()
@@ -394,6 +446,9 @@ def choose_jira_id():
 @views.route('/scrum_member_landing', methods=['GET', 'POST'])
 def scrum_member_landing():
 
+    event = 'on scrum member landing'
+    user_event(event)
+
     datastore_client = datastore.Client()
     email = session.get('email')
 
@@ -431,19 +486,12 @@ def scrum_member_landing():
 
 
 
-
-'''@views.route('/choose_jiraa_id', methods = ['GET', 'POST'])
-def choose_jiraa_id():
-    
-    if request.method == "POST":
-        return redirect('/scrum_team_member_view')
-        
-    else:
-        return render_template('choose_jiraa_id.html')'''
-
-
 @views.route('/choose_jiraa_id', methods=['GET', 'POST'])
 def choose_jiraa_id():
+
+    event = 'on choose jira id (scrum member)'
+    user_event(event)
+
     # Get the Datastore client
     client = datastore.Client()
 
@@ -487,6 +535,10 @@ def choose_jiraa_id():
 
 @views.route('/t_shirt', methods=['GET', 'POST'])
 def t_shirt():
+
+    event = 'on t-shirt view'
+    user_event(event)
+
     if 'email' not in session:
         return redirect('/login')
 

@@ -34,23 +34,20 @@ body {
 	
 	height: 500px;
 	padding: 20px;
-	float: right;
+	float: center;
   }
   
   .container {
-	height: 500px;
-	width: 40%;
+	height: 150px;
+	width: 25%;
+	margin-top: 100px;
 	background-color: #fff;
 	border-radius: 10px;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-	margin-right: 0px;
+	
   }
   
-  .container p {
-	font-size: 18px;
-	line-height: 1.5;
-	margin-bottom: 100px;
-  }
+  
   
   /* Button styles */
   .btn {
@@ -98,4 +95,17 @@ body {
   .footer-link:hover {
 	text-decoration: underline;
   }
+
+  @media screen and (max-width: 768px) {
+	.container {
+	  width: 80%;
+	  margin-top: 50px;
+	}
+	
+	.main-wrapper {
+	  height: auto;
+	  padding: 10px;
+	}
+  }
+  
   

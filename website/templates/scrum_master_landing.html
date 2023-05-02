@@ -64,14 +64,20 @@ nav a:hover {
   color: #a5a3a1;
 }
 
-h1 {
+.welcome {
   text-align: center;
   font-size: 2rem;
   margin-top: 50px;
   margin-bottom: 30px;
-  text-transform: uppercase;
+  
   letter-spacing: 2px;
 }
+
+.name {
+  text-transform: uppercase;
+}
+
+
 
 form {
   max-width: 600px;
@@ -129,14 +135,16 @@ select:hover, select:focus {
       }
 
       .custom-button:hover {
-        background-color: #e2a363;
+        color: white;
+        
+        background-color:  #130665;
       }
 .right {
   text-align: right;
   margin-top: 30px;
 }
 .navbar-custom {
-	background-color:  #e2a363; /* change background color */
+	background-color:  #130665; /* change background color */
   }
   
   .navbar-custom .navbar-brand {
@@ -160,9 +168,7 @@ select:hover, select:focus {
 	margin-left: 20px; /* add some spacing between nav links */
   }
   
-  .navbar-custom .navbar-nav .nav-link.active {
-	text-decoration: underline; /* add underline to active nav link */
-  }
+  
   
 /* Media Queries */
 @media screen and (max-width: 768px) {
@@ -183,7 +189,7 @@ select:hover, select:focus {
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark navbar-custom">
       <div class="container-fluid">
         <a class="navbar-brand" href="{{ url_for('views.home') }}">
-          <img class="logo img-fluid" src="../static/signup_page/ctslogo.svg" alt="Cognizant Technology Solutions" width="100" height="140">
+          <img class="logo img-fluid" src="../static/signup_page/ctslogo.png" alt="Cognizant Technology Solutions" width="100" height="140">
           
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -197,9 +203,11 @@ select:hover, select:focus {
         </div>
       </div>
     </nav>
-    
+    <div class="welcome">Welcome,  <span class="name">{{ name }} </span>
 
-    <h1>Welcome {{ name }}</h1>
+    </div>
+
+   
 
     <form method="POST">
       <label for="poker_board_id">Select Poker Board </label>
@@ -214,7 +222,7 @@ select:hover, select:focus {
       <br />
 
      
-        <button  type="submit" class="GFG">submit</button>
+        <button  type="submit" class="btn btn-success">Select</button>
       
     </form>
 

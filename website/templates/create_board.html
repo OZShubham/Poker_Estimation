@@ -10,19 +10,24 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark navbar-custom">
         <div class="container-fluid">
-          <a class="navbar-brand" href="{{ url_for('views.home') }}">POKER</a>
+          <a class="navbar-brand" href="{{ url_for('views.home') }}">
+            <img class="logo img-fluid" src="../static/signup_page/ctslogo.png" alt="Cognizant Technology Solutions" width="100" height="140">
+            
+          </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto">
-              <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
+              <a class="nav-link active" href="{{ url_for('views.home') }}">Home</a>
+              <a class="nav-link active" href="{{ url_for('auth.logout') }}">Logout</a>
             </div>
           </div>
         </div>
-    </nav>
+      </nav>
+
     {% for message in get_flashed_messages() %}
       <div class="alert alert-success alert-dismissible show" role="alert">
           {{message}}
@@ -30,14 +35,7 @@
       </div>
     {% endfor %}
     
-        <div class="dark-header-grid">
-            <div class="content">
-                <div class="title-row">
-                    <img class="logo" alt="logo" src="../static/create_poker_board/cognizantlogo.jpg">
-                    <h1 class="name">Poker Estimation</h1>
-                </div>
-            </div>
-        </div>
+        
     
     
     <form class="box"  method="post">

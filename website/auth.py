@@ -94,6 +94,8 @@ def reset_password():
             else:
                 return 'Email not found', 404
 
+        else:
+            return render_template('reset_password.html')
    
 
 

@@ -10,27 +10,45 @@
             background-color: #f5f5f5;
         }
 
-        h1 {
-            text-align: center;
+        .navbar-custom {
+      background-color:  #130665;
+    }
+    
+    .navbar-custom .navbar-brand {
+      color: #080808;
+      font-weight: bold;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .navbar-brand img {
+      width: 140px;
+      height: auto;
+      margin-right: 10px;
+    }
+    
+    .navbar-custom .navbar-nav .nav-link {
+      color: #fff;
+      font-weight: bold;
+      font-size: 18px;
+      margin-left: 20px;
+    }
+    
 
-        }
 
-
-        header {
+  header {
   background-color: #007bff;
   padding: 20px;
-  display: flex;
+  margin-top: 55px;
+  display: fixed;
   justify-content: space-between;
   align-items: center;
   color: #fff;
 }
 
-#logo {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
 
-}
+
 
 
         #reveal-button {
@@ -119,29 +137,36 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark navbar-custom">
         <div class="container-fluid">
-            <img class="logo img-fluid" src="../static/signup_page/ctslogo.svg" alt="Cognizant Technology Solutions" width="100" height="140">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" href="{{ url_for('views.home') }}">Home</a>
-                    <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
-                </div>
+          <a class="navbar-brand" href="{{ url_for('views.home') }}">
+            <img class="logo img-fluid" src="../static/signup_page/ctslogo.png" alt="Cognizant Technology Solutions" width="100" height="140">
+            
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto">
+              <a class="nav-link active" href="{{ url_for('views.home') }}">Home</a>
+              <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
             </div>
+          </div>
         </div>
-    </nav>
+      </nav>
+
     
-      <header>
-        <div>
-          <label>JIRA ID :</label> 
-          <p>{{jira_id}}</p>
+      <header class="header">
+        <div class="header__jira">
+          <span class="header__label">JIRA ID:</span>
+          <span class="header__value">{{jira_id}}</span>
         </div>
-        <div>
-          <label>DESCRIPTION :</label> 
-          <p>{{jira_description}}</p>
+       
+        <div class="header__description">
+          <span class="header__label">DESCRIPTION:</span>
+          <span class="header__description-value">
+            {{jira_description}}</span>
+          </div>
         </div>
       </header>
     

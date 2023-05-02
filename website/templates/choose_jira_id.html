@@ -58,6 +58,7 @@ button[type="submit"] {
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-left: 125px;
 }
 
 button[type="submit"]:hover {
@@ -65,7 +66,7 @@ button[type="submit"]:hover {
 }
 
 .navbar-custom {
-  background-color:  #e2a363;
+  background-color:  #130665;
 }
 
 .navbar-custom .navbar-brand {
@@ -89,9 +90,7 @@ button[type="submit"]:hover {
   margin-left: 20px;
 }
 
-.navbar-custom .navbar-nav .nav-link.active {
-  text-decoration: underline;
-}
+
 
 .jira-container {
   background-color: white;
@@ -113,7 +112,7 @@ button[type="submit"]:hover {
   <nav class="navbar navbar-expand-lg fixed-top navbar-dark navbar-custom">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{ url_for('views.home') }}">
-        <img class="logo img-fluid" src="../static/signup_page/ctslogo.svg" alt="Cognizant Technology Solutions" width="100" height="140">
+        <img class="logo img-fluid" src="../static/signup_page/ctslogo.png" alt="Cognizant Technology Solutions" width="100" height="140">
         
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,7 +121,7 @@ button[type="submit"]:hover {
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
           <a class="nav-link active" href="{{ url_for('views.home') }}">Home</a>
-          <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+          <a class="nav-link active" href="{{ url_for('auth.logout') }}">Logout</a>
         </div>
       </div>
     </div>
@@ -137,7 +136,7 @@ button[type="submit"]:hover {
         {% endfor %}
       </select>
       <br><br>
-      <button type="submit" >Submit</button>
+      <button type="submit" >Select</button>
     </form>
     
 </body>

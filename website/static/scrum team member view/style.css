@@ -21,13 +21,14 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #333;
+  background-color: #130665;
   color: #fff;
   padding: 1rem;
 }
 
 nav img {
-  height: 40px;
+  width: 140px;
+  height: auto;
   margin-right: 20px;
 }
 
@@ -43,6 +44,7 @@ nav a {
   color: #FFFFFF;
   padding: 1.5rem;
   margin: 1rem;
+  margin-top: 80px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

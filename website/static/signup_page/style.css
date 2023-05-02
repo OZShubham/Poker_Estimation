@@ -70,7 +70,7 @@ button[type="submit"]:hover {
 	background-color: #3e8e41;
 }
 .navbar-custom {
-	background-color:  #e2a363; /* change background color */
+	background-color:  #130665; /* change background color */
   }
   
   .navbar-custom .navbar-brand {
@@ -94,13 +94,38 @@ button[type="submit"]:hover {
 	margin-left: 20px; /* add some spacing between nav links */
   }
   
-  .navbar-custom .navbar-nav .nav-link.active {
-	text-decoration: underline; /* add underline to active nav link */
-  }
   
-/* Media Queries */
+  
+
+
 @media screen and (max-width: 768px) {
-	.login-container {
-		max-width: 90%;
+	@media only screen and (max-width: 768px) {
+		.login-container {
+			max-width: 90%;
+			margin: 10% auto;
+		}
 	}
-}
+	
+	label {
+	font-size: 16px;
+	}
+	
+	input {
+	padding: 8px;
+	margin-bottom: 15px;
+	}
+	
+	button[type="submit"] {
+	padding: 8px;
+	}
+	
+	.navbar-brand img {
+	width: 100px;
+	margin-right: 5px;
+	}
+	
+	.navbar-custom .navbar-nav .nav-link {
+	font-size: 16px;
+	margin-left: 10px;
+	}
+	}

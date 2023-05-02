@@ -52,11 +52,7 @@ def create_poker_board():
         if not team_id or not poker_board_type:
             return jsonify({'error': 'Bad Request. Required fields are missing in the request body.'}), 400
 
-        '''def create_board_id(user_id):
-            current_time = datetime.datetime.now().strftime("%d%m%y")
-            board_id_str = "poker_board" + user_id + current_time
-            hash_value = hashlib.md5(board_id_str.encode('utf-8')).hexdigest()
-            return hash_value'''
+        
         def create_board_id(user_id):
             current_time = datetime.datetime.now().strftime("%d%m%y")
             # Generate a random string of length 8
@@ -539,13 +535,29 @@ def t_shirt():
     event = 'on t-shirt view'
     user_event(event)
 
+    poker_board_id = session.get('poker_board_id')
+    jira_id = session.get('jira_id')
+    name = session.get('name')
+    
     if 'email' not in session:
         return redirect('/login')
+    
+    client = datastore.Client()
+    entity_key = client.key('PokerBoard', poker_board_id)
+    entity = client.get(entity_key)
+    if not entity:
+        return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
+    
+    estimates = entity.get('estimates', [])
+
+    for estimate in estimates:
+        if estimate.get('jira_id') == jira_id:
+             jira_description = estimate.get('jira_description')
 
     if request.method == 'POST':
-        poker_board_id = request.form.get('poker_board_id')
-        jira_id = request.form.get('jira_id')
-        user_id = request.form.get('user_id')
+        
+        user_id = session.get('email')
+        
         story_point = request.form.get('story_point')
 
         # Retrieve email from session
@@ -569,8 +581,8 @@ def t_shirt():
         if not entity:
             return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
 
-        jira_id = request.form.get('jira_id')
-        user_id = request.form.get('user_id')
+        
+        user_id = session.get('email')
         story_point = request.form.get('story_point')
         updated_estimate = False
         updated_user = False
@@ -579,28 +591,31 @@ def t_shirt():
         for estimate in estimates:
             if estimate.get('jira_id') == jira_id:
                 users = estimate.get('users', [])
+               
                 for user in users:
                     if user.get('user_id') == user_id:
                         user['story_point'] = story_point
+                        user['user_name'] = name
                         user['created_timestamp'] = datetime.datetime.utcnow()
                         updated_user = True
                         updated_estimate = True
                         break
 
                 if not updated_user:
-                    users.append({'user_id': user_id, 'story_point': story_point,
+                    users.append({'user_id': user_id, 'user_name':name, 'story_point': story_point,
                                   'created_timestamp': datetime.datetime.utcnow()})
                     estimate['users'] = users
                     updated_estimate = True
                 break
 
         if not updated_estimate:
-            estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id, 'story_point': story_point,
+            estimates.append({'jira_id': jira_id, 'users': [{'user_id': user_id,'user_name':name, 'story_point': story_point,
                                                              'created_timestamp': datetime.datetime.utcnow()}]})
 
-        entity.update({'estimates': estimates, 'last_modified_timestamp': datetime.datetime.utcnow()})
+        entity.update({'estimates': estimates,
+                      'last_modified_timestamp': datetime.datetime.utcnow()})
         client.put(entity)
 
-        return json.dumps(entity, default=str)
+        return redirect('/choose_jiraa_id')
 
-    return render_template('t_shirt.html')
+    return render_template('t_shirt.html',jira_description=jira_description,jira_id=jira_id,name=name)

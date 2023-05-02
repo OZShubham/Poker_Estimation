@@ -1,5 +1,5 @@
 /* Reset some default styles */
-body, h1, h2, h3, h4, h5, h6, p, ul, ol {
+body {
 	margin: 0;
 	padding: 0;
   }
@@ -32,12 +32,13 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol {
   /* Main wrapper styles */
   .main-wrapper {
 	
-	
+	height: 500px;
 	padding: 20px;
 	float: right;
   }
   
   .container {
+	height: 500px;
 	width: 40%;
 	background-color: #fff;
 	border-radius: 10px;
@@ -48,7 +49,7 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol {
   .container p {
 	font-size: 18px;
 	line-height: 1.5;
-	margin-bottom: 20px;
+	margin-bottom: 100px;
   }
   
   /* Button styles */

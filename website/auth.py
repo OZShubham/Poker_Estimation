@@ -57,8 +57,10 @@ def signup():
     else:
         if "email" in session:
             flash("Already Logged In!", "info")
-            return redirect('/poker_master_landing')
 
+            return redirect('/poker_master_landing')
+            
+        
         # Render the signup page for GET request
         return render_template('signup.html')
 
@@ -121,6 +123,11 @@ def login():
                     flash("Logged In Successfully!", "info")
                     session["email"] = email  # creating session key
                     session["name"] = name
+                       
+                    
+
+
+
                     if user['user_role'] == 'scrum_master':
                         return redirect('/scrum_master_landing')
                     else:
@@ -155,3 +162,10 @@ def logout():
     session.clear()
     flash("You have been logged out!", "info")
     return redirect('/login')
+
+
+
+
+
+
+ 

@@ -24,17 +24,17 @@
 
     <style>
 body {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  background-color: #f5f5f5;
-  color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      background-color: #f5f5f5;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
 
 nav {
   display: flex;
@@ -106,26 +106,31 @@ select:hover, select:focus {
   background-color: #eee;
 }
 
-button.GFG {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 5px;
-  background-color:#7f7e84;
-  color: white;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+.custom-button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #7f7e84;
+        color: white;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none; /* Add this line to remove underline */
+      }
 
-button.GFG:hover {
-  background-color:  #e2a363; ;
-}
+      .custom-button:focus {
+        outline: none;
+        box-shadow: none;
+      }
 
+      .custom-button:hover {
+        background-color: #e2a363;
+      }
 .right {
   text-align: right;
   margin-top: 30px;
@@ -214,10 +219,9 @@ button.GFG:hover {
     </form>
 
     <div class="right">
-      <a href="{{ url_for('views.create_poker_board') }}">
-        <button class="GFG">
-          <span>Create Poker Board</span>
-        </button>
-    
+      <a href="{{ url_for('views.create_poker_board') }}" class="custom-button">
+        <span>Create Poker Board</span>
+      </a>
+    </div>
   </body>
 </html>

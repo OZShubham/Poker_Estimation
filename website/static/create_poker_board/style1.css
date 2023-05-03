@@ -15,16 +15,11 @@ header {
 
 }
 
-nav {
-	background-color:  #130665; /* change background color */
-  }
-
 nav ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-
 
 nav li {
 	display: inline-block;
@@ -69,13 +64,10 @@ body {
 
 /* Style the logo */
 .logo {
-    width: 120px; /* increase width */
-	height: auto; /* maintain aspect ratio */
-	margin-right: 10px;
-}
-
-.box {
-    margin-top: 150px;
+    max-width: 60px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 /* Style the form inputs */

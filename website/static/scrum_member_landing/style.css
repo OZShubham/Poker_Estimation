@@ -1,0 +1,27 @@
+.navbar {
+    background-color: #130665;
+}
+
+.navbar-brand img {
+    width: 140px;
+    height: auto;
+    margin-right: 10px;
+}
+
+
+.container {
+    margin-top: 70px;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar-brand img {
+        width: 100px;
+        margin-right: 5px;
+    }
+
+    .container {
+        margin-top: 55px;
+    }
+}
+
+

@@ -1,0 +1,212 @@
+body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+form {
+    width: 50%;
+    margin: auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 200px;
+}
+
+button[type="submit"]:hover {
+    background-color: #0069d9;
+}
+
+.navbar-custom {
+    background-color: #130665;
+}
+
+.navbar-custom .navbar-brand {
+    color: #080808;
+    font-weight: bold;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    width: 140px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+
+
+.jira-container {
+    background-color: white;
+    margin: 10% auto;
+    max-width: 400px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Media Queries 
+@media screen and (max-width: 768px) {
+    .login-container {
+        max-width: 90%;
+    }
+}*/
+/* CSS for screens up to 768px wide */
+@media (max-width: 768px) {
+    body {
+      font-size: 16px;
+    }
+    
+    h1 {
+      font-size: 2rem;
+    }
+    
+    form {
+      width: 90%;
+      padding: 10px;
+    }
+    
+    label {
+      font-size: 1rem;
+    }
+    
+    select {
+      font-size: 1rem;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    
+    button[type="submit"] {
+      margin-left: 0;
+    }
+    
+    .navbar-custom .navbar-brand {
+      font-size: 20px;
+    }
+    
+    .navbar-custom .navbar-nav .nav-link {
+      font-size: 16px;
+      margin-left: 10px;
+    }
+    
+    .jira-container {
+      margin: 5% auto;
+      max-width: 90%;
+    }
+  }
+  
+  /* CSS for screens from 768px to 1200px wide */
+  @media (min-width: 769px) and (max-width: 1200px) {
+    body {
+      font-size: 18px;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+    }
+    
+    form {
+      width: 70%;
+    }
+    
+    label {
+      font-size: 1.1rem;
+    }
+    
+    select {
+      font-size: 1.1rem;
+      padding: 10px;
+    }
+    
+    .navbar-custom .navbar-brand {
+      font-size: 22px;
+    }
+    
+    .navbar-custom .navbar-nav .nav-link {
+      font-size: 18px;
+    }
+    
+    .jira-container {
+      margin: 8% auto;
+    }
+  }
+  
+  /* CSS for screens wider than 1200px */
+  @media (min-width: 1201px) {
+    body {
+      font-size: 20px;
+    }
+    
+    h1 {
+      font-size: 3rem;
+    }
+    
+    form {
+      width: 50%;
+    }
+    
+    label {
+      font-size: 1.2rem;
+    }
+    
+    select {
+      font-size: 1.2rem;
+      padding: 10px;
+    }
+    
+    .navbar-custom .navbar-brand {
+      font-size: 24px;
+    }
+    
+    .navbar-custom .navbar-nav .nav-link {
+      font-size: 20px;
+    }
+    
+    .jira-container {
+      margin: 10% auto;
+    }
+  }
+  

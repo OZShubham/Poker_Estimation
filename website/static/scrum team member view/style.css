@@ -21,14 +21,13 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #130665;
+  background-color: #333;
   color: #fff;
   padding: 1rem;
 }
 
 nav img {
-  width: 140px;
-  height: auto;
+  height: 40px;
   margin-right: 20px;
 }
 
@@ -44,7 +43,7 @@ nav a {
   color: #FFFFFF;
   padding: 1.5rem;
   margin: 1rem;
-  margin-top: 80px;
+  margin-top: 70px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -55,17 +54,20 @@ nav a {
 
 .header__label {
   font-weight: bold;
+  font-size: larger;
   margin-right: 0.5rem;
 }
 
 .header__value {
   font-weight: normal;
+  font-size: larger;
 }
 
 .header__description {
   width: 500px;
   height: 100px;
   word-wrap: break-word;
+  
 }
 
 
@@ -169,4 +171,117 @@ button[type="submit"]:hover {
   background-color: #007bff;
   color: #fff;
 }
+
+/*@media only screen and (max-width: 768px) {
+   CSS styles for smaller devices 
+  #logo {
+    max-width: 100px;
+  }
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
+  .header {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+  }
+  .header__description {
+    font-size: 1rem;
+  }
+  #story-point-cards > div {
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  button[type="submit"] {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+}*/
+/* Small screens (up to 576px) */
+@media only screen and (max-width: 576px) {
+  html {
+    font-size: 20px;
+  }
+  
+  nav img {
+    height: 30px;
+    margin-right: 10px;
+  }
+
+  nav a {
+    font-size: 1rem;
+    margin-right: 0.5rem;
+  }
+
+  .header {
+    margin: 0.5rem;
+    margin-top: 50px;
+    padding: 1rem;
+  }
+
+  .header__description {
+    width: 100%;
+    height: 80px;
+  }
+
+  #story-point-cards > div {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Medium screens (576px to 992px) */
+@media only screen and (min-width: 576px) and (max-width: 992px) {
+  html {
+    font-size: 15px;
+  }
+
+  nav img {
+    height: 35px;
+    margin-right: 15px;
+  }
+
+  nav a {
+    font-size: 1.1rem;
+    margin-right: 0.7rem;
+  }
+
+  .header {
+    margin: 0.7rem;
+    margin-top: 60px;
+  }
+
+  #story-point-cards > div {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Large screens (992px and up) */
+@media only screen and (min-width: 992px) {
+  html {
+    font-size: 16px;
+  }
+
+  nav img {
+    height: 40px;
+    margin-right: 20px;
+  }
+
+  nav a {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+  }
+
+  .header {
+    margin: 1rem;
+    margin-top: 70px;
+  }
+
+  #story-point-cards > div {
+    width: 50px;
+    height: 50px;
+  }
+}
+
 

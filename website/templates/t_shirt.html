@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scrum Team Member View</title>
     <link
       rel="stylesheet"
@@ -51,19 +52,6 @@
         </div>
       </div>
     </header>
-    
-
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-success alert-dismissible show" role="alert">
-      {{message}}
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="alert"
-        aria-label="Close"
-      ></button>
-    </div>
-    {% endfor %}
 
     <form method="post" action="/scrum_team_member_view">
       

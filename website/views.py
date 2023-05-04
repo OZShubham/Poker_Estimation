@@ -108,7 +108,7 @@ def create_jira_id():
         if not entity:
             return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
         estimates = entity.get('estimates', [])
-        estimates.append({'jira_id': jira_id,'jira_description': jira_description,'jira_title':jira_title})
+        estimates.append({'jira_id': jira_id,'jira_description': jira_description,'jira_title': jira_title})
         entity.update({'estimates': estimates,
                       'last_modified_timestamp': datetime.datetime.utcnow()})
         client.put(entity)
@@ -116,7 +116,7 @@ def create_jira_id():
         event = 'created jira id'
         user_event(event)
         
-        return redirect('/scrum_master_landing')
+        return redirect('/poker_master_landing')
     
     else:
 
@@ -428,8 +428,7 @@ def choose_jira_id():
             jira_id = estimate.get('jira_id')
             jira_title = estimate.get('jira_title')
             if jira_id:
-                
-               jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
+                jira_ids.append({'jira_id': jira_id,'jira_title': jira_title})
 
     if request.method == "POST":
         jira_id = request.form.get('jira_id')
@@ -515,8 +514,7 @@ def choose_jiraa_id():
             jira_id = estimate.get('jira_id')
             jira_title = estimate.get('jira_title')
             if jira_id:
-                
-               jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
+                jira_ids.append({'jira_id': jira_id,'jira_title': jira_title})
 
     if request.method == "POST":
         jira_id = request.form.get('jira_id')

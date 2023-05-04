@@ -31,7 +31,7 @@
 	
     
     <form class="jira-container" method="POST">
-      <label for="jira_id">Select a JIRA TITLE:</label>
+      <label for="jira_id">Select a JIRA Title:</label>
       <select name="jira_id" id="jira_id">
         {% for jira_id in jira_ids %}
         <option value="{{ jira_id['jira_id'] }}">{{ jira_id['jira_title'] }}</option>

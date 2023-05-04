@@ -98,6 +98,7 @@ def create_jira_id():
         poker_board_id = session.get('poker_board_id')
         print(poker_board_id)
         jira_id = request.form.get('jira_id')
+        jira_title = request.form.get('jira_title')
         jira_description = request.form.get('jira_description')
         
         client = datastore.Client()
@@ -107,7 +108,7 @@ def create_jira_id():
         if not entity:
             return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
         estimates = entity.get('estimates', [])
-        estimates.append({'jira_id': jira_id,'jira_description': jira_description})
+        estimates.append({'jira_id': jira_id,'jira_description': jira_description,'jira_title':jira_title})
         entity.update({'estimates': estimates,
                       'last_modified_timestamp': datetime.datetime.utcnow()})
         client.put(entity)
@@ -425,9 +426,10 @@ def choose_jira_id():
         estimates = result.get('estimates', [])
         for estimate in estimates:
             jira_id = estimate.get('jira_id')
+            jira_title = estimate.get('jira_title')
             if jira_id:
                 
-               jira_ids.append(jira_id)
+               jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
 
     if request.method == "POST":
         jira_id = request.form.get('jira_id')
@@ -511,8 +513,10 @@ def choose_jiraa_id():
         estimates = result.get('estimates', [])
         for estimate in estimates:
             jira_id = estimate.get('jira_id')
+            jira_title = estimate.get('jira_title')
             if jira_id:
-                jira_ids.append(jira_id)
+                
+               jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
 
     if request.method == "POST":
         jira_id = request.form.get('jira_id')

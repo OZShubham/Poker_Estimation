@@ -274,7 +274,7 @@ def home():
     #event = 'on home page'
     #user_event(event)
 
-    return render_template('home.html')
+    return redirect('/login')
 
 
 datastore_client = datastore.Client()

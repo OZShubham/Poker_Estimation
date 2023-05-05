@@ -98,7 +98,6 @@ def create_jira_id():
         poker_board_id = session.get('poker_board_id')
         print(poker_board_id)
         jira_id = request.form.get('jira_id')
-        jira_title = request.form.get('jira_title')
         jira_description = request.form.get('jira_description')
         
         client = datastore.Client()
@@ -108,7 +107,7 @@ def create_jira_id():
         if not entity:
             return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
         estimates = entity.get('estimates', [])
-        estimates.append({'jira_id': jira_id,'jira_description': jira_description,'jira_title': jira_title})
+        estimates.append({'jira_id': jira_id,'jira_description': jira_description})
         entity.update({'estimates': estimates,
                       'last_modified_timestamp': datetime.datetime.utcnow()})
         client.put(entity)
@@ -116,10 +115,47 @@ def create_jira_id():
         event = 'created jira id'
         user_event(event)
         
-        return redirect('/poker_master_landing')
+        def create_new_story():
+            poker_board_id = session.get('poker_board_id')
+            print(poker_board_id)
+            jira_id = request.form.get('jira_id')
+            jira_description = request.form.get('jira_description')
+            jira_title=request.form.get('jira_title')
+            client = datastore.Client()
+   
+            entity_key = client.key('newStory',poker_board_id)
+            entity = client.get(entity_key)
+            if not entity:
+                entity = datastore.Entity(key=entity_key)
+            
+            
+            story= entity.get('story',[])
+            story.append({'jira_id':jira_id,'jira_description': jira_description,'jira_title':jira_title,'created_timestamp': datetime.datetime.utcnow(),'last_modified_timestamp': datetime.datetime.utcnow()})
+            entity.update({'story':story,'poker_board_id':poker_board_id})
+            client.put(entity)
+
+            return
+        create_new_story()
+        return redirect('/scrum_master_landing')
     
     else:
 
+        '''def create_new_story_board():
+            poker_board_id = session.get('poker_board_id')
+            print(poker_board_id)
+            
+            client = datastore.Client()
+   
+            entity_key = client.key('newStory',poker_board_id)
+            entity = datastore.Entity(key=entity_key)
+            
+            
+            
+            entity.update({'poker_board_id':poker_board_id})
+            client.put(entity)
+
+            return
+        create_new_story_board()'''
         return render_template('create_jira_id.html')
 
 
@@ -275,7 +311,7 @@ def home():
     #event = 'on home page'
     #user_event(event)
 
-    return redirect('/login')
+    return render_template('home.html')
 
 
 datastore_client = datastore.Client()
@@ -399,7 +435,20 @@ def poker_master_landing():
 
 @views.route('/choose_jira_id', methods=['GET', 'POST'])
 def choose_jira_id():
+
+    def get_backlog_story():
+        poker_board_id = session.get('poker_board_id')
+        client=datastore.Client()
+        entity_key=client.key('newStory',poker_board_id)
+        entity=client.get(entity_key)
+        backlog=entity.get('story',[])
+
+        return json.dumps(backlog,indent=4, sort_keys=True, default=str)
+        
+    stories = get_backlog_story()
+    stories_json = json.loads(stories)
     
+
     event = 'on choose jira id'
     user_event(event)
 
@@ -422,13 +471,11 @@ def choose_jira_id():
 
     # Extract the jira_ids from the fetched entities
     jira_ids = []
-    for result in results:
-        estimates = result.get('estimates', [])
-        for estimate in estimates:
-            jira_id = estimate.get('jira_id')
-            jira_title = estimate.get('jira_title')
-            if jira_id:
-                jira_ids.append({'jira_id': jira_id,'jira_title': jira_title})
+    for story in stories_json:
+        jira_title = story.get('jira_title')
+        jira_id = story.get('jira_id')
+        if jira_id:
+            jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
 
     if request.method == "POST":
         jira_id = request.form.get('jira_id')
@@ -512,10 +559,8 @@ def choose_jiraa_id():
         estimates = result.get('estimates', [])
         for estimate in estimates:
             jira_id = estimate.get('jira_id')
-            jira_title = estimate.get('jira_title')
-
             if jira_id:
-                jira_ids.append({'jira_id': jira_id,'jira_title': jira_title})
+                jira_ids.append(jira_id)
 
     if request.method == "POST":
         jira_id = request.form.get('jira_id')

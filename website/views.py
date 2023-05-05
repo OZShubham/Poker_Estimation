@@ -136,26 +136,10 @@ def create_jira_id():
 
             return
         create_new_story()
-        return redirect('/scrum_master_landing')
+        return redirect('/poker_master_landing')
     
     else:
-
-        '''def create_new_story_board():
-            poker_board_id = session.get('poker_board_id')
-            print(poker_board_id)
-            
-            client = datastore.Client()
-   
-            entity_key = client.key('newStory',poker_board_id)
-            entity = datastore.Entity(key=entity_key)
-            
-            
-            
-            entity.update({'poker_board_id':poker_board_id})
-            client.put(entity)
-
-            return
-        create_new_story_board()'''
+        
         return render_template('create_jira_id.html')
 
 

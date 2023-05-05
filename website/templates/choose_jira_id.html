@@ -28,17 +28,28 @@
       </div>
     </div>
   </nav>
-	
+	<br>
     
     <form class="jira-container" method="POST">
       <label for="jira_id">Select a JIRA Title:</label>
-      <select name="jira_id" id="jira_id">
+      <table>
+        <thead>
+        <tr>
+          <th id="jiraid">Jira ID</th>
+          <th>Jira Title</th>
+          <th id="jirabutton">Select</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for jira_id in jira_ids %}
-        <option value="{{ jira_id['jira_id'] }}">{{ jira_id['jira_title'] }}</option>
+        <tr>
+          <td>{{jira_id['jira_id']}}</td>
+          <td>{{jira_id['jira_title']}}</td>
+          <td><button type="submit" name="jira_id" value="{{jira_id['jira_id']}}">Select</button></td>
+        </tr>
         {% endfor %}
-      </select>
-      <br><br>
-      <button type="submit" >Select</button>
+        </tbody>
+      </table>
     </form>
     
 </body>

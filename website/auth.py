@@ -122,7 +122,7 @@ def login():
                     # Passwords match, return success
                     response = {'success': True,
                                 'message': 'Sign-in successful'}
-                    flash("Logged In Successfully!", "info")
+                    
                     session["email"] = email  # creating session key
                     session["name"] = name
                        
@@ -152,7 +152,6 @@ def login():
     # Render the login page for GET request
     else:
         if "email" in session:
-            flash("Already Logged In!", "info")
             return redirect('/logout')
 
         return render_template('login.html')
@@ -162,7 +161,6 @@ def login():
 def logout():
     # Logout logic here
     session.clear()
-    flash("You have been logged out!", "info")
     return redirect('/login')
 
 

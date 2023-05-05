@@ -2,7 +2,7 @@ body {
   font-family: Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  background-color: #f5f5f5;
+  background-color: #e7e2e2;
   color: #333;
   display: flex;
   flex-direction: column;
@@ -40,13 +40,19 @@ nav a:hover {
 }
 
 .welcome {
-  text-align: center;
-  font-size: 2rem;
+  position:absolute;
+  
+  top:8px;
+  
+  left:16px;
+  text-align: left;
+  font-size: 1.5rem;
   margin-top: 50px;
   margin-bottom: 30px;
 
   letter-spacing: 2px;
 }
+
 
 .name {
   text-transform: uppercase;
@@ -75,8 +81,8 @@ select {
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
-  border-radius: 5px;
-  border: none;
+  border-radius: 15px;
+  border: 3px solid #130665;
   background-color: #f5f5f5;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -95,7 +101,7 @@ select:focus {
   margin-bottom: 20px;
   border: none;
   border-radius: 5px;
-  background-color: #7f7e84;
+  background-color: #484646;
   color: white;
   font-size: 1.2rem;
   text-transform: uppercase;
@@ -174,6 +180,10 @@ select:focus {
     font-size: 24px;
   }
 
+  form {
+    margin-top: 150px;
+  }
+
   form label {
     font-size: 18px;
   }
@@ -196,7 +206,8 @@ select:focus {
 @media screen and (max-width: 600px) {
   /* styles for screens less than or equal to 600px wide */
   .welcome {
-    font-size: 2em;
+    font-size: 1em;
+
   }
   form {
     font-size: 1.5em;

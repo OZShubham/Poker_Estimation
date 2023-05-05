@@ -31,10 +31,10 @@
     <!-- Main Content -->
     <div class="container mt-5">
       <br>
-        <h1 class="text-center mb-4">Choose JIRA ID</h1>
+        <h1 class="text-center mb-4">Choose JIRA Title</h1>
         <form method="POST">
             <div class="form-group">
-                <label for="jira_id">Select a JIRA TITLE:</label>
+                <label for="jira_id">Select a JIRA Title:</label>
                 <select class="form-select" name="jira_id" id="jira_id">
                     {% for jira_id in jira_ids %}
                     <option value="{{ jira_id['jira_id'] }}">{{ jira_id['jira_title'] }}</option>

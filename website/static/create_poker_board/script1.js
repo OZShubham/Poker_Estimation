@@ -50,3 +50,21 @@
         alert(error.message); // Show error message from throw statement
     });
 });*/
+const fibonacciCheckbox = document.getElementById("Fibonacci");
+const tshirtCheckbox = document.getElementById("T-shirt");
+
+fibonacciCheckbox.addEventListener("change", function() {
+  if (this.checked) {
+    tshirtCheckbox.disabled = true;
+  } else {
+    tshirtCheckbox.disabled = false;
+  }
+});
+
+tshirtCheckbox.addEventListener("change", function() {
+  if (this.checked) {
+    fibonacciCheckbox.disabled = true;
+  } else {
+    fibonacciCheckbox.disabled = false;
+  }
+});

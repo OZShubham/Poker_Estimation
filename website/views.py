@@ -349,6 +349,7 @@ def grant_user_access():
     datastore_client = datastore.Client()
     query = datastore_client.query(kind='PokerBoard')
     boards = query.fetch()
+    email = session.get('email')
     if request.method == 'POST':
         # Get data from form
         poker_board_id = request.form.get('poker_board_id')
@@ -379,31 +380,37 @@ def grant_user_access():
         if not poker_board:
             return jsonify({'error': 'Poker Board does not exist'}), 404
 
-        # Get User entity from Datastore
-        user_id = request.form.get('user_id')
-        user_key = datastore_client.key('User',user_id)
-        user = datastore_client.get(user_key)
+        # Get list of selected users from form
+        user_ids = request.form.getlist('user_id')
 
-        # Check if User entity exists
-        if not user:
-            return jsonify({'error': 'User does not exist'}), 404
+        # Grant access to each selected user
+        for user_id in user_ids:
+            # Get User entity from Datastore
+            user_key = datastore_client.key('User', user_id)
+            user = datastore_client.get(user_key)
 
-        # Grant access to user by adding poker_board_id to User's list of entitlement
-        if 'entitlement' not in user:
-            user['entitlement'] = []
-        user['entitlement'].append( {'poker_board_id': poker_board_id, 'poker_board_type':poker_board_type,  'poker_board_name': poker_board_name})
-        datastore_client.put(user)
+            # Check if User entity exists
+            if not user:
+                return jsonify({'error': 'User does not exist'}), 404
 
-        flash(
-            f'Access granted to user {user["name"]} for Poker Board {poker_board_id}', 'success')
+            # Grant access to user by adding poker_board_id to User's list of entitlement
+            if 'entitlement' not in user:
+                user['entitlement'] = []
+            user['entitlement'].append({'poker_board_id': poker_board_id, 'poker_board_type':poker_board_type,  'poker_board_name': poker_board_name})
+            datastore_client.put(user)
+
+            flash(
+                f'Access granted to user {user["name"]} for Poker Board {poker_board_name}', 'success')
         
         event = 'user access granted'
         user_event(event)
 
         return redirect('/grant_user_access')
 
+    
     # Render the HTML page for GET requests
     users_query = datastore_client.query(kind='User')
+    users_query.add_filter('email', '!=', email)
     users = list(users_query.fetch())
     return render_template('grant_user_access.html', users=users, boards=boards)
 

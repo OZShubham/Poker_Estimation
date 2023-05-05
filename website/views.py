@@ -534,6 +534,18 @@ def scrum_member_landing():
 
 @views.route('/choose_jiraa_id', methods=['GET', 'POST'])
 def choose_jiraa_id():
+    
+    def get_backlog_story():
+        poker_board_id = session.get('poker_board_id')
+        client=datastore.Client()
+        entity_key=client.key('newStory',poker_board_id)
+        entity=client.get(entity_key)
+        backlog=entity.get('story',[])
+
+        return json.dumps(backlog,indent=4, sort_keys=True, default=str)
+        
+    stories = get_backlog_story()
+    stories_json = json.loads(stories)
 
     event = 'on choose jira id (scrum member)'
     user_event(event)
@@ -555,12 +567,11 @@ def choose_jiraa_id():
 
     # Extract the jira_ids from the fetched entities
     jira_ids = []
-    for result in results:
-        estimates = result.get('estimates', [])
-        for estimate in estimates:
-            jira_id = estimate.get('jira_id')
-            if jira_id:
-                jira_ids.append(jira_id)
+    for story in stories_json:
+        jira_title = story.get('jira_title')
+        jira_id = story.get('jira_id')
+        if jira_id:
+            jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
 
     if request.method == "POST":
         jira_id = request.form.get('jira_id')

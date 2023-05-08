@@ -432,6 +432,10 @@ def choose_jira_id():
         client=datastore.Client()
         entity_key=client.key('newStory',poker_board_id)
         entity=client.get(entity_key)
+        print(entity)
+        if not entity:
+            return redirect('/create_jira_id')
+
         backlog=entity.get('story',[])
 
         return json.dumps(backlog,indent=4, sort_keys=True, default=str)
@@ -442,23 +446,6 @@ def choose_jira_id():
 
     event = 'on choose jira id'
     user_event(event)
-
-    datastore_client = datastore.Client()
-    query = datastore_client.query(kind='PokerBoard')
-    boards = query.fetch()
-    poker_board_id = session.get('poker_board_id')
-    
-    # If poker_board_id is missing, return an error response
-    if not poker_board_id:
-        return 'Error: poker_board_id is required.', 400
-
-    # Initialize the Datastore client
-    client = datastore.Client()
-
-    # Create a query to fetch PokerBoard entities with the specified poker_board_id
-    query = client.query(kind='PokerBoard')
-    query.add_filter('poker_board_id', '=', poker_board_id)
-    results = list(query.fetch())
 
     # Extract the jira_ids from the fetched entities
     jira_ids = []
@@ -540,21 +527,6 @@ def choose_jiraa_id():
 
     event = 'on choose jira id (scrum member)'
     user_event(event)
-
-    # Get the Datastore client
-    client = datastore.Client()
-
-    # Get the poker_board_id from the query parameter
-    poker_board_id = session.get('poker_board_id')
-
-    # If poker_board_id is missing, return an error response
-    if not poker_board_id:
-        return 'Error: poker_board_id is required.', 400
-
-    # Create a query to fetch PokerBoard entities with the specified poker_board_id
-    query = client.query(kind='PokerBoard')
-    query.add_filter('poker_board_id', '=', poker_board_id)
-    results = list(query.fetch())
 
     # Extract the jira_ids from the fetched entities
     jira_ids = []

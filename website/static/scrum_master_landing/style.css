@@ -62,6 +62,7 @@ nav a:hover {
 
 form {
   max-width: 600px;
+  width: 600px;
   margin: 0 auto;
   text-align: center;
   padding: 30px;

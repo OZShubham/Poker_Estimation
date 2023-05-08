@@ -136,7 +136,7 @@ def create_jira_id():
 
             return
         create_new_story()
-        return redirect('/poker_master_landing')
+        return redirect('/choose_jira_id')
     
     else:
         
@@ -330,7 +330,7 @@ def scrum_master_landing():
     if request.method == 'POST':
         poker_board_id = request.form.get('poker_board_id')
         session['poker_board_id'] = poker_board_id
-        return redirect('/poker_master_landing')
+        return redirect('/choose_jira_id')
     else:
         return render_template('scrum_master_landing.html', name=name, boards=boards)
 
@@ -415,26 +415,21 @@ def grant_user_access():
     return render_template('grant_user_access.html', users=users, boards=boards)
 
 
-@views.route('/poker_master_landing')
-def poker_master_landing():
-
-    event = 'on poker master landing'
-    user_event(event)
-
-    return render_template('poker_master_landing.html')
 
 
 @views.route('/choose_jira_id', methods=['GET', 'POST'])
 def choose_jira_id():
+    poker_board_id = session.get('poker_board_id')
+    client=datastore.Client()
+    entity_key=client.key('newStory',poker_board_id)
+    entity=client.get(entity_key)
+    
+    if not entity:
+        flash(" There is no JIRA Title in your backlog, Please create JIRA Title.")
+        return redirect('/create_jira_id')
 
     def get_backlog_story():
-        poker_board_id = session.get('poker_board_id')
-        client=datastore.Client()
-        entity_key=client.key('newStory',poker_board_id)
-        entity=client.get(entity_key)
-        print(entity)
-        if not entity:
-            return redirect('/create_jira_id')
+       
 
         backlog=entity.get('story',[])
 

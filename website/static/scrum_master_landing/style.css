@@ -236,8 +236,8 @@ select:focus {
   }
   
   form {
-    max-width: 100%;
-    width: 100%;
+    
+    width: 90%;
     padding: 20px;
   }
   

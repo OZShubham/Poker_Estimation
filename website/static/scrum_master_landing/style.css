@@ -163,7 +163,7 @@ select:focus {
 
 
 
-/* Media Queries*/ 
+/* Media Queries
 @media screen and (max-width: 768px) {
   .login-container {
     max-width: 90%;
@@ -204,9 +204,9 @@ select:focus {
 
 }
 
-/* CSS for form on small screens */
+/* CSS for form on small screens 
 @media screen and (max-width: 600px) {
-  /* styles for screens less than or equal to 600px wide */
+  /* styles for screens less than or equal to 600px wide 
   .welcome {
     font-size: 1em;
 
@@ -218,4 +218,53 @@ select:focus {
     display: flex;
     justify-content: center;
   }
+}*/
+@media only screen and (max-width: 767px) {
+  nav {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .navbar-brand {
+    margin-bottom: 20px;
+  }
+  
+  .welcome {
+    position: static;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    max-width: 100%;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  label {
+    font-size: 0.9rem;
+  }
+  
+  select {
+    font-size: 1rem;
+  }
+  
+  .custom-button {
+    font-size: 1rem;
+    padding: 8px;
+  }
+  
+  .right {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .navbar-brand img {
+    width: 80px;
+  }
+  
+  .navbar-custom .navbar-nav .nav-link {
+    margin-left: 0;
+  }
 }
+

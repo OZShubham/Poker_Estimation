@@ -281,7 +281,7 @@ def poker_estimates():
 
         # Render the retrieved data in scrum_master_view.html template
         # return render_template('scrum_master_view.html', estimate=estimate)
-        return render_template('estimates.html', story_points=story_points,jira_description=jira_description,jira_id=jira_id)
+        return render_template('estimates.html', story_points=story_points,jira_description=jira_description,jira_id=jira_id,jira_title=session.get('jira_title'))
 
     
 
@@ -446,6 +446,7 @@ def choose_jira_id():
     jira_ids = []
     for story in stories_json:
         jira_title = story.get('jira_title')
+        session['jira_title'] = jira_title
         jira_id = story.get('jira_id')
         if jira_id:
             jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})

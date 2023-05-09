@@ -52,10 +52,13 @@ header {
   font-size: 18px;
   font-weight: bold;
   color: #fff;
-  background-color: #007bff;
+  background-color: #4CAF50;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+#reveal-button:hover {
+  background-color:#130665;
 }
 
 .card-container {
@@ -100,6 +103,12 @@ header {
 
 .card-front {
   background-color: #007bff;
+  background-image: url(Untitled4.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-style: groove;
+  border-right: #130665;
+  border-width: 20px;
   color: #fff;
   font-size: 24px;
   font-weight: bold;
@@ -128,7 +137,7 @@ header {
   margin-bottom: 0;
 }
 
-@media screen and (max-width: 768px) {
+/*@media screen and (max-width: 768px) {
   .navbar-custom .navbar-nav .nav-link {
     margin-left: 0;
   }
@@ -148,3 +157,80 @@ header {
     margin: 10px 0;
   }
 }
+
+  @media (max-width: 768px) {
+    .card {
+      width: 80px;
+      height: 80px;
+      margin: 2px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+  .card-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card {
+    width: calc(50% - 10px);
+    height: 100px;
+    margin: 5px;
+  }
+}*/
+/* Extra small devices (phones) */
+@media only screen and (max-width: 576px) {
+  .card-container {
+    margin-top: 40px;
+  }
+  .card {
+    width: 100%;
+    height: 250px;
+  }
+}
+
+/* Small devices (tablets) */
+@media only screen and (min-width: 576px) and (max-width: 768px) {
+  .card-container {
+    margin-top: 40px;
+  }
+  .card {
+    width: 45%;
+    height: 250px;
+  }
+}
+
+/* Medium devices (desktops, laptops) */
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .card-container {
+    margin-top: 40px;
+  }
+  .card {
+    width: 30%;
+    height: 250px;
+  }
+}
+
+/* Large devices (large desktops, high-resolution displays) */
+@media only screen and (min-width: 992px) {
+  .card-container {
+    margin-top: 20px;
+  }
+  .card {
+    width: 20%;
+    height: 250px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .card {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+
+  
+  
+

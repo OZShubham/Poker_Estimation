@@ -88,12 +88,6 @@ button[type="submit"]:hover {
 	font-size: 18px;
 	margin-left: 20px; /* add some spacing between nav links */
   }
-
-  input {
-	background-color: #f1f1f1;
-    border: 1px solid black;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  }
   
   
   

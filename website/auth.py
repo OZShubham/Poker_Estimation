@@ -87,7 +87,9 @@ def reset_password():
                 user = result[0]
 
                 # Update user's password in Datastore
-                user['password'] = new_password
+                
+                hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+                user['password'] = hashed_password.decode('utf-8')                            
                 datastore_client.put(user)
 
                 return redirect('/login')

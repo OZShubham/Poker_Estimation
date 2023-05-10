@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    
+  }
+  
+  .navbar-custom {
+    background-color: #130665;
+  }
+  
+  .navbar-custom .navbar-brand {
+    color: #080808;
+    font-weight: bold;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-brand img {
+    width: 140px;
+    height: auto;
+    margin-right: 10px;
+  }
+  
+  .navbar-custom .navbar-nav .nav-link {
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 20px;
+  }
+
+  img[src="../static/no_vote/avatar.png"] {
+    display: block;
+    margin: 0 auto;
+    margin-top: 100px;
+    width: 300px;
+    height: 200px;
+    margin-bottom: 20px;
+  }
+
+p {
+    text-align: center;
+    font-size: 20px;
+    color: #555;
+}

@@ -279,7 +279,7 @@ def poker_estimates():
                         {'user_id': user_id, 'user_name':user_name,  'Story point': story_point})
                 print(story_points)
         if not story_points:
-            return 'Error: No estimate found with given jira_id'
+            return render_template('no_vote.html')
 
         # Render the retrieved data in scrum_master_view.html template
         # return render_template('scrum_master_view.html', estimate=estimate)

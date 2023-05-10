@@ -17,25 +17,29 @@ body {
 }
 
 /* Style the navigation bar */
-nav {
+.navbar-custom {
+  background-color: #130665;
+}
+
+.navbar-custom .navbar-brand {
+  color: #080808;
+  font-weight: bold;
+  font-size: 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: #130665;
-  color: #fff;
-  padding: 1rem;
 }
 
-nav img {
-  height: 40px;
-  margin-right: 20px;
+.navbar-brand img {
+  width: 140px;
+  height: auto;
+  margin-right: 10px;
 }
 
-nav a {
-  text-decoration: none;
+.navbar-custom .navbar-nav .nav-link {
   color: #fff;
-  font-size: 1.2rem;
-  margin-right: 1rem;
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 20px;
 }
 
 .header {

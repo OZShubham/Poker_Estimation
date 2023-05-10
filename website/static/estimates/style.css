@@ -124,19 +124,17 @@ header {
   width: 100%;
 }
 
-.card:hover .card-inner {
-  transform: rotateY(180deg);
-}
+
 
 .card-back h2 {
-  font-size: 18px;
+  font-size: 25px;
   margin-top: 0;
   margin-bottom: 8px;
 }
 
 .card-back p {
   margin-bottom: 0;
-  font-size: 14px;
+  font-size: 40px;
   line-height: 1.2;
   padding: 0 8px;
 }
@@ -207,6 +205,15 @@ header {
     width: 60%;
     height: 250px;
   }
+  .card-back h2 {
+    font-size: 13px; /* Decrease font size */
+    margin-top: 10px; /* Decrease top margin */
+  }
+
+  .card-back p {
+    font-size: 13px; /* Decrease font size */
+    margin-top: 5px; /* Decrease top margin */
+  }
 
   
 }
@@ -221,12 +228,12 @@ header {
     height: 250px;
   }
   .card-back h2 {
-    font-size: 13px; /* Decrease font size */
+    font-size: 25px; /* Decrease font size */
     margin-top: 10px; /* Decrease top margin */
   }
 
   .card-back p {
-    font-size: 13px; /* Decrease font size */
+    font-size: 25px; /* Decrease font size */
     margin-top: 5px; /* Decrease top margin */
   }
 }
@@ -245,6 +252,15 @@ header {
   .card {
     width: 90px;
     height: 90px;
+  }
+  .card-back h2 {
+    font-size: 13px; /* Decrease font size */
+    margin-top: 10px; /* Decrease top margin */
+  }
+
+  .card-back p {
+    font-size: 20px; /* Decrease font size */
+    margin-top: 5px; /* Decrease top margin */
   }
 }
 

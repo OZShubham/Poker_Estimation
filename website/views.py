@@ -7,7 +7,7 @@ import datetime
 import hashlib
 import random
 import string
-from google.cloud import datastore
+from google.cloud import datastore 
 
 
 views = Blueprint('views', __name__)

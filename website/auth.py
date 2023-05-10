@@ -102,58 +102,50 @@ def reset_password():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        # Get email and password from form data
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-        try:
-            # Retrieve user entity from Datastore based on email
-            query = datastore_client.query(kind='User')
-            query.add_filter('email', '=', email)
-            result = list(query.fetch(limit=1))
+        # Validate input
+        if not email:
+            flash('Please enter your email', 'error')
+            return redirect('/login')
+        if not password:
+            flash('Please enter your password', 'error')
+            return redirect('/login')
 
-            if result:
-                user = result[0]
-                name= user.get('name')
-                # Retrieve hashed password from Datastore
-                hashed_password = user['password'].encode('utf-8')
+        # Query Datastore for user with matching email
+        query = datastore_client.query(kind='User')
+        query.add_filter('email', '=', email)
+        result = list(query.fetch(limit=1))
 
-                # Verify input password with hashed password
-                if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
-                    # Passwords match, return success
-                    response = {'success': True,
-                                'message': 'Sign-in successful'}
-                    
-                    session["email"] = email  # creating session key
-                    session["name"] = name
-                       
-                    
+        if result:
+            # User found, retrieve hashed password
+            user = result[0]
+            hashed_password = user['password'].encode('utf-8')
 
-
-
-                    if user['user_role'] == 'scrum_master':
-                        return redirect('/scrum_master_landing')
-                    else:
-                        return redirect('/scrum_member_landing')
-
+            # Validate password
+            if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
+                # Passwords match, log in user
+                session['email'] = email
+                session['name'] = user.get('name')
+                
+                if user['user_role'] == 'scrum_master':
+                    return redirect('/scrum_master_landing')
                 else:
-                    # Passwords don't match, return error
-                    flash("Incorrect Password!", "info")
-                    return redirect('/login')
+                    return redirect('/scrum_member_landing')
             else:
-                # User not found, return error
-                flash("Incorrect Email!", "info")
+                # Incorrect password
+                flash('Incorrect password', 'error')
                 return redirect('/login')
-        except Exception as e:
-            print('Error:', e)
-            # Return error response
-            response = {'success': False, 'message': 'An error occurred'}
-
-        return response
-    # Render the login page for GET request
+        else:
+            # User not found
+            flash('Incorrect email', 'error')
+            return redirect('/login')
     else:
-        if "email" in session:
+        # Render login page
+        if 'email' in session:
             return redirect('/logout')
-
         return render_template('login.html')
 
 

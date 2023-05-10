@@ -99,7 +99,8 @@ def create_jira_id():
         print(poker_board_id)
         jira_id = request.form.get('jira_id')
         jira_description = request.form.get('jira_description')
-        
+        jira_title = request.form.get('jira_title')
+
         client = datastore.Client()
 
         entity_key = client.key('PokerBoard', poker_board_id)
@@ -107,7 +108,7 @@ def create_jira_id():
         if not entity:
             return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
         estimates = entity.get('estimates', [])
-        estimates.append({'jira_id': jira_id,'jira_description': jira_description})
+        estimates.append({'jira_id': jira_id,'jira_description': jira_description,'jira_title' : jira_title})
         entity.update({'estimates': estimates,
                       'last_modified_timestamp': datetime.datetime.utcnow()})
         client.put(entity)
@@ -169,6 +170,7 @@ def scrum_team_member_view():
     for estimate in estimates:
         if estimate.get('jira_id') == jira_id:
              jira_description = estimate.get('jira_description')
+             jira_title = estimate.get('jira_title')
 
     if request.method == 'POST':
         
@@ -234,7 +236,7 @@ def scrum_team_member_view():
 
         return redirect('/choose_jiraa_id')
 
-    return render_template('scrum_team_member_view.html',jira_description=jira_description,jira_id=jira_id,name=name)
+    return render_template('scrum_team_member_view.html',jira_description=jira_description,jira_id=jira_id,name=name,jira_title=jira_title)
 
 
 @views.route('/poker_estimates', methods=['GET', 'POST'])
@@ -267,7 +269,7 @@ def poker_estimates():
         for estimate in estimates:
             if estimate.get('jira_id') == jira_id:
                 users = estimate.get('users', [])
-                jira_description=estimate.get('jira_description')
+                jira_title=estimate.get('jira_title')
                 
                 for user in users:
                     user_id = user.get('user_id')
@@ -281,7 +283,7 @@ def poker_estimates():
 
         # Render the retrieved data in scrum_master_view.html template
         # return render_template('scrum_master_view.html', estimate=estimate)
-        return render_template('estimates.html', story_points=story_points,jira_description=jira_description,jira_id=jira_id,jira_title=session.get('jira_title'))
+        return render_template('estimates.html', story_points=story_points,jira_title=jira_title,jira_id=jira_id)
 
     
 
@@ -446,7 +448,7 @@ def choose_jira_id():
     jira_ids = []
     for story in stories_json:
         jira_title = story.get('jira_title')
-        session['jira_title'] = jira_title
+
         jira_id = story.get('jira_id')
         if jira_id:
             jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
@@ -573,6 +575,7 @@ def t_shirt():
     for estimate in estimates:
         if estimate.get('jira_id') == jira_id:
              jira_description = estimate.get('jira_description')
+             jira_title =estimate.get('jira_title')
 
     if request.method == 'POST':
         
@@ -638,6 +641,6 @@ def t_shirt():
 
         return redirect('/choose_jiraa_id')
 
-    return render_template('t_shirt.html',jira_description=jira_description,jira_id=jira_id,name=name)
+    return render_template('t_shirt.html',jira_description=jira_description,jira_id=jira_id,name=name,jira_title=jira_title)
 
 

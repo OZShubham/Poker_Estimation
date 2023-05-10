@@ -81,12 +81,7 @@ button[type="submit"]:hover {
   margin-left: 20px;
 }
 
-.jira-container {
-  background-color: rgb(245, 248, 248);
-  margin: 10% auto;
-  max-width: 400px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
+
 
 .jira-container {
   padding: 20px;
@@ -166,8 +161,15 @@ button[type="submit"]:hover {
   }
 
   .jira-container {
-    overflow-x: auto;
+    
     max-width: 95%;
+  }
+ 
+  th{
+    font-size: 15px;
+  }
+  td {
+    font-size: 10px;
   }
 }
 
@@ -181,7 +183,8 @@ button[type="submit"]:hover {
   }
 
   button[type="submit"] {
-    font-size: 1rem;
+    font-size: 10px;
+    padding: 6px 10px;
   }
 
   .navbar-custom .navbar-brand {
@@ -194,5 +197,19 @@ button[type="submit"]:hover {
 
   .jira-container {
     max-width: 95%;
+  }
+}
+@media (max-width: 768px) {
+  .jira-title {
+    text-align: center;
+    font-weight: bold;
+  }
+}
+/* CSS code */
+@media (max-width: 768px) {
+  .jira-id,
+  .jira-button {
+    font-size: 12px;
+    padding: 4px;
   }
 }

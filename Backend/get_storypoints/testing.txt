@@ -1,3 +1,0 @@
-{
-    "poker_board_id" : "728da36d8b1d5241cfc446322e7add12"
-}

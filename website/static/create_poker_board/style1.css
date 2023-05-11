@@ -143,15 +143,21 @@ body {
   
   .navbar-brand {
     margin-bottom: 20px;
+    font-size: 20px;
   }
   
-  .navbar-brand img {
-    width: 80px;
-  }
+  
   
   .navbar-custom .navbar-nav .nav-link {
-    margin-left: 0;
+    font-size: 16px;
+    margin: 10px 0;
+    text-align: center;
   }
 }
 
+@media screen and (max-width: 768px) {
+	.box {
+		max-width: 90%;
+	}
+}
 

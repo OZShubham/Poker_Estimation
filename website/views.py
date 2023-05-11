@@ -7,7 +7,9 @@ import datetime
 import hashlib
 import random
 import string
-from google.cloud import datastore 
+import os
+from google.cloud import storage
+from google.cloud import datastore
 
 
 views = Blueprint('views', __name__)
@@ -143,7 +145,20 @@ def create_jira_id():
         
         return render_template('create_jira_id.html')
 
+@views.route('/upload', methods=['POST'])
+def upload():
+    file = request.files['file']
+    if file:
+        # Upload the file to Google Cloud Storage
+        client = storage.Client()
+        bucket_name = 'poker-jira-bucket'  # Replace with your bucket name
+        bucket = client.get_bucket(bucket_name)
+        blob = bucket.blob(file.filename)
+        blob.upload_from_file(file)
 
+        return 'File uploaded successfully.'
+
+    return 'No file selected.'
 
 
 @views.route('/scrum_team_member_view', methods=['GET', 'POST'])

@@ -51,7 +51,7 @@ def signup():
         user['password'] = hashed_password.decode('utf-8')
         datastore_client.put(user)
         
-        flash("Account Created Successfully!", "info")
+        flash("Account Created Successfully!", "success")
         return redirect('/login')
 
     else:
@@ -93,8 +93,10 @@ def reset_password():
                 datastore_client.put(user)
 
                 return redirect('/login')
+            
             else:
-                return 'Email not found', 404
+                flash("No account exist with this email","error")
+                return redirect('/reset_password')
 
         else:
             return render_template('reset_password.html')
@@ -138,11 +140,11 @@ def login():
                     return redirect('/scrum_member_landing')
             else:
                 # Incorrect password
-                flash('Incorrect password', 'error')
+                flash('Incorrect password', 'danger')
                 return redirect('/login')
         else:
             # User not found
-            flash('Incorrect email', 'error')
+            flash('Incorrect email', 'danger')
             return redirect('/login')
     else:
         # Render login page

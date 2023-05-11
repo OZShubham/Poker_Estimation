@@ -30,6 +30,23 @@ nav {
     background-color: #333;
     padding: 0 20px;
   }
+  .navbar-brand {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  nav a {
+    font-size: 1.2rem;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  nav a:hover {
+    color: #a5a3a1;
+  }
 
 .navbar-custom {
     background-color: #130665;
@@ -116,6 +133,25 @@ body {
 /* Style the form submit button on hover */
 .box input[type="submit"]:hover {
     background-color:#130665;
+}
+
+@media only screen and (max-width: 767px) {
+  nav {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .navbar-brand {
+    margin-bottom: 20px;
+  }
+  
+  .navbar-brand img {
+    width: 80px;
+  }
+  
+  .navbar-custom .navbar-nav .nav-link {
+    margin-left: 0;
+  }
 }
 
 

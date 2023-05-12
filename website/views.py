@@ -175,7 +175,7 @@ def upload():
         blob.upload_from_file(file)
 
         flash('File uploaded successfully!', 'success')
-        return redirect('/create_jira_id')
+        return redirect('/choose_jira_id')
 
     flash('No File is Selected.', 'danger')
     return redirect('/create_jira_id')

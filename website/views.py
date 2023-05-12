@@ -14,6 +14,16 @@ from google.cloud import datastore
 
 views = Blueprint('views', __name__)
 
+def generate_signed_url(bucket_name, file_name, expiration_minutes=60):
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(file_name)
+
+    expiration_time = datetime.datetime.now() + datetime.timedelta(minutes=expiration_minutes)
+    url = blob.generate_signed_url(expiration=expiration_time)
+
+    return url
+
 def user_event(event):
 
     user_id = session.get('email')
@@ -96,6 +106,11 @@ def create_poker_board():
 
 @views.route('/create_jira_id',methods=['POST','GET'])
 def create_jira_id():
+
+    bucket_name = "poker-template-bucket"   #change the value according to your project
+    file_name = "template.xlsx"             #change the value according to your project
+    signed_url = generate_signed_url(bucket_name,file_name)
+
     if request.method=='POST':
         poker_board_id = session.get('poker_board_id')
         print(poker_board_id)
@@ -143,7 +158,7 @@ def create_jira_id():
     
     else:
         
-        return render_template('create_jira_id.html')
+        return render_template('create_jira_id.html', signed_url=signed_url)
 
 @views.route('/upload', methods=['POST'])
 def upload():
@@ -447,7 +462,7 @@ def choose_jira_id():
     entity=client.get(entity_key)
     
     if not entity:
-        flash(" There is no JIRA Title in your backlog, Please create JIRA Title.")
+        flash(" There is no JIRA Title in your backlog, Please create JIRA Title.", "danger")
         return redirect('/create_jira_id')
 
     def get_backlog_story():

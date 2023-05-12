@@ -147,18 +147,23 @@ def create_jira_id():
 
 @views.route('/upload', methods=['POST'])
 def upload():
+    poker_board_id = session.get('poker_board_id')
     file = request.files['file']
     if file:
+        # Modify the filename to include the poker_board_id
+        filename = f"{poker_board_id}_{file.filename}"
         # Upload the file to Google Cloud Storage
         client = storage.Client()
         bucket_name = 'poker-jira-bucket'  # Replace with your bucket name
         bucket = client.get_bucket(bucket_name)
-        blob = bucket.blob(file.filename)
+        blob = bucket.blob(filename)
         blob.upload_from_file(file)
 
-        return 'File uploaded successfully.'
+        flash('File uploaded successfully!', 'success')
+        return redirect('/choose_jira_id')
 
-    return 'No file selected.'
+    flash('No File is Selected.', 'danger')
+    return redirect('/create_jira_id')
 
 
 @views.route('/scrum_team_member_view', methods=['GET', 'POST'])

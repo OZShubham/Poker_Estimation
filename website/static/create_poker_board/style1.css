@@ -68,7 +68,6 @@ nav {
   
 .navbar-custom .navbar-nav .nav-link {
     color: #fff;
-    font-weight: bold;
     font-size: 18px;
     margin-left: 20px;
   }
@@ -133,6 +132,11 @@ body {
 /* Style the form submit button on hover */
 .box input[type="submit"]:hover {
     background-color:#130665;
+}
+#container {
+	text-align: center;
+	font-size: 25px;
+	margin-bottom: 15px;
 }
 
 @media only screen and (max-width: 767px) {

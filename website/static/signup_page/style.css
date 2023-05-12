@@ -29,9 +29,10 @@ h2[id="heading_1"] {
 	margin-bottom: 0px;
 }
 
-h2[id="heading_2"] {
+#heading_2 {
 	text-align: center;
-	margin-top: 0px;
+	font-size: 25px;
+	margin-bottom: 15px;
 }
 
 form {
@@ -47,7 +48,7 @@ label {
 input {
 	padding: 10px;
 	margin-bottom: 20px;
-	border: none;
+	border: 1px solid #130665;
 	border-radius: 5px;
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 }
@@ -62,7 +63,7 @@ button[type="submit"] {
 }
 
 #login-btn:disabled {
-	background-color: gray;
+	background-color: #130665;
 	cursor: not-allowed;
   }  
 
@@ -89,7 +90,6 @@ button[type="submit"]:hover {
   
   .navbar-custom .navbar-nav .nav-link {
 	color: #fff; /* change nav link text color */
-	font-weight: bold;
 	font-size: 18px;
 	margin-left: 20px; /* add some spacing between nav links */
   }

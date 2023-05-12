@@ -148,15 +148,18 @@ button[type="submit"]:hover {
 }
 
 #story-point-cards > div {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 225px;
+  margin: 10px;
+  background-color: #4CAF50;
+  border: 2px solid #333;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0;
-  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  font-size: 1.5rem;
+  transition: all 0.2s ease-in-out;
 }
 
 #story-point-cards > div:hover {

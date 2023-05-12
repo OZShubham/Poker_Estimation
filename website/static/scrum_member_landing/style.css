@@ -154,7 +154,6 @@ body {
   .navbar-custom .navbar-nav .nav-link {
     color: #fff;
     /* change nav link text color */
-    font-weight: bold;
     font-size: 18px;
     margin-left: 20px;
     /* add some spacing between nav links */

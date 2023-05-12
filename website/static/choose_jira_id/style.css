@@ -27,7 +27,6 @@ form {
 
 label {
   font-size: 1.2rem;
-  font-weight: bold;
   display: block;
   margin-bottom: 10px;
 }
@@ -63,7 +62,6 @@ select {
 
 .navbar-custom .navbar-nav .nav-link {
   color: #fff;
-  font-weight: bold;
   font-size: 18px;
   margin-left: 20px;
 }
@@ -80,8 +78,7 @@ select {
 }
 
 label {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 20px;
   margin-bottom: 0px;
   display: block;
 }
@@ -114,7 +111,6 @@ th {
   background-color: #343a40;
   color: white;
   font-size: 20px;
-  font-weight: bold;
 }
 
 td {

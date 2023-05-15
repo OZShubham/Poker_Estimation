@@ -6,10 +6,11 @@ body {
 	
 }
 
-.login-container {
+.signup-container {
 	background-color: white;
 	padding: 20px;
 	margin: 5% auto;
+	margin-top: 0px;
 	max-width: 400px;
 	border-radius: 5px;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -100,7 +101,7 @@ button[type="submit"]:hover {
 
 @media screen and (max-width: 768px) {
 	@media only screen and (max-width: 768px) {
-		.login-container {
+		.signup-container {
 			max-width: 90%;
 			margin: 10% auto;
 		}

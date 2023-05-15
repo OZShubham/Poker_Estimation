@@ -106,79 +106,85 @@ def create_poker_board():
 
 @views.route('/create_jira_id',methods=['POST','GET'])
 def create_jira_id():
+    if 'email' not in session:
+        return redirect('/login')
+    
+    else:
+        bucket_name = "poker-template-bucket"   #change the value according to your project
+        file_name = "template.xlsx"             #change the value according to your project
+        signed_url = generate_signed_url(bucket_name,file_name)
 
-    bucket_name = "poker-template-bucket"   #change the value according to your project
-    file_name = "template.xlsx"             #change the value according to your project
-    signed_url = generate_signed_url(bucket_name,file_name)
-
-    if request.method=='POST':
-        poker_board_id = session.get('poker_board_id')
-        print(poker_board_id)
-        jira_id = request.form.get('jira_id')
-        jira_description = request.form.get('jira_description')
-        jira_title = request.form.get('jira_title')
-
-        client = datastore.Client()
-
-        entity_key = client.key('PokerBoard', poker_board_id)
-        entity = client.get(entity_key)
-        if not entity:
-            return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
-        estimates = entity.get('estimates', [])
-        estimates.append({'jira_id': jira_id,'jira_description': jira_description,'jira_title' : jira_title})
-        entity.update({'estimates': estimates,
-                      'last_modified_timestamp': datetime.datetime.utcnow()})
-        client.put(entity)
-
-        event = 'created jira id'
-        user_event(event)
-        
-        def create_new_story():
+        if request.method=='POST':
             poker_board_id = session.get('poker_board_id')
             print(poker_board_id)
             jira_id = request.form.get('jira_id')
             jira_description = request.form.get('jira_description')
-            jira_title=request.form.get('jira_title')
+            jira_title = request.form.get('jira_title')
+
             client = datastore.Client()
-   
-            entity_key = client.key('newStory',poker_board_id)
+
+            entity_key = client.key('PokerBoard', poker_board_id)
             entity = client.get(entity_key)
             if not entity:
-                entity = datastore.Entity(key=entity_key)
-            
-            
-            story= entity.get('story',[])
-            story.append({'jira_id':jira_id,'jira_description': jira_description,'jira_title':jira_title,'created_timestamp': datetime.datetime.utcnow(),'last_modified_timestamp': datetime.datetime.utcnow()})
-            entity.update({'story':story,'poker_board_id':poker_board_id})
+                return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
+            estimates = entity.get('estimates', [])
+            estimates.append({'jira_id': jira_id,'jira_description': jira_description,'jira_title' : jira_title})
+            entity.update({'estimates': estimates,
+                      'last_modified_timestamp': datetime.datetime.utcnow()})
             client.put(entity)
 
-            return
-        create_new_story()
-        return redirect('/choose_jira_id')
-    
-    else:
+            event = 'created jira id'
+            user_event(event)
         
-        return render_template('create_jira_id.html', signed_url=signed_url)
+            def create_new_story():
+                poker_board_id = session.get('poker_board_id')
+                print(poker_board_id)
+                jira_id = request.form.get('jira_id')
+                jira_description = request.form.get('jira_description')
+                jira_title=request.form.get('jira_title')
+                client = datastore.Client()
+   
+                entity_key = client.key('newStory',poker_board_id)
+                entity = client.get(entity_key)
+                if not entity:
+                    entity = datastore.Entity(key=entity_key)
+            
+            
+                story= entity.get('story',[])
+                story.append({'jira_id':jira_id,'jira_description': jira_description,'jira_title':jira_title,'created_timestamp': datetime.datetime.utcnow(),'last_modified_timestamp': datetime.datetime.utcnow()})
+                entity.update({'story':story,'poker_board_id':poker_board_id})
+                client.put(entity)
+
+                return
+            create_new_story()
+            return redirect('/choose_jira_id')
+    
+        else:
+        
+            return render_template('create_jira_id.html', signed_url=signed_url)
 
 @views.route('/upload', methods=['POST'])
 def upload():
-    poker_board_id = session.get('poker_board_id')
-    file = request.files['file']
-    if file:
-        # Modify the filename to include the poker_board_id
-        filename = f"{poker_board_id}_{file.filename}"
-        # Upload the file to Google Cloud Storage
-        client = storage.Client()
-        bucket_name = 'poker-bucket-1'  # Replace with your bucket name
-        bucket = client.get_bucket(bucket_name)
-        blob = bucket.blob(filename)
-        blob.upload_from_file(file)
+    if 'email' not in session:
+        return redirect('/login')
+    else:
+        poker_board_id = session.get('poker_board_id')
+        file = request.files['file']
+        if file:
+            # Modify the filename to include the poker_board_id
+            filename = f"{poker_board_id}_{file.filename}"
+            # Upload the file to Google Cloud Storage
+            client = storage.Client()
+            bucket_name = 'poker-bucket-1'  # Replace with your bucket name
+            bucket = client.get_bucket(bucket_name)
+            blob = bucket.blob(filename)
+            blob.upload_from_file(file)
 
-        flash('File uploaded successfully!', 'success')
-        return redirect('/choose_jira_id')
+            flash('File uploaded successfully!', 'success')
+            return redirect('/choose_jira_id')
 
-    flash('No File is Selected.', 'danger')
-    return redirect('/create_jira_id')
+        flash('No File is Selected.', 'danger')
+        return redirect('/create_jira_id')
 
 
 @views.route('/scrum_team_member_view', methods=['GET', 'POST'])
@@ -456,90 +462,96 @@ def grant_user_access():
 
 @views.route('/choose_jira_id', methods=['GET', 'POST'])
 def choose_jira_id():
-    poker_board_id = session.get('poker_board_id')
-    client=datastore.Client()
-    entity_key=client.key('newStory',poker_board_id)
-    entity=client.get(entity_key)
-    
-    if not entity:
-        flash(" There is no JIRA Title in your backlog, Please create JIRA Title.", "danger")
-        return redirect('/create_jira_id')
-
-    def get_backlog_story():
-       
-
-        backlog=entity.get('story',[])
-
-        return json.dumps(backlog,indent=4, sort_keys=True, default=str)
-        
-    stories = get_backlog_story()
-    stories_json = json.loads(stories)
-    
-
-    event = 'on choose jira id'
-    user_event(event)
-
-    # Extract the jira_ids from the fetched entities
-    jira_ids = []
-    for story in stories_json:
-        jira_title = story.get('jira_title')
-
-        jira_id = story.get('jira_id')
-        if jira_id:
-            jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
-
-    if request.method == "POST":
-        jira_id = request.form.get('jira_id')
-        session['jira_id'] = jira_id
-        print('jira_id:', jira_id)
-        return redirect('/poker_estimates')
-
+    if 'email' not in session:
+        return redirect('/login')
     else:
-        return render_template('choose_jira_id.html', jira_ids=jira_ids)
+        poker_board_id = session.get('poker_board_id')
+        client=datastore.Client()
+        entity_key=client.key('newStory',poker_board_id)
+        entity=client.get(entity_key)
+        
+        if not entity:
+            flash(" There is no JIRA Title in your backlog, Please create JIRA Title.", "danger")
+            return redirect('/create_jira_id')
+
+        def get_backlog_story():
+        
+
+            backlog=entity.get('story',[])
+
+            return json.dumps(backlog,indent=4, sort_keys=True, default=str)
+            
+        stories = get_backlog_story()
+        stories_json = json.loads(stories)
+        
+
+        event = 'on choose jira id'
+        user_event(event)
+
+        # Extract the jira_ids from the fetched entities
+        jira_ids = []
+        for story in stories_json:
+            jira_title = story.get('jira_title')
+
+            jira_id = story.get('jira_id')
+            if jira_id:
+                jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
+
+        if request.method == "POST":
+            jira_id = request.form.get('jira_id')
+            session['jira_id'] = jira_id
+            print('jira_id:', jira_id)
+            return redirect('/poker_estimates')
+
+        else:
+            return render_template('choose_jira_id.html', jira_ids=jira_ids)
 
 
 
 
 @views.route('/scrum_member_landing', methods=['GET', 'POST'])
 def scrum_member_landing():
-
-    event = 'on scrum member landing'
-    user_event(event)
-
-    datastore_client = datastore.Client()
-    email = session.get('email')
-
-    # Retrieve the user's name from Datastore
-    query = datastore_client.query(kind='User')
-    query.add_filter('email', '=', email)
-    result = list(query.fetch())
-    name = result[0]['name'] if result else None #list comprehension
-    session['name'] = name
-    # Retrieve all entities of the User kind from Datastore
-    query = datastore_client.query(kind='User')
-    users = list(query.fetch())
-    
-    # Filter the list of users based on the email from the session
-    users_with_matching_email = [user for user in users if user.get('email') == email]
-    for user in users_with_matching_email:
-        poker_boards = user.get('entitlement',[])
-
-    
-    if request.method == "POST":
-        poker_board_id = request.form['poker_board_id']
-        entity_key = datastore_client.key('PokerBoard', poker_board_id)
-        entity = datastore_client.get(entity_key)
-        poker_board_type = entity.get('poker_board_type')
-        session['poker_board_id'] = poker_board_id
-        session['poker_board_type'] = poker_board_type
-        print(poker_board_type)
-
-       
-       
-        return redirect(url_for('views.choose_jiraa_id',name=name))
-
+    if 'email' not in session:
+        return redirect('/login')
     else:
-        return render_template('scrum_member_landing.html', name=name, poker_boards=poker_boards, poker_board_id=session.get('poker_board_id'))
+
+        event = 'on scrum member landing'
+        user_event(event)
+
+        datastore_client = datastore.Client()
+        email = session.get('email')
+
+        # Retrieve the user's name from Datastore
+        query = datastore_client.query(kind='User')
+        query.add_filter('email', '=', email)
+        result = list(query.fetch())
+        name = result[0]['name'] if result else None #list comprehension
+        session['name'] = name
+        # Retrieve all entities of the User kind from Datastore
+        query = datastore_client.query(kind='User')
+        users = list(query.fetch())
+        
+        # Filter the list of users based on the email from the session
+        users_with_matching_email = [user for user in users if user.get('email') == email]
+        for user in users_with_matching_email:
+            poker_boards = user.get('entitlement',[])
+
+        
+        if request.method == "POST":
+            poker_board_id = request.form['poker_board_id']
+            entity_key = datastore_client.key('PokerBoard', poker_board_id)
+            entity = datastore_client.get(entity_key)
+            poker_board_type = entity.get('poker_board_type')
+            session['poker_board_id'] = poker_board_id
+            session['poker_board_type'] = poker_board_type
+            print(poker_board_type)
+
+        
+        
+            return redirect(url_for('views.choose_jiraa_id',name=name))
+
+        else:
+            return render_template('scrum_member_landing.html', name=name, poker_boards=poker_boards, poker_board_id=session.get('poker_board_id'))
 
 
 
@@ -554,33 +566,36 @@ def choose_jiraa_id():
         backlog=entity.get('story',[])
 
         return json.dumps(backlog,indent=4, sort_keys=True, default=str)
-        
-    stories = get_backlog_story()
-    stories_json = json.loads(stories)
 
-    event = 'on choose jira id (scrum member)'
-    user_event(event)
+    if 'email' not in session:
+        return redirect('/login')
+    else:    
+        stories = get_backlog_story()
+        stories_json = json.loads(stories)
 
-    # Extract the jira_ids from the fetched entities
-    jira_ids = []
-    for story in stories_json:
-        jira_title = story.get('jira_title')
-        jira_id = story.get('jira_id')
-        if jira_id:
-            jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
+        event = 'on choose jira id (scrum member)'
+        user_event(event)
 
-    if request.method == "POST":
-        jira_id = request.form.get('jira_id')
-        session['jira_id'] = jira_id
-        poker_board_type =session.get('poker_board_type')
-        if poker_board_type == 'Fibonacci Number':
-            return redirect('/scrum_team_member_view')
+        # Extract the jira_ids from the fetched entities
+        jira_ids = []
+        for story in stories_json:
+            jira_title = story.get('jira_title')
+            jira_id = story.get('jira_id')
+            if jira_id:
+                jira_ids.append({'jira_id':jira_id,'jira_title':jira_title})
+
+        if request.method == "POST":
+            jira_id = request.form.get('jira_id')
+            session['jira_id'] = jira_id
+            poker_board_type =session.get('poker_board_type')
+            if poker_board_type == 'Fibonacci Number':
+                return redirect('/scrum_team_member_view')
+            else:
+                return redirect('/t_shirt')
+
+
         else:
-            return redirect('/t_shirt')
-
-
-    else:
-        return render_template('choose_jiraa_id.html', jira_ids=jira_ids)
+            return render_template('choose_jiraa_id.html', jira_ids=jira_ids)
 
 
 

@@ -36,7 +36,8 @@ def signup():
         existing_users = query.fetch()
 
         if len(list(existing_users)) > 0:
-            return 'User with this email already exists', 400
+            flash('User with this email already exist','danger')
+            return redirect('/signup')
 
         # Hash the password
 

@@ -54,14 +54,14 @@ nav {
   
 .navbar-custom .navbar-brand {
     color: #080808;
-    font-weight: bold;
+    
     font-size: 24px;
     display: flex;
     align-items: center;
   }
   
 .navbar-brand img {
-    width: 120px;
+    width: 140px;
     height: auto;
     margin-right: 10px;
   }

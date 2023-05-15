@@ -136,14 +136,14 @@ select:focus {
 .navbar-custom .navbar-brand {
   color: #fff;
   /* change brand text color */
-  font-weight: bold;
+  
   font-size: 24px;
   display: flex;
   align-items: center;
 }
 
 .navbar-brand img {
-  width: 120px;
+  width: 140px;
   /* increase width */
   height: auto;
   /* maintain aspect ratio */

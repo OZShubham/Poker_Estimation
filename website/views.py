@@ -169,7 +169,7 @@ def upload():
         filename = f"{poker_board_id}_{file.filename}"
         # Upload the file to Google Cloud Storage
         client = storage.Client()
-        bucket_name = 'poker-jira-bucket'  # Replace with your bucket name
+        bucket_name = 'poker-bucket-1'  # Replace with your bucket name
         bucket = client.get_bucket(bucket_name)
         blob = bucket.blob(filename)
         blob.upload_from_file(file)

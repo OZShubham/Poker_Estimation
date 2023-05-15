@@ -167,8 +167,8 @@ button[type="submit"]:hover {
 }
 
 #story-point-cards > div {
-  width: 150px;
-  height: 225px;
+  width: 140px;
+  height: 220px;
   margin: 10px;
   background-color: #83f587;
   border: 2px solid #333;

@@ -64,12 +64,7 @@ button[type="submit"]:hover {
 h3{
   text-align: center;
 }
-input[type="submit"]{
-  background-color: #4CAF50;
-}
-input[type="submit"]:hover {
-  background-color:#130665;
-}
+
 
 .radio-button {
   display: flex;
@@ -122,12 +117,11 @@ body {
   margin-top: 10px;
   font-weight: bold;
 }
-input[type="file"]{
-  margin-left: 100px;
-}
+
 
 .submit-btn {
   margin-top: 20px;
+  margin-left: 170px;
   padding: 10px 20px;
   background-color: #4caf50;
   color: #fff;
@@ -172,4 +166,5 @@ input[type="file"]{
     margin-top: 10px;
     margin-left: 70px;
   }
+ 
 }

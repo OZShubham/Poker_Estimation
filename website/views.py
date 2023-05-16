@@ -563,18 +563,25 @@ def choose_jiraa_id():
     
     def get_backlog_story():
         poker_board_id = session.get('poker_board_id')
-        client=datastore.Client()
-        entity_key=client.key('newStory',poker_board_id)
-        entity=client.get(entity_key)
-        backlog=entity.get('story',[])
+        client = datastore.Client()
+        entity_key = client.key('newStory', poker_board_id)
+        entity = client.get(entity_key)
 
-        return json.dumps(backlog,indent=4, sort_keys=True, default=str)
+        if entity is None or 'story' not in entity:
+            return json.dumps([], indent=4, sort_keys=True, default=str)
+        else:
+            backlog = entity['story']
+            return json.dumps(backlog, indent=4, sort_keys=True, default=str)
+
 
     if 'email' not in session:
         return redirect('/login')
     else:    
         stories = get_backlog_story()
         stories_json = json.loads(stories)
+
+        if not stories_json:
+            return render_template('no_jira.html')
 
         event = 'on choose jira id (scrum member)'
         user_event(event)
@@ -595,10 +602,13 @@ def choose_jiraa_id():
                 return redirect('/scrum_team_member_view')
             else:
                 return redirect('/t_shirt')
+            
 
 
         else:
-            return render_template('choose_jiraa_id.html', jira_ids=jira_ids)
+
+                return render_template('choose_jiraa_id.html', jira_ids=jira_ids)
+
 
 
 

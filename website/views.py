@@ -551,7 +551,10 @@ def scrum_member_landing():
             return redirect(url_for('views.choose_jiraa_id',name=name))
 
         else:
-            return render_template('scrum_member_landing.html', name=name, poker_boards=poker_boards, poker_board_id=session.get('poker_board_id'))
+            if not poker_boards:  # Check if the list is empty
+                return render_template('no_boards.html', name=name)  # Render a template with a message
+            else:
+                return render_template('scrum_member_landing.html', name=name, poker_boards=poker_boards, poker_board_id=session.get('poker_board_id'))
 
 
 

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <style>
+       .board {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.column {
+  flex: 1;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.add-item {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.add-button {
+  margin-right: 5px;
+  font-size: 16px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
+}
+
+.item-container {
+  margin-top: 5px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.item textarea {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.delete-button {
+  color: red;
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.delete-button:hover {
+  text-decoration: underline;
+}
+
+
+
+    </style>
+  <div class="board">
+    <div class="column">
+      <h2>What went well</h2>
+      <div class="add-item">
+        <button class="add-button" onclick="addItem(this)">+</button>
+        <div class="item-container"></div>
+      </div>
+    </div>
+    <div class="column">
+      <h2>What didn't go well</h2>
+      <div class="add-item">
+        <button class="add-button" onclick="addItem(this)">+</button>
+        <div class="item-container"></div>
+      </div>
+    </div>
+    <div class="column">
+      <h2>What can be improved</h2>
+      <div class="add-item">
+        <button class="add-button" onclick="addItem(this)">+</button>
+        <div class="item-container"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function addItem(button) {
+  var textarea = button.nextElementSibling;
+  var newItem = document.createElement("div");
+  newItem.innerHTML = `
+    <textarea placeholder="Add item"></textarea>
+    <span class="delete-button" onclick="removeItem(this)">Delete</span>
+  `;
+  textarea.parentNode.parentNode.insertBefore(newItem, textarea.parentNode.nextSibling);
+}
+
+
+function removeItem(span) {
+  span.parentNode.remove();
+}
+
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

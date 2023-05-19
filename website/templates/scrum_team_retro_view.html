@@ -3,8 +3,71 @@
 <head>
     <title>Scrum Team Retro View</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        section.column {
+            margin-right: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin: 0 0 10px;
+        }
+
+        .add-item {
+            margin-bottom: 20px;
+        }
+
+        .add-button {
+            font-size: 18px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-button:hover {
+            background-color: #45a049;
+        }
+
+        .item-container {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .item-container .item {
+            margin-bottom: 10px;
+        }
+
+        .submit-button {
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
+   
     <section class="column">
         <h2>What went well</h2>
         <div class="add-item">

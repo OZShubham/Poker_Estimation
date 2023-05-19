@@ -551,10 +551,7 @@ def scrum_member_landing():
             return redirect(url_for('views.choose_jiraa_id',name=name))
 
         else:
-            if not poker_boards:  # Check if the list is empty
-                return render_template('no_boards.html', name=name)  # Render a template with a message
-            else:
-                return render_template('scrum_member_landing.html', name=name, poker_boards=poker_boards, poker_board_id=session.get('poker_board_id'))
+            return render_template('scrum_member_landing.html', name=name, poker_boards=poker_boards, poker_board_id=session.get('poker_board_id'))
 
 
 
@@ -563,25 +560,18 @@ def choose_jiraa_id():
     
     def get_backlog_story():
         poker_board_id = session.get('poker_board_id')
-        client = datastore.Client()
-        entity_key = client.key('newStory', poker_board_id)
-        entity = client.get(entity_key)
+        client=datastore.Client()
+        entity_key=client.key('newStory',poker_board_id)
+        entity=client.get(entity_key)
+        backlog=entity.get('story',[])
 
-        if entity is None or 'story' not in entity:
-            return json.dumps([], indent=4, sort_keys=True, default=str)
-        else:
-            backlog = entity['story']
-            return json.dumps(backlog, indent=4, sort_keys=True, default=str)
-
+        return json.dumps(backlog,indent=4, sort_keys=True, default=str)
 
     if 'email' not in session:
         return redirect('/login')
     else:    
         stories = get_backlog_story()
         stories_json = json.loads(stories)
-
-        if not stories_json:
-            return render_template('no_jira.html')
 
         event = 'on choose jira id (scrum member)'
         user_event(event)
@@ -602,13 +592,10 @@ def choose_jiraa_id():
                 return redirect('/scrum_team_member_view')
             else:
                 return redirect('/t_shirt')
-            
 
 
         else:
-
-                return render_template('choose_jiraa_id.html', jira_ids=jira_ids)
-
+            return render_template('choose_jiraa_id.html', jira_ids=jira_ids)
 
 
 
@@ -707,3 +694,122 @@ def t_shirt():
     return render_template('t_shirt.html',jira_description=jira_description,jira_id=jira_id,name=name,jira_title=jira_title)
 
 
+
+# retrospective 
+
+
+
+@views.route('/create_retro_board')
+def go_to_retro_board():
+
+    if 'email' not in session:
+        return redirect('/login')
+    return render_template('create_retro_board.html')
+
+@views.route('/create_retro_board', methods=['GET', 'POST'])
+def create_retro_board():
+    if request.method == 'POST':
+        if 'email' not in session:
+            return redirect('/login')
+        else:
+            email = session['email']
+            retro_board_name = request.form.get('retro_board_name')
+            team_id = request.form.get('team_id')
+            poker_board_id = session.get('poker_board_id')
+
+        if not team_id or not poker_board_id:
+            return jsonify({'error': 'Please Provide team_id and poker_board_id fields '}), 400
+
+
+        response_dict = {
+            'user_id': email,
+            'retro_board_name': retro_board_name,
+            'poker_board_id': poker_board_id,
+            
+            'org_id': 'cognizant',
+            'created_timestamp': datetime.datetime.utcnow(),
+            
+            'team_id': team_id,
+            'status': 'Created'
+        }
+
+        # Save response_dict to Datastore
+        client = datastore.Client()
+        entity_key = client.key('RetroBoard', poker_board_id)
+        entity = datastore.Entity(key=entity_key)
+        entity.update(response_dict)
+        client.put(entity)
+
+        # Calling the function to log the event.
+        event = 'Created Retrospective board'
+        user_event(event)
+
+        return redirect('/scrum_master_landing')
+
+    # Return a default response for other request methods
+    return jsonify({'error': 'Method not allowed'}), 405 
+
+
+
+
+@views.route('/scrum_team_retro_view', methods=['GET', 'POST'])
+def scrum_team_retro_view():
+
+    event = 'on scrum team retro view'
+    user_event(event)
+
+    poker_board_id = session.get('poker_board_id')
+    
+    name = session.get('name')
+    
+    if 'email' not in session:
+        return redirect('/login')
+    
+    client = datastore.Client()
+    entity_key = client.key('RetroBoard', poker_board_id)
+    entity = client.get(entity_key)
+    if not entity:
+        return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
+    
+    
+    if request.method == 'POST':
+        
+        user_id = session.get('email')
+        
+        
+        what_went_well = request.form['what_went_well']
+        what_went_wrong = request.form['what_went_wrong']
+        what_can_be_improved = request.form['what_can_be_improved']
+
+        # Retrieve email from session
+        email = session.get('email')
+
+        
+
+        # Query Datastore for user with matching email
+        client = datastore.Client()
+        query = client.query(kind='User')
+        query.add_filter('email', '=', email)
+        result = list(query.fetch(limit=1))
+        if not result:
+            return 'Error: User not found', 404
+
+        # Update PokerBoard entity
+        entity_key = client.key('RetroBoard', poker_board_id)
+        entity = client.get(entity_key)
+        if not entity:
+            return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
+
+        
+                     
+
+        entity['what_went_well'] = what_went_well
+        entity['what_went_wrong'] = what_went_wrong
+        entity['what_can_be_improved'] = what_can_be_improved
+
+        client.put(entity)
+        return redirect('/choose_jiraa_id')
+
+    return render_template('scrum_team_retro_view.html')
+
+        

@@ -1,146 +1,77 @@
-<!--<!DOCTYPE html>
-<html>
-<head>
-    <title>Scrum Team Retro View</title>
-</head>
-<body>
-    <h1>Scrum Team Retro View</h1>
-    <form method="POST" action="/scrum_team_retro_view">
-        <label for="what_went_well">What went well:</label><br>
-        <input type="text" name="what_went_well"><br><br>
-
-        <label for="what_went_wrong">What went wrong:</label><br>
-        <input type="text" name="what_went_wrong"><br><br>
-
-        <label for="what_can_be_improved">What can be improved:</label><br>
-        <input type="text" name="what_can_be_improved"><br><br>
-
-        <input type="submit" value="Submit">
-    </form>
-</body>
-</html>-->
-
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Scrum Team Retro View</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <style>
-       .board {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
+    <section class="column">
+        <h2>What went well</h2>
+        <div class="add-item">
+            <button class="add-button" onclick="addItem(this)">+</button>
+            <div class="item-container"></div>
+        </div>
+    </section>
+    
+    <section class="column">
+        <h2>What went wrong</h2>
+        <div class="add-item">
+            <button class="add-button" onclick="addItem(this)">+</button>
+            <div class="item-container"></div>
+        </div>
+    </section>
+    
+    <section class="column">
+        <h2>What can be improved</h2>
+        <div class="add-item">
+            <button class="add-button" onclick="addItem(this)">+</button>
+            <div class="item-container"></div>
+        </div>
+    </section>
+    
+    <form id="retro-form" method="POST" action="/scrum_team_retro_view">
+        <input type="hidden" name="what_went_well" id="what_went_well">
+        <input type="hidden" name="what_went_wrong" id="what_went_wrong">
+        <input type="hidden" name="what_can_be_improved" id="what_can_be_improved">
+        <button class="submit-button" type="submit">Submit</button>
+    </form>
+    
+    <script>
+        function addItem(button) {
+            var textarea = button.nextElementSibling;
+            var newItem = document.createElement("div");
+            newItem.innerHTML = `
+                <textarea placeholder="Add item"></textarea>
+                <span class="delete-button" onclick="removeItem(this)">Delete</span>
+            `;
+            textarea.parentNode.parentNode.insertBefore(newItem, textarea.parentNode.nextSibling);
+        }
 
-.column {
-  flex: 1;
-  padding: 10px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
-}
+        function removeItem(span) {
+            span.parentNode.remove();
+        }
 
-h2 {
-  margin-top: 0;
-  text-align: center;
-}
-
-.add-item {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.add-button {
-  margin-right: 5px;
-  font-size: 16px;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 50%;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.add-button:hover {
-  background-color: #0056b3;
-}
-
-.item-container {
-  margin-top: 5px;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-  width: 100%;
-}
-
-.item textarea {
-  width: 100%;
-  height: 100%;
-  resize: none;
-  border: none;
-  border-radius: 3px;
-  padding: 5px;
-}
-
-.delete-button {
-  color: red;
-  cursor: pointer;
-  margin-left: 5px;
-  font-size: 12px;
-}
-
-.delete-button:hover {
-  text-decoration: underline;
-}
-
-
-
-    </style>
-  <div class="board">
-    <div class="column">
-      <h2>What went well</h2>
-      <div class="add-item">
-        <button class="add-button" onclick="addItem(this)">+</button>
-        <div class="item-container"></div>
-      </div>
-    </div>
-    <div class="column">
-      <h2>What didn't go well</h2>
-      <div class="add-item">
-        <button class="add-button" onclick="addItem(this)">+</button>
-        <div class="item-container"></div>
-      </div>
-    </div>
-    <div class="column">
-      <h2>What can be improved</h2>
-      <div class="add-item">
-        <button class="add-button" onclick="addItem(this)">+</button>
-        <div class="item-container"></div>
-      </div>
-    </div>
-  </div>
-  <script>
-    function addItem(button) {
-  var textarea = button.nextElementSibling;
-  var newItem = document.createElement("div");
-  newItem.innerHTML = `
-    <textarea placeholder="Add item"></textarea>
-    <span class="delete-button" onclick="removeItem(this)">Delete</span>
-  `;
-  textarea.parentNode.parentNode.insertBefore(newItem, textarea.parentNode.nextSibling);
-}
-
-
-function removeItem(span) {
-  span.parentNode.remove();
-}
-
-  </script>
-  <script src="script.js"></script>
+        function submitForm() {
+            var form = document.getElementById("retro-form");
+            var whatWentWellInput = document.getElementById("what_went_well");
+            var whatWentWrongInput = document.getElementById("what_went_wrong");
+            var whatCanBeImprovedInput = document.getElementById("what_can_be_improved");
+            
+            var whatWentWellItems = document.querySelectorAll(".column:nth-child(1) textarea");
+            var whatWentWrongItems = document.querySelectorAll(".column:nth-child(2) textarea");
+            var whatCanBeImprovedItems = document.querySelectorAll(".column:nth-child(3) textarea");
+            
+            whatWentWellInput.value = Array.from(whatWentWellItems).map(item => item.value).join(",");
+            whatWentWrongInput.value = Array.from(whatWentWrongItems).map(item => item.value).join(",");
+            whatCanBeImprovedInput.value = Array.from(whatCanBeImprovedItems).map(item => item.value).join(",");
+            
+            form.submit();
+        }
+        
+        document.getElementById("retro-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            submitForm();
+        });
+    </script>
 </body>
 </html>

@@ -759,53 +759,38 @@ def scrum_team_retro_view():
     user_event(event)
 
     poker_board_id = session.get('poker_board_id')
-    
-    name = session.get('name')
-    
+
     if 'email' not in session:
         return redirect('/login')
-    
+
     client = datastore.Client()
     entity_key = client.key('RetroBoard', poker_board_id)
     entity = client.get(entity_key)
     if not entity:
         return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
-    
-    
+
     if request.method == 'POST':
-        
         user_id = session.get('email')
-        
-        
+
         what_went_well = request.form['what_went_well']
         what_went_wrong = request.form['what_went_wrong']
         what_can_be_improved = request.form['what_can_be_improved']
 
-        # Retrieve email from session
-        email = session.get('email')
+        # Check if the PokerBoard entity has a 'users' property
+        if 'users' not in entity:
+            entity['users'] = []
 
-        
+        # Find the user's data dictionary or create a new one
+        user_data = next((data for data in entity['users'] if user_id in data), {})
+        user_data[user_id] = {
+            'what_went_well': what_went_well,
+            'what_went_wrong': what_went_wrong,
+            'what_can_be_improved': what_can_be_improved
+        }
 
-        # Query Datastore for user with matching email
-        client = datastore.Client()
-        query = client.query(kind='User')
-        query.add_filter('email', '=', email)
-        result = list(query.fetch(limit=1))
-        if not result:
-            return 'Error: User not found', 404
-
-        # Update PokerBoard entity
-        entity_key = client.key('RetroBoard', poker_board_id)
-        entity = client.get(entity_key)
-        if not entity:
-            return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
-
-        
-                     
-
-        entity['what_went_well'] = what_went_well
-        entity['what_went_wrong'] = what_went_wrong
-        entity['what_can_be_improved'] = what_can_be_improved
+        # Update the user's data in the PokerBoard entity
+        if user_data not in entity['users']:
+            entity['users'].append(user_data)
 
         client.put(entity)
         return redirect('/choose_jiraa_id')

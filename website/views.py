@@ -118,7 +118,7 @@ def create_jira_id():
         return redirect('/login')
     
     else:
-        bucket_name = "url_poker_template"   #change the value according to your project
+        bucket_name = "poker-template-bucket"   #change the value according to your project
         file_name = "template.xlsx"             #change the value according to your project
         signed_url = generate_signed_url(bucket_name,file_name)
 
@@ -183,7 +183,7 @@ def upload():
             filename = f"{poker_board_id}_{file.filename}"
             # Upload the file to Google Cloud Storage
             client = storage.Client()
-            bucket_name = 'poker_estimate1'  # Replace with your bucket name
+            bucket_name = 'poker-jira-bucket'  # Replace with your bucket name
             bucket = client.get_bucket(bucket_name)
             blob = bucket.blob(filename)
             blob.upload_from_file(file)
@@ -483,7 +483,7 @@ def choose_jira_id():
             return redirect('/create_jira_id')
 
         def get_backlog_story():
-        
+            
 
             backlog=entity.get('story',[])
 
@@ -559,7 +559,10 @@ def scrum_member_landing():
             return redirect(url_for('views.choose_jiraa_id',name=name))
 
         else:
-            return render_template('scrum_member_landing.html', name=name, poker_boards=poker_boards, poker_board_id=session.get('poker_board_id'))
+            if not poker_boards:  # Check if the list is empty
+                return render_template('no_board.html', name=name)  # Render a template with a message
+            else:
+                return render_template('scrum_member_landing.html', name=name, poker_boards=poker_boards, poker_board_id=session.get('poker_board_id'))
 
 
 
@@ -568,18 +571,25 @@ def choose_jiraa_id():
     
     def get_backlog_story():
         poker_board_id = session.get('poker_board_id')
-        client=datastore.Client()
-        entity_key=client.key('newStory',poker_board_id)
-        entity=client.get(entity_key)
-        backlog=entity.get('story',[])
+        client = datastore.Client()
+        entity_key = client.key('newStory', poker_board_id)
+        entity = client.get(entity_key)
 
-        return json.dumps(backlog,indent=4, sort_keys=True, default=str)
+        if entity is None or 'story' not in entity:
+            return json.dumps([], indent=4, sort_keys=True, default=str)
+        else:
+            backlog = entity['story']
+            return json.dumps(backlog, indent=4, sort_keys=True, default=str)
+
 
     if 'email' not in session:
         return redirect('/login')
     else:    
         stories = get_backlog_story()
         stories_json = json.loads(stories)
+
+        if not stories_json:
+            return render_template('no_jira.html')
 
         event = 'on choose jira id (scrum member)'
         user_event(event)
@@ -823,7 +833,9 @@ def create_retro_board():
         event = 'Created Retrospective board'
         user_event(event)
 
-        return redirect('/create_retro_board')
+        session['retro_board_id'] = retro_board_id
+
+        return redirect('/retro_results')
 
 
     # Return a default response for other request methods
@@ -915,7 +927,11 @@ def retro_results():
                 'what_can_be_improved': what_can_be_improved
             })
 
-    return render_template('retro_results.html', user_retrospectives=user_retrospectives)
+    if not user_retrospectives:
+        return render_template('no_retro.html')
+    else:
+        return render_template('retro_results.html', user_retrospectives=user_retrospectives)
+    
 
 
 

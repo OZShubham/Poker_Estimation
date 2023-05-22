@@ -26,8 +26,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                    <a class="nav-link" href="#">Home</a>
-                    <a class="nav-link" href="#">Retrospective Board</a>
+                    <a class="nav-link" href="{{ url_for('views.scrum_member_landing') }}">Home</a>
+                    <a class="nav-link" href="{{ url_for('views.retro_results') }}">Retro Board Result</a>
                     <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
                 </div>
             </div>
@@ -95,7 +95,7 @@
             var textarea = button.nextElementSibling;
             var newItem = document.createElement("div");
             newItem.innerHTML = `
-        <textarea placeholder="Add item" style="margin-top: 30px;"></textarea>
+        <textarea placeholder="Add item" style="margin-top: 5px;"></textarea>
         <span class="delete-button" onclick="removeItem(this)">Delete</span>
     `;
             textarea.parentNode.parentNode.insertBefore(newItem, textarea.parentNode.nextSibling);

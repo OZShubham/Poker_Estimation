@@ -91,7 +91,7 @@ button[type="submit"]:hover {
   
   .navbar-custom .navbar-nav .nav-link {
 	color: #fff; /* change nav link text color */
-	font-size: 18px;
+	font-size: 15px;
 	margin-left: 20px; /* add some spacing between nav links */
   }
   
@@ -126,7 +126,7 @@ button[type="submit"]:hover {
 	}
 	
 	.navbar-custom .navbar-nav .nav-link {
-	font-size: 16px;
+	font-size: 15px;
 	margin-left: 10px;
 	}
 	}

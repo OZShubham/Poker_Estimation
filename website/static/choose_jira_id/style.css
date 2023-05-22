@@ -62,7 +62,7 @@ select {
 
 .navbar-custom .navbar-nav .nav-link {
   color: #fff;
-  font-size: 18px;
+  font-size: 15px;
   margin-left: 20px;
 }
 
@@ -179,7 +179,7 @@ tr:nth-child(odd) {
   }
 
   .navbar-custom .navbar-nav .nav-link {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .jira-container {

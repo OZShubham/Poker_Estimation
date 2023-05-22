@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+section.column {
+    margin-top: 50px;
+    margin-right: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    margin: 0 0 10px;
+}
+
+.add-item {
+    
+    margin-bottom: 20px;
+}
+
+.add-button {
+    font-size: 18px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.add-button:hover {
+    background-color: #45a049;
+}
+
+.item-container {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.item-container .item {
+    margin-bottom: 10px;
+}
+
+.submit-button {
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+.navbar-custom {
+    background-color: #130665;
+    /* change background color */
+  }
+  
+  .navbar-custom .navbar-brand {
+    color: #fff;
+    /* change brand text color */
+    
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-brand img {
+    width: 140px;
+    /* increase width */
+    height: auto;
+    /* maintain aspect ratio */
+    margin-right: 10px;
+  }
+  
+  .navbar-custom .navbar-nav .nav-link {
+    color: #fff;
+    /* change nav link text color */
+    
+    font-size: 15px;
+    margin-left: 20px;
+    /* add some spacing between nav links */
+  }

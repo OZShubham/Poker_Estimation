@@ -752,6 +752,9 @@ def create_retro_board():
 
 
 
+
+
+
 @views.route('/scrum_team_retro_view', methods=['GET', 'POST'])
 def scrum_team_retro_view():
 
@@ -793,9 +796,49 @@ def scrum_team_retro_view():
             entity['users'].append(user_data)
 
         client.put(entity)
-        return redirect('/choose_jiraa_id')
+        return redirect('/retro_results')
 
     return render_template('scrum_team_retro_view.html')
+
+@views.route('/retro_results', methods=['GET'])
+def retro_results():
+
+    event = 'on retrospective results'
+    user_event(event)
+
+    poker_board_id = session.get('poker_board_id')
+
+    if 'email' not in session:
+        return redirect('/login')
+
+    client = datastore.Client()
+    entity_key = client.key('RetroBoard', poker_board_id)
+    entity = client.get(entity_key)
+    if not entity:
+        return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
+
+    user_retrospectives = []
+
+    # Iterate over the users' data and retrieve the retrospective items
+    for user_data in entity.get('users', []):
+        for user_id, retrospective in user_data.items():
+            user_name = retrospective.get(user_id)  # Replace with your logic to get the user's name
+            what_went_well = retrospective.get('what_went_well', '').split(',')
+            what_went_wrong = retrospective.get('what_went_wrong', '').split(',')
+            what_can_be_improved = retrospective.get('what_can_be_improved', '').split(',')
+
+            user_retrospectives.append({
+                'user_name': user_name,
+                'what_went_well': what_went_well,
+                'what_went_wrong': what_went_wrong,
+                'what_can_be_improved': what_can_be_improved
+            })
+
+    return render_template('retro_results.html', user_retrospectives=user_retrospectives)
+
+
+
+
 
 
 

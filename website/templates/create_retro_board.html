@@ -37,9 +37,18 @@
         <div id="container">
             Create Retrospective Board
         </div>
-        
+        <label for="poker_board_id">Select Poker Board </label>
+      
+        <select name="poker_board_id">
+        {% for board in boards %}
+        <option value="{{ board['poker_board_id'] }}">
+          {{ board['poker_board_name'] }}
+        </option>
+        {% endfor %}
+        </select>
         <input type="text" required name="retro_board_name" placeholder="Enter Retrospective Board Name" id="retro_board_name">
         <input type="text" required name="team_id" placeholder="Enter Team ID" id="team_id">
+        
         
         
         <input type="submit" name="" value="Create" onclick="validate()">

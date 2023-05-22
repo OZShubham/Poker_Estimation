@@ -704,7 +704,9 @@ def go_to_retro_board():
 
     if 'email' not in session:
         return redirect('/login')
-    return render_template('create_retro_board.html')
+    query=datastore_client.query(kind='PokerBoard')
+    boards=query.fetch()
+    return render_template('create_retro_board.html',boards=boards)
 
 @views.route('/create_retro_board', methods=['GET', 'POST'])
 def create_retro_board():
@@ -712,10 +714,11 @@ def create_retro_board():
         if 'email' not in session:
             return redirect('/login')
         else:
+            
             email = session['email']
             retro_board_name = request.form.get('retro_board_name')
             team_id = request.form.get('team_id')
-            poker_board_id = session.get('poker_board_id')
+            poker_board_id = request.form.get('poker_board_id')
 
         if not team_id or not poker_board_id:
             return jsonify({'error': 'Please Provide team_id and poker_board_id fields '}), 400
@@ -745,6 +748,7 @@ def create_retro_board():
         user_event(event)
 
         return redirect('/scrum_master_landing')
+
 
     # Return a default response for other request methods
     return jsonify({'error': 'Method not allowed'}), 405 

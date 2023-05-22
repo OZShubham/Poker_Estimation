@@ -1,74 +1,15 @@
 body {
+    background-color: #f8f9fa;
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-}
-
-.container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-}
-
-section.column {
-    margin-top: 50px;
-    margin-right: 20px;
-}
-
-h2 {
-    font-size: 24px;
-    margin: 0 0 10px;
-}
-
-.add-item {
-    
-    margin-bottom: 20px;
-}
-
-.add-button {
-    font-size: 18px;
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-.add-button:hover {
-    background-color: #45a049;
-}
-
-.item-container {
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-.item-container .item {
-    margin-bottom: 10px;
-}
-
-.submit-button {
-    font-size: 18px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-.submit-button:hover {
-    background-color: #45a049;
+    padding-top: 70px;
 }
 
 .navbar-custom {
     background-color: #130665;
-    /* change background color */
   }
   
   .navbar-custom .navbar-brand {
-    color: #fff;
-    /* change brand text color */
+    color: #080808;
     
     font-size: 24px;
     display: flex;
@@ -77,17 +18,84 @@ h2 {
   
   .navbar-brand img {
     width: 140px;
-    /* increase width */
     height: auto;
-    /* maintain aspect ratio */
     margin-right: 10px;
   }
   
   .navbar-custom .navbar-nav .nav-link {
     color: #fff;
-    /* change nav link text color */
-    
     font-size: 15px;
     margin-left: 20px;
-    /* add some spacing between nav links */
+  }
+  
+  
+
+.tab-content {
+    margin-top: 30px;
+}
+
+.tab-pane {
+    padding: 30px;
+}
+
+.column {
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.add-item {
+    display: flex;
+    align-items: center;
+}
+
+.add-button {
+    background-color:  #4CAF50;
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.item-container {
+    margin: 10px;
+}
+
+textarea {
+    width: 100%;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    resize: vertical;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    
+}
+
+.delete-button {
+    color: #dc3545;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  button[type="submit"]:hover {
+    background-color:#130665;
   }

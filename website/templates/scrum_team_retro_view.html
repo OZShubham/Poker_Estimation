@@ -1,147 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    
-    <title>Scrum Team Retro View</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    
-    
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Master Landing Page</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='scrum_retro_view/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
-        .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-        }
-
-        section.column {
-            margin-top: 50px;
-            margin-right: 20px;
-        }
-
-        h2 {
-            font-size: 24px;
-            margin: 0 0 10px;
-        }
-
-        .add-item {
-            margin-bottom: 20px;
-        }
-
-        .add-button {
-            font-size: 18px;
-            padding: 5px 10px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-
-        .add-button:hover {
-            background-color: #45a049;
-        }
-
-        .item-container {
-            background-color: #f2f2f2;
-            padding: 10px;
-            border-radius: 4px;
-        }
-
-        .item-container .item {
-            margin-bottom: 10px;
-        }
-
-        .submit-button {
-            font-size: 18px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-
-        .submit-button:hover {
-            background-color: #45a049;
-        }
-        .navbar-custom {
-    background-color: #130665;
-    /* change background color */
-  }
-  
-  .navbar-custom .navbar-brand {
-    color: #fff;
-    /* change brand text color */
-    
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .navbar-brand img {
-    width: 140px;
-    /* increase width */
-    height: auto;
-    /* maintain aspect ratio */
-    margin-right: 10px;
-  }
-  
-  .navbar-custom .navbar-nav .nav-link {
-    color: #fff;
-    /* change nav link text color */
-    
-    font-size: 15px;
-    margin-left: 20px;
-    /* add some spacing between nav links */
-  }
-    </style>
 </head>
-<body>
-    
 
-    <section class="column">
-        <h2>What went well</h2>
-        <div class="add-item">
-            <button class="add-button" onclick="addItem(this)">+</button>
-            <div class="item-container"></div>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img class="logo img-fluid" src="../static/signup_page/ctslogo.png" alt="Cognizant Technology Solutions"
+                    width="100" height="140">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="#">Retrospective Board</a>
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                </div>
+            </div>
         </div>
-    </section>
-    
-    <section class="column">
-        <h2>What went wrong</h2>
-        <div class="add-item">
-            <button class="add-button" onclick="addItem(this)">+</button>
-            <div class="item-container"></div>
+    </nav>
+
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="what-went-well-tab" data-bs-toggle="tab" href="#what-went-well">What went
+                    well</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="what-went-wrong-tab" data-bs-toggle="tab" href="#what-went-wrong">What went
+                    wrong</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="what-can-be-improved-tab" data-bs-toggle="tab" href="#what-can-be-improved">What
+                    can be improved</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="what-went-well">
+                <section class="column">
+                    <h2>What went well</h2>
+                    <div class="add-item">
+                        <button class="add-button" onclick="addItem(this)">+</button><br>
+                        <div class="item-container"></div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-pane fade" id="what-went-wrong">
+                <section class="column">
+                    <h2>What went wrong</h2>
+                    <div class="add-item">
+                        <button class="add-button" onclick="addItem(this)">+</button>
+                        <div class="item-container"></div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-pane fade" id="what-can-be-improved">
+                <section class="column">
+                    <h2>What can be improved</h2>
+                    <div class="add-item">
+                        <button class="add-button" onclick="addItem(this)">+</button>
+                        <div class="item-container"></div>
+                    </div>
+                </section>
+            </div>
         </div>
-    </section>
-    
-    <section class="column">
-        <h2>What can be improved</h2>
-        <div class="add-item">
-            <button class="add-button" onclick="addItem(this)">+</button>
-            <div class="item-container"></div>
-        </div>
-    </section>
-    
-    <form id="retro-form" method="POST" action="/scrum_team_retro_view">
-        <input type="hidden" name="what_went_well" id="what_went_well">
-        <input type="hidden" name="what_went_wrong" id="what_went_wrong">
-        <input type="hidden" name="what_can_be_improved" id="what_can_be_improved">
-        <button class="submit-button" type="submit">Submit</button>
-    </form>
-    
+
+        <form id="retro-form" method="POST" action="/scrum_team_retro_view">
+            <input type="hidden" name="what_went_well" id="what_went_well">
+            <input type="hidden" name="what_went_wrong" id="what_went_wrong">
+            <input type="hidden" name="what_can_be_improved" id="what_can_be_improved">
+            <button class="submit-button btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+
     <script>
         function addItem(button) {
             var textarea = button.nextElementSibling;
             var newItem = document.createElement("div");
             newItem.innerHTML = `
-                <textarea placeholder="Add item"></textarea>
-                <span class="delete-button" onclick="removeItem(this)">Delete</span>
-            `;
+        <textarea placeholder="Add item" style="margin-top: 30px;"></textarea>
+        <span class="delete-button" onclick="removeItem(this)">Delete</span>
+    `;
             textarea.parentNode.parentNode.insertBefore(newItem, textarea.parentNode.nextSibling);
         }
 
@@ -154,23 +110,30 @@
             var whatWentWellInput = document.getElementById("what_went_well");
             var whatWentWrongInput = document.getElementById("what_went_wrong");
             var whatCanBeImprovedInput = document.getElementById("what_can_be_improved");
-            
-            var whatWentWellItems = document.querySelectorAll(".column:nth-child(1) textarea");
-            var whatWentWrongItems = document.querySelectorAll(".column:nth-child(2) textarea");
-            var whatCanBeImprovedItems = document.querySelectorAll(".column:nth-child(3) textarea");
-            
-            whatWentWellInput.value = Array.from(whatWentWellItems).map(item => item.value).join(",");
-            whatWentWrongInput.value = Array.from(whatWentWrongItems).map(item => item.value).join(",");
-            whatCanBeImprovedInput.value = Array.from(whatCanBeImprovedItems).map(item => item.value).join(",");
-            
+
+            var whatWentWellItems = document.querySelectorAll("#what-went-well textarea");
+            var whatWentWrongItems = document.querySelectorAll("#what-went-wrong textarea");
+            var whatCanBeImprovedItems = document.querySelectorAll("#what-can-be-improved textarea");
+
+            var whatWentWellValues = Array.from(whatWentWellItems).map(item => item.value);
+            var whatWentWrongValues = Array.from(whatWentWrongItems).map(item => item.value);
+            var whatCanBeImprovedValues = Array.from(whatCanBeImprovedItems).map(item => item.value);
+
+            whatWentWellInput.value = whatWentWellValues.join(",");
+            whatWentWrongInput.value = whatWentWrongValues.join(",");
+            whatCanBeImprovedInput.value = whatCanBeImprovedValues.join(",");
+
             form.submit();
         }
-        
-        document.getElementById("retro-form").addEventListener("submit", function(event) {
+
+        document.getElementById("retro-form").addEventListener("submit", function (event) {
             event.preventDefault();
             submitForm();
         });
+
     </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="..."
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

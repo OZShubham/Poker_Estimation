@@ -14,6 +14,14 @@ from google.cloud import datastore
 
 views = Blueprint('views', __name__)
 
+def get_user_name(user_id):
+    client = datastore.Client()
+    entity_key = client.key('User', user_id)
+    entity = client.get(entity_key)
+    user_name = entity.get('name')
+    return user_name
+
+
 def generate_signed_url(bucket_name, file_name, expiration_minutes=60):
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
@@ -708,6 +716,64 @@ def go_to_retro_board():
     boards=query.fetch()
     return render_template('create_retro_board.html',boards=boards)
 
+'''@views.route('/create_poker_board', methods=['GET', 'POST'])
+def create_poker_board():
+    if request.method == 'POST':
+        if 'email' not in session:
+            return redirect('/login')
+        else:
+            email = session['email']
+            poker_board_name = request.form.get('poker_board_name')
+            team_id = request.form.get('team_id')
+            poker_board_type = request.form.get('poker_board_type')
+
+        if not team_id or not poker_board_type:
+            return jsonify({'error': 'Bad Request. Required fields are missing in the request body.'}), 400
+
+        
+        def create_board_id(user_id):
+            current_time = datetime.datetime.now().strftime("%d%m%y")
+            # Generate a random string of length 8
+            random_string = ''.join(random.choices(
+                string.ascii_letters + string.digits, k=8))
+            board_id_str = user_id + current_time + random_string
+            hash_value = hashlib.md5(board_id_str.encode('utf-8')).hexdigest()
+            return hash_value
+
+        poker_board_id = create_board_id(email)
+
+        response_dict = {
+            'user_id': email,
+            'poker_board_name': poker_board_name,
+            'poker_board_id': poker_board_id,
+            'poker_board_type': poker_board_type,
+            'org_id': 'cognizant',
+            'created_timestamp': datetime.datetime.utcnow(),
+            'last_modified_timestamp': datetime.datetime.utcnow(),
+            'team_id': team_id,
+            'status': 'Created'
+        }
+
+        # Save response_dict to Datastore
+        client = datastore.Client()
+        entity_key = client.key('PokerBoard', poker_board_id)
+        entity = datastore.Entity(key=entity_key)
+        entity.update(response_dict)
+        client.put(entity)
+
+        # Calling the function to log the event.
+        event = 'created poker board'
+        user_event(event)
+
+        return redirect('/scrum_master_landing')
+
+    # Return a default response for other request methods
+    return jsonify({'error': 'Method not allowed'}), 405
+'''
+
+
+
+
 @views.route('/create_retro_board', methods=['GET', 'POST'])
 def create_retro_board():
     if request.method == 'POST':
@@ -717,28 +783,38 @@ def create_retro_board():
             
             email = session['email']
             retro_board_name = request.form.get('retro_board_name')
-            team_id = request.form.get('team_id')
+           
             poker_board_id = request.form.get('poker_board_id')
 
-        if not team_id or not poker_board_id:
+        if not poker_board_id:
             return jsonify({'error': 'Please Provide team_id and poker_board_id fields '}), 400
 
+        def create_retro_board_id(user_id):
+            current_time = datetime.datetime.now().strftime("%d%m%y")
+            # Generate a random string of length 8
+            random_string = ''.join(random.choices(
+                string.ascii_letters + string.digits, k=8))
+            board_id_str = user_id + current_time + random_string
+            hash_value = hashlib.md5(board_id_str.encode('utf-8')).hexdigest()
+            return hash_value
+
+        retro_board_id = create_retro_board_id(email)
 
         response_dict = {
             'user_id': email,
             'retro_board_name': retro_board_name,
-            'poker_board_id': poker_board_id,
-            
+            'retro_board_id': retro_board_id,
+            'poker_board_id ':poker_board_id ,
             'org_id': 'cognizant',
             'created_timestamp': datetime.datetime.utcnow(),
             
-            'team_id': team_id,
+            
             'status': 'Created'
         }
 
         # Save response_dict to Datastore
         client = datastore.Client()
-        entity_key = client.key('RetroBoard', poker_board_id)
+        entity_key = client.key('RetroBoard',retro_board_id)
         entity = datastore.Entity(key=entity_key)
         entity.update(response_dict)
         client.put(entity)
@@ -747,7 +823,7 @@ def create_retro_board():
         event = 'Created Retrospective board'
         user_event(event)
 
-        return redirect('/scrum_master_landing')
+        return redirect('/create_retro_board')
 
 
     # Return a default response for other request methods
@@ -765,16 +841,17 @@ def scrum_team_retro_view():
     event = 'on scrum team retro view'
     user_event(event)
 
-    poker_board_id = session.get('poker_board_id')
+    retro_board_id = session.get('retro_board_id')
 
     if 'email' not in session:
         return redirect('/login')
 
     client = datastore.Client()
-    entity_key = client.key('RetroBoard', poker_board_id)
+    
+    entity_key = client.key('RetroBoard', retro_board_id)
     entity = client.get(entity_key)
     if not entity:
-        return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
+        return 'Error: No entity found with retro_board_id {}'.format(retro_board_id), 404
 
     if request.method == 'POST':
         user_id = session.get('email')
@@ -810,23 +887,23 @@ def retro_results():
     event = 'on retrospective results'
     user_event(event)
 
-    poker_board_id = session.get('poker_board_id')
+    retro_board_id = session.get('retro_board_id')
 
     if 'email' not in session:
         return redirect('/login')
 
     client = datastore.Client()
-    entity_key = client.key('RetroBoard', poker_board_id)
+    entity_key = client.key('RetroBoard', retro_board_id)
     entity = client.get(entity_key)
     if not entity:
-        return 'Error: No entity found with poker_board_id {}'.format(poker_board_id), 404
+        return 'Error: No entity found with poker_board_id {}'.format(retro_board_id), 404
 
     user_retrospectives = []
 
     # Iterate over the users' data and retrieve the retrospective items
     for user_data in entity.get('users', []):
         for user_id, retrospective in user_data.items():
-            user_name = retrospective.get(user_id)  # Replace with your logic to get the user's name
+            user_name = get_user_name(user_id)  # Replace with your logic to get the user's name
             what_went_well = retrospective.get('what_went_well', '').split(',')
             what_went_wrong = retrospective.get('what_went_wrong', '').split(',')
             what_can_be_improved = retrospective.get('what_can_be_improved', '').split(',')
@@ -840,6 +917,125 @@ def retro_results():
 
     return render_template('retro_results.html', user_retrospectives=user_retrospectives)
 
+
+
+
+@views.route('/grant_retro_access', methods=['GET', 'POST'])
+def grant_retro_access():
+    if 'email' not in session:
+        return redirect('/login')
+    
+    event = 'on grant retro access'
+    user_event(event)
+
+    datastore_client = datastore.Client()
+    query = datastore_client.query(kind='RetroBoard')
+    boards = query.fetch()
+    email = session.get('email')
+    if request.method == 'POST':
+        # Get data from form
+        retro_board_id = request.form.get('retro_board_id')
+
+        # Retrieve email from session
+        email = session.get('email')
+
+        # Query Datastore for user with matching email
+
+        query = datastore_client.query(kind='User')
+        query.add_filter('email', '=', email)
+        result = list(query.fetch(limit=1))
+        if not result:
+            return 'Error: User not found', 404
+        user = result[0]
+
+        # Check if user has Scrum Master role
+        if user['email'] != email:
+            return 'Error', 401
+
+        # Get PokerBoard entity from Datastore
+        poker_board_key = datastore_client.key('RetroBoard', retro_board_id)
+        retro_board = datastore_client.get(poker_board_key)
+        retro_board_name = retro_board.get('retro_board_name')
+        
+
+        # Check if PokerBoard entity exists
+        if not retro_board:
+            return jsonify({'error': 'Poker Board does not exist'}), 404
+
+        # Get list of selected users from form
+        user_ids = request.form.getlist('user_id')
+
+        # Grant access to each selected user
+        for user_id in user_ids:
+            # Get User entity from Datastore
+            user_key = datastore_client.key('User', user_id)
+            user = datastore_client.get(user_key)
+
+            # Check if User entity exists
+            if not user:
+                return jsonify({'error': 'User does not exist'}), 404
+
+            # Grant access to user by adding poker_board_id to User's list of entitlement
+            if 'retro_board_entitlement' not in user:
+                user['retro_board_entitlement'] = []
+            user['retro_board_entitlement'].append({'retro_board_id': retro_board_id, 'retro_board_name': retro_board_name})
+            datastore_client.put(user)
+
+            flash(
+                f'Access granted to user {user["name"]} for Retro Board {retro_board_name}', 'success')
+        
+        event = 'user access granted'
+        user_event(event)
+
+        return redirect('/grant_retro_access')
+
+    
+    # Render the HTML page for GET requests
+    users_query = datastore_client.query(kind='User')
+    users_query.add_filter('email', '!=', email)
+    users = list(users_query.fetch())
+    return render_template('grant_retro_access.html', users=users, boards=boards)
+
+
+@views.route('/choose_retro_board', methods=['GET', 'POST'])
+def choose_retro_board():
+    if 'email' not in session:
+        return redirect('/login')
+    else:
+
+        event = 'on choose retro board '
+        user_event(event)
+
+        datastore_client = datastore.Client()
+        email = session.get('email')
+
+        # Retrieve the user's name from Datastore
+        query = datastore_client.query(kind='User')
+        query.add_filter('email', '=', email)
+        result = list(query.fetch())
+        name = result[0]['name'] if result else None #list comprehension
+        session['name'] = name
+        # Retrieve all entities of the User kind from Datastore
+        query = datastore_client.query(kind='User')
+        users = list(query.fetch())
+        
+        # Filter the list of users based on the email from the session
+        users_with_matching_email = [user for user in users if user.get('email') == email]
+        for user in users_with_matching_email:
+            retro_boards = user.get('retro_board_entitlement',[])
+
+        
+        
+        if request.method == "POST":
+
+            retro_board_id = request.form['retro_board_id']
+           
+            session['retro_board_id'] = retro_board_id
+           
+            return redirect(url_for('views.scrum_team_retro_view',name=name))
+
+        else:
+            return render_template('choose_retro_board.html', name=name, retro_boards = retro_boards)
 
 
 

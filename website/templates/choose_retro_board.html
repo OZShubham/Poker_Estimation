@@ -25,23 +25,22 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto">
-              <a class="nav-link" href="{{ url_for('views.choose_retro_board') }}"> Retrospective Board</a>
+              
               <a class="nav-link active" href="{{ url_for('auth.logout') }}">Logout</a>
             </div>
           </div>
         </div>
       </nav>
       <br>
-      <div class="welcome">Welcome,  <span class="name">{{ name }} </span>
-
+      
       </div>
       <form method="post">
         <div class="form-group">
-            <label for="poker_board">Choose Poker Board:</label>
-            <select class="form-select" name="poker_board_id">
-                {% for poker_board in poker_boards %}
-                <option value="{{ poker_board['poker_board_id'] }}">
-                    {{ poker_board['poker_board_name'] }}
+            <label for="retro_board">Choose Retrospective Board:</label>
+            <select class="form-select" name="retro_board_id">
+                {% for retro_board in retro_boards %}
+                <option value="{{ retro_board['retro_board_id'] }}">
+                    {{ retro_board['retro_board_name'] }}
                 </option>
                 {% endfor %}
             </select>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choose Retro Board</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .poker-board-info {
+            margin-bottom: 20px;
+        }
+
+        .retro-board-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .retro-board-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .retro-board-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .retro-board-item span {
+            margin-left: 10px;
+        }
+
+        .retro-board-item input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .submit-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose Retro Board</h1>
+
+    <div class="poker-board-info">
+        <h3>Poker Board Information</h3>
+        
+        <p>Poker Board Name: {{ retro_boards['poker_board_name'] }}</p>
+    </div>
+
+    <h3>Retro Boards</h3>
+    <form method="POST" >
+        <ul class="retro-board-list">
+            {% for retro_board in retro_boards %}
+                <li class="retro-board-item">
+                    <input type="radio" name="retro_board_id" value="{{ retro_board['retro_board_id'] }}">
+                    <span>{{ retro_board['retro_board_name'] }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="submit-button">
+            <button type="submit">Select Retro Board</button>
+        </div>
+    </form>
+</body>
+</html>

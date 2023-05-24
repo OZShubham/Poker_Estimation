@@ -444,6 +444,14 @@ def grant_user_access():
             # Check if User entity exists
             if not user:
                 return jsonify({'error': 'User does not exist'}), 404
+            
+            poker_board_entitlements = user.get('entitlement', [])
+            poker_board_exists = any(
+                entitlement.get('poker_board_id') == poker_board_id for entitlement in poker_board_entitlements
+            )
+            if poker_board_exists:
+                flash(f'User {user["name"]} already has access to Poker Board {poker_board_name}', 'danger')
+                continue  # Skip granting access to this user
 
             # Grant access to user by adding poker_board_id to User's list of entitlement
             if 'entitlement' not in user:
@@ -847,12 +855,12 @@ def scrum_team_retro_view():
             entity['users'].append(user_data)
 
         client.put(entity)
-        return redirect('/retro_results')
+        return redirect('/retro_results_team')
 
     return render_template('scrum_team_retro_view.html')
 
-@views.route('/retro_results', methods=['GET'])
-def retro_results():
+@views.route('/retro_results_master', methods=['GET'])
+def retro_results_master():
 
     event = 'on retrospective results'
     user_event(event)
@@ -888,9 +896,49 @@ def retro_results():
     if not user_retrospectives:
         return render_template('no_retro_result.html')
     else:
-        return render_template('retro_results.html', user_retrospectives=user_retrospectives)
+        return render_template('retro_results_master.html', user_retrospectives=user_retrospectives)
     
 
+
+    
+@views.route('/retro_results_team', methods=['GET'])
+def retro_results_team():
+
+    event = 'on retrospective results'
+    user_event(event)
+
+    retro_board_id = session.get('retro_board_id')
+
+    if 'email' not in session:
+        return redirect('/login')
+
+    client = datastore.Client()
+    entity_key = client.key('RetroBoard', retro_board_id)
+    entity = client.get(entity_key)
+    if not entity:
+        return 'Error: No entity found with poker_board_id {}'.format(retro_board_id), 404
+
+    user_retrospectives = []
+
+    # Iterate over the users' data and retrieve the retrospective items
+    for user_data in entity.get('users', []):
+        for user_id, retrospective in user_data.items():
+            user_name = get_user_name(user_id)  # Replace with your logic to get the user's name
+            what_went_well = retrospective.get('what_went_well', '').split('~')
+            what_went_wrong = retrospective.get('what_went_wrong', '').split('~')
+            what_can_be_improved = retrospective.get('what_can_be_improved', '').split('~')
+
+            user_retrospectives.append({
+                'user_name': user_name,
+                'what_went_well': what_went_well,
+                'what_went_wrong': what_went_wrong,
+                'what_can_be_improved': what_can_be_improved
+            })
+
+    if not user_retrospectives:
+        return render_template('no_retro_result.html')
+    else:
+        return render_template('retro_results_team.html', user_retrospectives=user_retrospectives)
 
 
 
@@ -1036,7 +1084,7 @@ def choose_retro_board_master():
     if request.method == 'POST':
         retro_board_id = request.form.get('retro_board_id')
         session['retro_board_id'] = retro_board_id
-        return redirect('/retro_results')
+        return redirect('/retro_results_master')
     
     else:
         return render_template('choose_retro_board_master.html', retro_boards=retro_boards)

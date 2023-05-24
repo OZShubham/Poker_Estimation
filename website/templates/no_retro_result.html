@@ -22,7 +22,7 @@
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto">
 
-
+              <a class="nav-link" href="{{ url_for('views.scrum_master_landing') }}">Home</a>
               <a class="nav-link active" href="{{ url_for('auth.logout') }}">Logout</a>
             </div>
           </div>
@@ -31,7 +31,7 @@
 
     <img src="../static/no_vote/m.png" alt="avatar">
 
-    <p>Team member have not submitted their reflection <br> Please come later or <a href="{{ url_for('views.retro_results') }}">Refresh the Page.</a></p>
+    <p>Team member have not submitted their reflection <br> Please come later or <a href="{{ url_for('views.retro_results_master') }}">Refresh the Page.</a></p>
 
 </body>
 </html>

@@ -76,7 +76,7 @@ button[type="submit"]:hover {
 .navbar-custom .navbar-nav .nav-link {
   color: #fff;
   font-size: 15px;
-  margin-left: 20px;
+  margin-right: 20px;
 }
 
 
@@ -115,7 +115,7 @@ button {
 
 th, td {
   padding: 5px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #dee2e6;
   font-family: Arial, sans-serif;
 }

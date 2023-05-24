@@ -3,7 +3,6 @@ body {
 	background-image: url(background.jpg);
 	margin: 0;
 	padding: 0;
-	
 }
 
 .signup-container {
@@ -92,7 +91,7 @@ button[type="submit"]:hover {
   .navbar-custom .navbar-nav .nav-link {
 	color: #fff; /* change nav link text color */
 	font-size: 15px;
-	margin-left: 20px; /* add some spacing between nav links */
+	margin-right: 20px; /* add some spacing between nav links */
   }
   
   

@@ -12,3 +12,14 @@ function handleFileSelect(event) {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'copy';
   }
+
+    
+  function singleStoryPoint() {
+      document.getElementById("formContainer").style.display = "block";
+      document.getElementById("formContainerfile").style.display = "none";
+  }
+    
+  function showForm() {
+      document.getElementById("formContainer").style.display = "none";
+      document.getElementById("formContainerfile").style.display = "block";
+  }

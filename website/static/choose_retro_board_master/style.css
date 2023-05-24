@@ -90,7 +90,7 @@ table {
 }
 
 #jiraid, #jirabutton{
-  width: 50px;
+  width: 150px;
 }
 
 td, th {
@@ -132,7 +132,7 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color:#130665;
 }
-tr:nth-child(odd) {
+tr:nth-child(even) {
   background-color: lightgray;
 }
 

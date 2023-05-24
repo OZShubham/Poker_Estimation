@@ -21,16 +21,17 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto">
-              <a class="nav-link" href="{{ url_for('views.choose_retro_board_member') }}">Select Retro Board</a>
-              <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+
+
+              <a class="nav-link active" href="{{ url_for('auth.logout') }}">Logout</a>
             </div>
           </div>
         </div>
     </nav>
 
-    <img src="../static/no_vote/avatar.png" alt="avatar">
+    <img src="../static/no_vote/m.png" alt="avatar">
 
-    <p>No Poker board is allocated to you! <br> Please contact your Administrator or Scrum Master.</p>
+    <p>Team member have not submitted their reflection <br> Please come later or <a href="{{ url_for('views.retro_results') }}">Refresh the Page.</a></p>
 
 </body>
 </html>

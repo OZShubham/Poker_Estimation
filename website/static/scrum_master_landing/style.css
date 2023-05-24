@@ -2,7 +2,7 @@ body {
   font-family: Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  background-color: #e7e2e2;
+  background-color: #f5f5f5;
   color: #333;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,7 @@ nav {
 }
 
 nav a {
-  font-size: 1.2rem;
+  font-size: .9rem;
   color: #fff;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -155,69 +155,11 @@ select:focus {
   /* change nav link text color */
   
   font-size: 15px;
-  margin-left: 20px;
+  margin-right: 20px;
   /* add some spacing between nav links */
 }
 
 
-
-
-/* Media Queries
-@media screen and (max-width: 768px) {
-  .login-container {
-    max-width: 90%;
-  }
-}
-
-
-
-@media screen and (max-width: 768px) {
-
-  .navbar-brand img {
-    max-height: 100px;
-  }
-
-  h1 {
-    font-size: 24px;
-  }
-
-  form {
-    margin-top: 150px;
-  }
-
-  form label {
-    font-size: 18px;
-  }
-
-  form select {
-    width: 100%;
-    font-size: 16px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-
-  .right {
-    text-align: center;
-    margin-top: 10px;
-  }
-
-}
-
-/* CSS for form on small screens 
-@media screen and (max-width: 600px) {
-  /* styles for screens less than or equal to 600px wide 
-  .welcome {
-    font-size: 1em;
-
-  }
-  form {
-    font-size: 1.5em;
-  }
-  .right {
-    display: flex;
-    justify-content: center;
-  }
-}*/
 @media only screen and (max-width: 767px) {
   nav {
     flex-direction: column;

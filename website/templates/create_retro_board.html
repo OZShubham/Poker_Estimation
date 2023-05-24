@@ -23,9 +23,15 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
           <a class="nav-link" href="{{ url_for('views.scrum_master_landing') }}">Home</a>
-          <a class="nav-link active" href="{{ url_for('views.grant_retro_access') }}">Grant Retro Board Access</a>
-          <a class="nav-link active" href="{{ url_for('views.choose_retro_board_master') }}">Select Retro Board</a>
-          
+          <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Retrospection Board
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ url_for('views.choose_retro_board_master') }}">Select Retro Board</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('views.grant_retro_access') }}">Grant Retro Board</a></li>
+            </ul>
+          </div>
           <a class="nav-link active" href="{{ url_for('auth.logout') }}">Logout</a>
         </div>
       </div>
@@ -50,7 +56,7 @@
         {% endfor %}
         </select>
         <input type="text" required name="retro_board_name" placeholder="Enter Retrospective Board Name" id="retro_board_name">
-       
+        <input type="text" required name="team_id" placeholder="Enter Team ID" id="team_id">
         
         
         <input type="submit" name="" value="Create" onclick="validate()">

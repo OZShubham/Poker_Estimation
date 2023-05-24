@@ -385,6 +385,7 @@ def scrum_master_landing():
     else:
         return render_template('scrum_master_landing.html', name=name, boards=boards)
 
+
 # Create a Datastore client
 datastore_client = datastore.Client()
 
@@ -736,7 +737,7 @@ def create_retro_board():
             
             email = session['email']
             retro_board_name = request.form.get('retro_board_name')
-           
+            team_id = request.form.get('team_id')
             poker_board_id = request.form.get('poker_board_id')
 
         if not poker_board_id:
@@ -769,6 +770,7 @@ def create_retro_board():
             'user_id': email,
             'retro_board_name': retro_board_name,
             'retro_board_id': retro_board_id,
+            'team_id': team_id,
             'poker_board_name' : poker_board_name,
             'poker_board_id ':poker_board_id ,
             'org_id': 'cognizant',
@@ -791,7 +793,7 @@ def create_retro_board():
 
         session['retro_board_id'] = retro_board_id
 
-        return redirect('/retro_results')
+        return redirect('/choose_retro_board_master')
 
 
     # Return a default response for other request methods
@@ -872,9 +874,9 @@ def retro_results():
     for user_data in entity.get('users', []):
         for user_id, retrospective in user_data.items():
             user_name = get_user_name(user_id)  # Replace with your logic to get the user's name
-            what_went_well = retrospective.get('what_went_well', '').split(',')
-            what_went_wrong = retrospective.get('what_went_wrong', '').split(',')
-            what_can_be_improved = retrospective.get('what_can_be_improved', '').split(',')
+            what_went_well = retrospective.get('what_went_well', '').split('~')
+            what_went_wrong = retrospective.get('what_went_wrong', '').split('~')
+            what_can_be_improved = retrospective.get('what_can_be_improved', '').split('~')
 
             user_retrospectives.append({
                 'user_name': user_name,
@@ -884,7 +886,7 @@ def retro_results():
             })
 
     if not user_retrospectives:
-        return render_template('no_retro.html')
+        return render_template('no_retro_result.html')
     else:
         return render_template('retro_results.html', user_retrospectives=user_retrospectives)
     
@@ -977,8 +979,8 @@ def grant_retro_access():
     return render_template('grant_retro_access.html', users=users, boards=boards)
 
 
-@views.route('/choose_retro_board', methods=['GET', 'POST'])
-def choose_retro_board():
+@views.route('/choose_retro_board_member', methods=['GET', 'POST'])
+def choose_retro_board_member():
     if 'email' not in session:
         return redirect('/login')
     else:
@@ -1004,6 +1006,9 @@ def choose_retro_board():
         for user in users_with_matching_email:
             retro_boards = user.get('retro_board_entitlement',[])
 
+        if not retro_boards:
+            return render_template('no_retro.html')    
+
         
         
         if request.method == "POST":
@@ -1015,7 +1020,7 @@ def choose_retro_board():
             return redirect(url_for('views.scrum_team_retro_view',name=name))
 
         else:
-            return render_template('choose_retro_board.html', name=name, retro_boards = retro_boards)
+            return render_template('choose_retro_board_member.html', name=name, retro_boards = retro_boards)
 
 
 @views.route('/choose_retro_board_master', methods=['GET', 'POST'])
@@ -1025,18 +1030,19 @@ def choose_retro_board_master():
 
     datastore_client = datastore.Client()
 
+    retro_boards_query = datastore_client.query(kind='RetroBoard')
+    retro_boards = list(retro_boards_query.fetch())
+
     if request.method == 'POST':
         retro_board_id = request.form.get('retro_board_id')
         session['retro_board_id'] = retro_board_id
         return redirect('/retro_results')
-
-    poker_board_id = session.get('poker_board_id')
-   
-
-    retro_boards_query = datastore_client.query(kind='RetroBoard')
-    retro_boards_query.add_filter('poker_board_id', '=', poker_board_id)
-    retro_boards = list(retro_boards_query.fetch())
+    
+    else:
+        return render_template('choose_retro_board_master.html', retro_boards=retro_boards)
 
     
 
-    return render_template('choose_retro_board_master.html', retro_boards=retro_boards)
+    
+
+    

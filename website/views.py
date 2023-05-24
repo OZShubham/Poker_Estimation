@@ -118,7 +118,7 @@ def create_jira_id():
         return redirect('/login')
     
     else:
-        bucket_name = "poker-template-bucket"   #change the value according to your project
+        bucket_name = "url_poker_template"   #change the value according to your project
         file_name = "template.xlsx"             #change the value according to your project
         signed_url = generate_signed_url(bucket_name,file_name)
 
@@ -183,7 +183,7 @@ def upload():
             filename = f"{poker_board_id}_{file.filename}"
             # Upload the file to Google Cloud Storage
             client = storage.Client()
-            bucket_name = 'poker-jira-bucket'  # Replace with your bucket name
+            bucket_name = 'poker_estimate1'  # Replace with your bucket name
             bucket = client.get_bucket(bucket_name)
             blob = bucket.blob(filename)
             blob.upload_from_file(file)

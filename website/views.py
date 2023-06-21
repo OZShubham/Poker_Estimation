@@ -1,4 +1,3 @@
-from flask.views import MethodView
 from flask import jsonify, request
 from flask import Blueprint, render_template, url_for, request, session, redirect, Flask, jsonify, flash
 from google.cloud import datastore
@@ -118,7 +117,7 @@ def create_jira_id():
         return redirect('/login')
     
     else:
-        bucket_name = "url_poker_template"   #change the value according to your project
+        bucket_name = "url_template_poker"   #change the value according to your project
         file_name = "template.xlsx"             #change the value according to your project
         signed_url = generate_signed_url(bucket_name,file_name)
 
@@ -183,7 +182,7 @@ def upload():
             filename = f"{poker_board_id}_{file.filename}"
             # Upload the file to Google Cloud Storage
             client = storage.Client()
-            bucket_name = 'poker_estimate1'  # Replace with your bucket name
+            bucket_name = 'initial_receiver'  # Replace with your bucket name
             bucket = client.get_bucket(bucket_name)
             blob = bucket.blob(filename)
             blob.upload_from_file(file)
@@ -376,6 +375,7 @@ def scrum_master_landing():
         return redirect('/login')
 
     query = datastore_client.query(kind='PokerBoard')
+    
     boards = query.fetch()
     
     if request.method == 'POST':
